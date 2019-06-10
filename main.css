@@ -1,0 +1,323 @@
+html {
+    background-color: #00FF00;
+    background-image: -webkit-linear-gradient(270deg, rgb(0, 166, 0) 0%, rgb(0, 166, 0) 100%);
+    background-image: linear-gradient(270deg, rgb(0, 166, 0) 0%, rgb(0, 166, 0) 100%);
+    -webkit-font-smoothing: antialiased;
+}
+
+
+body {
+    margin: 0 auto;
+    padding: 2em 2em 4em;
+    max-width: 800px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #222;
+    font-weight: 600;
+    line-height: 1.3em;
+}
+
+
+form {
+    padding-bottom: 10px;
+}
+
+
+#weekscores td.score {
+    text-align: center;
+}
+
+#weekscores td.gross {
+     text-align: center;
+     border-left: 2px solid #545454;
+ }
+
+#weekscores td.net {
+    text-align: center;
+}
+
+#weekscores {
+    alignment: center;
+    width: 90%;
+    border: 1px solid #444444;
+    color: #FFFFFF;
+    background-color: #97A2A2;
+    border-collapse: collapse;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#weekscores td, table th {
+    border: 1px solid #AAAAAA;
+}
+
+#weekscores td.name {
+    padding-left: 3px;
+    padding-right: 8px;
+    border-right: 2px solid #545454;
+}
+
+#weekscores tbody td {
+    font-size: 13px;
+}
+#weekscores tr:nth-child(even) {
+    background: #0DB14B;
+}
+#weekscores thead {
+    background: #18453B;
+    border-bottom: 2px solid #444444;
+}
+#weekscores thead th {
+    font-size: 15px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+#weekscores thead th:first-child {
+    border-left: none;
+}
+
+#standings td.score {
+    text-align: center;
+}
+
+#standings .row1 {
+    background-color: #0DB14B;
+}
+
+#standings .row2 {
+    background-color: #97A2A2;
+}
+
+#standings {
+    alignment: center;
+    width: 35%;
+    border: 1px solid #444444;
+    color: #FFFFFF;
+    background-color: #97A2A2;
+    border-collapse: collapse;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#standings td, table th {
+    border: 1px solid #AAAAAA;
+}
+
+#standings td.name {
+     padding-left: 3px;
+     padding-right: 8px;
+     border-right: 2px solid #545454;
+}
+
+#standings td.place {
+    padding-left: 3px;
+    padding-right: 8px;
+    border-right: 2px solid #545454;
+    text-align: center;
+}
+
+#standings tbody td {
+    font-size: 13px;
+}
+
+#standings thead {
+    background: #18453B;
+    border-bottom: 2px solid #444444;
+}
+#standings thead th {
+    font-size: 15px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+#standings thead th:first-child {
+    border-left: none;
+}
+
+.verticalTableHeader {
+    text-align:center;
+    white-space:nowrap;
+    transform-origin:50% 50%;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+
+}
+.verticalTableHeader:before {
+    content:'';
+    padding-top:120%;/* takes width as reference, + 10% for faking some extra padding */
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+    background-color: red;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}
+.tg {
+    alignment: center;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.tg td {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: black;
+}
+.tg .scores {
+    color: #FFFFFF;
+    background-color: #97A2A2;
+}
+
+.tg .data {
+    color: #FFFFFF;
+    background-color: #272727;
+}
+
+.tg .points {
+    border-color: inherit;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg th {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 5px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+    border-color: black;
+}
+
+.tg .tg-4erg {
+    font-weight: bold;
+    font-style: italic;
+    border-color: inherit;
+    text-align: left;
+    vertical-align: top
+}
+
+.tg .tg-c3ow {
+    border-color: inherit;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-fymr {
+    font-weight: bold;
+    border-color: inherit;
+    text-align: left;
+    vertical-align: top;
+    color: #FFFFFF;
+    background-color: #272727;
+}
+
+.tg .tg-rvyq {
+    font-weight: bold;
+    font-style: italic;
+    border-color: inherit;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .tg-0pky {
+    border-color: inherit;
+    text-align: left;
+    vertical-align: top
+}
+
+.tg .total {
+    border-left: 2px solid;
+    border-color: inherit;
+    text-align: center;
+    vertical-align: top
+}
+
+.tg .hcp {
+    text-align: center;
+    font-weight: bold;
+    border-color: inherit;
+    vertical-align: top;
+    color: #FFFFFF;
+    background-color: #272727;
+}
