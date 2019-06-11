@@ -37,7 +37,7 @@
 
 <h1>Chatterbox Golf League 2019</h1>
 
-<h2>We will be using this page for schedules and statistics including standings and other fun stats!</h2>
+<p>The handicap listed in the table below is 80% of your true 9 hole handicap and if you have played 5 weeks, it is calculated without your best and worst round.</p>
 
 <?php
 include 'functions.php';
