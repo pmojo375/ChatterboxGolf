@@ -42,6 +42,9 @@
 <?php
 include 'functions.php';
 getStandings($conn, 5);
+echo '<br>';
+echo '<p>Week 6 Schedule</p>';
+printSchedule(6, $conn);
 ?>
 
 <script src="index.js"></script>

@@ -2,6 +2,57 @@
 
 include 'conn.php';
 
+
+function printSchedule($week, $conn) {
+	$teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
+    $index = 1;
+	
+	echo "<table id=\"standings\">";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Team #</th>";
+    echo "<th>Golfers</th>";
+    echo "<th>Opponent</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    foreach ($teams as $team) {
+        $golferA = getGolfersFromTeam($team, 2, $conn)['A'];
+        $golferB = getGolfersFromTeam($team, 2, $conn)['B'];
+        
+		if ($index % 2 == 0) {
+            echo "<tr class='row1'>";
+            echo "<td class=\"rank\" rowspan=\"2\">" . $team . "</td>";
+            echo "<td class=\"name\">" . getGolferName($golferA, $week, $conn) . "</td>";
+            echo "<td class=\"name\">" . getGolferName(getOpp($golferA, getOppTeam($golferA, $week, $conn), $week, $conn), $week, $conn) . "</td>";
+            echo "</tr>";
+
+            echo "<tr class='row1'>";
+            echo "<td class=\"name\">" . getGolferName($golferB, $week, $conn) . "</td>";
+            echo "<td class=\"name\">" . getGolferName(getOpp($golferB, getOppTeam($golferB, $week, $conn), $week, $conn), $week, $conn) . "</td>";
+            echo "</tr>";
+        } else {
+            echo "<tr class='row2'>";
+            echo "<td class=\"rank\" rowspan=\"2\">" . $team . "</td>";
+            echo "<td class=\"name\">" . getGolferName($golferA, $week, $conn) . "</td>";
+            echo "<td class=\"name\">" . getGolferName(getOpp($golferA, getOppTeam($golferA, $week, $conn), $week, $conn), $week, $conn) . "</td>";
+            echo "</tr>";
+
+            echo "<tr class='row2'>";
+            echo "<td class=\"name\">" . getGolferName($golferB, $week, $conn) . "</td>";
+            echo "<td class=\"name\">" . getGolferName(getOpp($golferB, getOppTeam($golferB, $week, $conn), $week, $conn), $week, $conn) . "</td>";
+            echo "</tr>";
+        }
+        $index = $index + 1;
+		
+    }
+
+    echo "</tbody>";
+    echo "</table>";
+}
+
+
 function getRanks($rank)
 {
     $return = '';
