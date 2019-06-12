@@ -5,7 +5,6 @@ html {
     -webkit-font-smoothing: antialiased;
 }
 
-
 body {
     margin: 0 auto;
     padding: 2em 2em 4em;
@@ -28,20 +27,82 @@ h6 {
     line-height: 1.3em;
 }
 
-
 form {
     padding-bottom: 10px;
 }
 
+#schedule td.score {
+    text-align: center;
+}
+
+#schedule .rowOdd {
+    background-color: #0DB14B;
+    color: #FFFFFF;
+}
+
+#schedule .rowEven {
+    background-color: #97A2A2;
+    color: #FFFFFF;
+}
+
+#schedule {
+    alignment: center;
+    width: 40%;
+    border: 1px solid #444444;
+    background-color: #97A2A2;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#schedule td, table th {
+    border: 1px solid #AAAAAA;
+}
+
+#schedule td.name {
+    padding-left: 3px;
+    padding-right: 8px;
+}
+
+#schedule td.opp {
+    padding-left: 3px;
+    padding-right: 8px;
+}
+
+#schedule td.team {
+    padding-left: 3px;
+    padding-right: 8px;
+    border-right: 2px solid #545454;
+    text-align: center;
+}
+
+#schedule tbody td {
+    font-size: 13px;
+}
+
+#schedule thead {
+    background: #18453B;
+    border-bottom: 2px solid #444444;
+}
+
+#schedule thead th {
+    font-size: 15px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+#schedule thead th:first-child {
+    border-left: none;
+}
 
 #weekscores td.score {
     text-align: center;
 }
 
 #weekscores td.gross {
-     text-align: center;
-     border-left: 2px solid #545454;
- }
+    text-align: center;
+    border-left: 2px solid #545454;
+}
 
 #weekscores td.net {
     text-align: center;
@@ -54,8 +115,8 @@ form {
     color: #FFFFFF;
     background-color: #97A2A2;
     border-collapse: collapse;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #weekscores td, table th {
@@ -71,18 +132,22 @@ form {
 #weekscores tbody td {
     font-size: 13px;
 }
+
 #weekscores tr:nth-child(even) {
     background: #0DB14B;
 }
+
 #weekscores thead {
     background: #18453B;
     border-bottom: 2px solid #444444;
 }
+
 #weekscores thead th {
     font-size: 15px;
     font-weight: bold;
     color: #FFFFFF;
 }
+
 #weekscores thead th:first-child {
     border-left: none;
 }
@@ -106,8 +171,8 @@ form {
     color: #FFFFFF;
     background-color: #97A2A2;
     border-collapse: collapse;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #standings td, table th {
@@ -115,9 +180,9 @@ form {
 }
 
 #standings td.name {
-     padding-left: 3px;
-     padding-right: 8px;
-     border-right: 2px solid #545454;
+    padding-left: 3px;
+    padding-right: 8px;
+    border-right: 2px solid #545454;
 }
 
 #standings td.place {
@@ -135,31 +200,33 @@ form {
     background: #18453B;
     border-bottom: 2px solid #444444;
 }
+
 #standings thead th {
     font-size: 15px;
     font-weight: bold;
     color: #FFFFFF;
 }
+
 #standings thead th:first-child {
     border-left: none;
 }
 
 .verticalTableHeader {
-    text-align:center;
-    white-space:nowrap;
-    transform-origin:50% 50%;
+    text-align: center;
+    white-space: nowrap;
+    transform-origin: 50% 50%;
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     transform: rotate(90deg);
-
 }
+
 .verticalTableHeader:before {
-    content:'';
-    padding-top:120%;/* takes width as reference, + 10% for faking some extra padding */
-    display:inline-block;
-    vertical-align:middle;
+    content: '';
+    padding-top: 120%; /* takes width as reference, + 10% for faking some extra padding */
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .navbar {
@@ -203,7 +270,7 @@ form {
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -223,12 +290,13 @@ form {
 .show {
     display: block;
 }
+
 .tg {
     alignment: center;
     border-collapse: collapse;
     border-spacing: 0;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .tg td {
@@ -241,6 +309,7 @@ form {
     word-break: normal;
     border-color: black;
 }
+
 .tg .scores {
     color: #FFFFFF;
     background-color: #97A2A2;

@@ -2,12 +2,15 @@
 
 include 'conn.php';
 
-
+// prints a table with the imputed weeks schedule
 function printSchedule($week, $conn) {
 	$teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
     $index = 1;
-	
-	echo "<table id=\"standings\">";
+    $teamsGone = Array();
+    $i = 0;
+
+	echo "<table id=\"schedule\">";
+    echo "<caption>Week " . $week . " Schedule</caption>";
     echo "<thead>";
     echo "<tr>";
     echo "<th>Team #</th>";
@@ -18,40 +21,48 @@ function printSchedule($week, $conn) {
     echo "<tbody>";
 
     foreach ($teams as $team) {
-        $golferA = getGolfersFromTeam($team, 2, $conn)['A'];
-        $golferB = getGolfersFromTeam($team, 2, $conn)['B'];
-        
-		if ($index % 2 == 0) {
-            echo "<tr class='row1'>";
-            echo "<td class=\"rank\" rowspan=\"2\">" . $team . "</td>";
-            echo "<td class=\"name\">" . getGolferName($golferA, $week, $conn) . "</td>";
-            echo "<td class=\"name\">" . getGolferName(getOpp($golferA, getOppTeam($golferA, $week, $conn), $week, $conn), $week, $conn) . "</td>";
-            echo "</tr>";
 
-            echo "<tr class='row1'>";
-            echo "<td class=\"name\">" . getGolferName($golferB, $week, $conn) . "</td>";
-            echo "<td class=\"name\">" . getGolferName(getOpp($golferB, getOppTeam($golferB, $week, $conn), $week, $conn), $week, $conn) . "</td>";
-            echo "</tr>";
-        } else {
-            echo "<tr class='row2'>";
-            echo "<td class=\"rank\" rowspan=\"2\">" . $team . "</td>";
-            echo "<td class=\"name\">" . getGolferName($golferA, $week, $conn) . "</td>";
-            echo "<td class=\"name\">" . getGolferName(getOpp($golferA, getOppTeam($golferA, $week, $conn), $week, $conn), $week, $conn) . "</td>";
-            echo "</tr>";
+        if (!in_array($team, $teamsGone)) {
+            $golferA = getGolfersFromTeam($team, 2, $conn)['A'];
+            $golferB = getGolfersFromTeam($team, 2, $conn)['B'];
+            $oppTeam = getOppTeam($golferA, $week, $conn);
 
-            echo "<tr class='row2'>";
-            echo "<td class=\"name\">" . getGolferName($golferB, $week, $conn) . "</td>";
-            echo "<td class=\"name\">" . getGolferName(getOpp($golferB, getOppTeam($golferB, $week, $conn), $week, $conn), $week, $conn) . "</td>";
-            echo "</tr>";
+            $teamsGone[$i] = $team;
+            $i = $i + 1;
+            $teamsGone[$i] = $oppTeam;
+            $i = $i + 1;
+
+
+            if ($index % 2 == 0) {
+                echo "<tr class='rowOdd'>";
+                echo "<td class=\"team\" rowspan=\"2\">" . $team . "</td>";
+                echo "<td class=\"name\">" . getGolferName($golferA, $week, $conn) . "</td>";
+                echo "<td class=\"opp\">" . getGolferName(getOpp($golferA, $oppTeam, $week, $conn), $week, $conn) . "</td>";
+                echo "</tr>";
+
+                echo "<tr class='rowOdd'>";
+                echo "<td class=\"name\">" . getGolferName($golferB, $week, $conn) . "</td>";
+                echo "<td class=\"opp\">" . getGolferName(getOpp($golferB, $oppTeam, $week, $conn), $week, $conn) . "</td>";
+                echo "</tr>";
+            } else {
+                echo "<tr class='rowEven'>";
+                echo "<td class=\"team\" rowspan=\"2\">" . $team . "</td>";
+                echo "<td class=\"name\">" . getGolferName($golferA, $week, $conn) . "</td>";
+                echo "<td class=\"opp\">" . getGolferName(getOpp($golferA, $oppTeam, $week, $conn), $week, $conn) . "</td>";
+                echo "</tr>";
+
+                echo "<tr class='rowEven'>";
+                echo "<td class=\"name\">" . getGolferName($golferB, $week, $conn) . "</td>";
+                echo "<td class=\"opp\">" . getGolferName(getOpp($golferB, $oppTeam, $week, $conn), $week, $conn) . "</td>";
+                echo "</tr>";
+            }
+            $index = $index + 1;
         }
-        $index = $index + 1;
-		
     }
 
     echo "</tbody>";
     echo "</table>";
 }
-
 
 function getRanks($rank)
 {

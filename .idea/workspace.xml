@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a72cbed-764e-4580-a67b-29d612f914ba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2e372591-6a78-4de6-a562-d235a1eb3a88.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conn.php" beforeDir="false" afterPath="$PROJECT_DIR$/conn.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/functions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/main.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -65,20 +64,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="44" column="23" selection-start-line="44" selection-start-column="23" selection-end-line="44" selection-end-column="23" />
+            <state relative-caret-position="272">
+              <caret line="16" column="6" lean-forward="true" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/functions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1386">
-              <caret line="400" lean-forward="true" selection-start-line="400" selection-end-line="400" />
+            <state relative-caret-position="119">
+              <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
               <folding>
                 <element signature="n#getRanks#0;n#!!top" />
                 <element signature="n#getStandings#0;n#!!top" />
@@ -87,7 +86,6 @@
                 <element signature="n#getGolferScore#0;n#!!top" />
                 <element signature="n#isBack#0;n#!!top" />
                 <element signature="n#showWeekScores#0;n#!!top" />
-                <element signature="e#6665#9267#0#PHP" />
                 <element signature="n#isFront#0;n#!!top" />
                 <element signature="n#getHcp#0;n#!!top" />
                 <element signature="n#getNet#0;n#!!top" />
@@ -113,7 +111,6 @@
                 <element signature="n#getHoleNumber#0;n#!!top" />
                 <element signature="n#isFrontString#0;n#!!top" />
                 <element signature="n#getDateString#0;n#!!top" />
-                <element signature="n#getCards#0;n#!!top" />
                 <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
               </folding>
             </state>
@@ -123,17 +120,85 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/addround.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+            <state>
+              <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/conn.php">
+        <entry file="file://$PROJECT_DIR$/main.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="19" lean-forward="true" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+            <state relative-caret-position="407">
+              <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+              <folding>
+                <element signature="e#5#262#0" />
+                <element signature="e#270#523#0" />
+                <element signature="e#548#614#0" />
+                <element signature="e#622#651#0" />
+                <element signature="e#671#698#0" />
+                <element signature="e#1045#1079#0" />
+                <element signature="e#1209#1320#0" />
+                <element signature="e#1342#1366#0" />
+                <element signature="e#1385#1451#0" />
+                <element signature="e#1473#1540#0" />
+                <element signature="e#1574#1600#0" />
+                <element signature="e#675#702#0" />
+                <element signature="e#725#791#0" />
+                <element signature="e#812#839#0" />
+                <element signature="e#853#1053#0" />
+                <element signature="e#1080#1114#0" />
+                <element signature="e#1136#1223#0" />
+                <element signature="e#1246#1270#0" />
+                <element signature="e#1302#1330#0" />
+                <element signature="e#1349#1415#0" />
+                <element signature="e#1437#1504#0" />
+                <element signature="e#1538#1564#0" />
+                <element signature="e#1586#1613#0" />
+                <element signature="e#1632#1666#0" />
+                <element signature="e#1685#1719#0" />
+                <element signature="e#1732#1932#0" />
+                <element signature="e#1958#1992#0" />
+                <element signature="e#2013#2103#0" />
+                <element signature="e#2125#2236#0" />
+                <element signature="e#2258#2282#0" />
+                <element signature="e#2301#2367#0" />
+                <element signature="e#2388#2455#0" />
+                <element signature="e#2488#2514#0" />
+                <element signature="e#2537#2788#0" />
+                <element signature="e#2817#2978#0" />
+                <element signature="e#2988#3088#0" />
+                <element signature="e#3100#3234#0" />
+                <element signature="e#3246#3288#0" />
+                <element signature="e#3309#3505#0" />
+                <element signature="e#3565#3595#0" />
+                <element signature="e#3615#3780#0" />
+                <element signature="e#3802#3933#0" />
+                <element signature="e#3961#3992#0" />
+                <element signature="e#4000#4023#0" />
+                <element signature="e#4028#4153#0" />
+                <element signature="e#4162#4364#0" />
+                <element signature="e#4377#4431#0" />
+                <element signature="e#4443#4497#0" />
+                <element signature="e#4511#4589#0" />
+                <element signature="e#4598#4825#0" />
+                <element signature="e#4840#4963#0" />
+                <element signature="e#4978#5056#0" />
+                <element signature="e#5071#5222#0" />
+                <element signature="e#5237#5362#0" />
+                <element signature="e#5377#5453#0" />
+                <element signature="e#5466#5572#0" />
+                <element signature="e#5583#5736#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/temp.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -143,8 +208,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -155,9 +220,18 @@
       <find>\&quot;</find>
       <find>getOppTeam</find>
       <find>getOpp</find>
+      <find>schedule.</find>
+      <find>#schedule</find>
+      <find>.schedule</find>
+      <find>standings</find>
     </findStrings>
     <replaceStrings>
       <replace>&quot;</replace>
+      <replace>schedule.</replace>
+      <replace>.schedule</replace>
+      <replace>#schedule</replace>
+      <replace>schedule</replace>
+      <replace>schedule</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -178,17 +252,18 @@
         <option value="$PROJECT_DIR$/isback.php" />
         <option value="$PROJECT_DIR$/addround.js" />
         <option value="$PROJECT_DIR$/index.js" />
-        <option value="$PROJECT_DIR$/main.css" />
         <option value="$PROJECT_DIR$/spreadsheet.php" />
         <option value="$PROJECT_DIR$/weeks/1.php" />
         <option value="$PROJECT_DIR$/weeks/2.php" />
         <option value="$PROJECT_DIR$/weeks/3.php" />
         <option value="$PROJECT_DIR$/weeks/4.php" />
         <option value="$PROJECT_DIR$/weeks/5.php" />
-        <option value="$PROJECT_DIR$/addround.php" />
         <option value="$PROJECT_DIR$/conn.php" />
-        <option value="$PROJECT_DIR$/functions.php" />
+        <option value="$PROJECT_DIR$/addround.php" />
         <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/temp.html" />
+        <option value="$PROJECT_DIR$/main.css" />
+        <option value="$PROJECT_DIR$/functions.php" />
       </list>
     </option>
   </component>
@@ -204,8 +279,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="XAMPP" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-11" />
-    <option name="width" value="1941" />
+    <option name="x" value="-13" />
+    <option name="width" value="1943" />
     <option name="height" value="2100" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -268,17 +343,18 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.index.php">
+  <component name="RunManager" selected="PHPUnit.golf">
     <configuration name="addround.php" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost/addround.php">
       <method v="2" />
     </configuration>
     <configuration name="index.php" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost/index.php">
       <method v="2" />
     </configuration>
-    <configuration name="scorecard.php" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost/scorecard.php">
+    <configuration name="temp.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost/temp.html">
       <method v="2" />
     </configuration>
-    <configuration name="weeklyscores.php (1)" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost/weeklyscores.php">
+    <configuration name="golf" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner directory="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
     <configuration name="functions.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/functions.php">
@@ -286,11 +362,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="PHPUnit.golf" />
+        <item itemvalue="JavaScript Debug.temp.html" />
         <item itemvalue="JavaScript Debug.index.php" />
         <item itemvalue="PHP Script.functions.php" />
         <item itemvalue="JavaScript Debug.addround.php" />
-        <item itemvalue="JavaScript Debug.scorecard.php" />
-        <item itemvalue="JavaScript Debug.weeklyscores.php (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -314,40 +390,46 @@
       <workItem from="1559927603494" duration="20999000" />
       <workItem from="1560002381091" duration="3788000" />
       <workItem from="1560101068528" duration="20466000" />
-      <workItem from="1560198705066" duration="5195000" />
+      <workItem from="1560198705066" duration="5512000" />
+      <workItem from="1560370364301" duration="3420000" />
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="golf - 2019.06.12 at 16h 59m 02s.xml">
+      <configuration name="golf" configurationId="PHPUnitRunConfigurationType" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96078000" />
+    <option name="totallyTimeSpent" value="99815000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="0" width="1109" height="1200" extended-state="0" />
+    <frame x="-7" y="0" width="1110" height="1200" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18458611" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18821293" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49952427" visible="true" weight="0.3292797" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49904943" weight="0.3292797" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.38646287" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50047576" side_tool="true" visible="true" weight="0.3292797" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5009506" side_tool="true" weight="0.3292797" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.33187774" />
       <window_info anchor="bottom" id="Database Changes" order="11" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Console" order="12" weight="0.32719395" />
-      <window_info anchor="bottom" id="File Transfer" order="13" weight="0.06548176" />
+      <window_info anchor="bottom" id="File Transfer" order="13" sideWeight="0.49904943" weight="0.06548176" />
       <window_info anchor="bottom" id="PHP-CGI Server" order="14" weight="0.32969433" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="Database" order="3" visible="true" weight="0.1921979" />
+      <window_info anchor="right" id="Database" order="3" weight="0.19201522" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20810515" />
@@ -398,20 +480,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="536">
           <caret line="1993" column="26" lean-forward="true" selection-start-line="1993" selection-start-column="26" selection-end-line="1993" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/addround.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="54" lean-forward="true" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="121" lean-forward="true" selection-start-line="121" selection-end-line="121" />
         </state>
       </provider>
     </entry>
@@ -486,27 +554,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e5a15d37-fc0e-4379-97dd-7d9c707045c9/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/addround.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="54" lean-forward="true" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/conn.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="19" lean-forward="true" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        <state relative-caret-position="51">
+          <caret line="3" column="15" lean-forward="true" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e5a15d37-fc0e-4379-97dd-7d9c707045c9/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/temp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="6" lean-forward="true" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/addround.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+        <state>
+          <caret line="111" lean-forward="true" selection-start-line="111" selection-end-line="111" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="6" lean-forward="true" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+          <folding>
+            <element signature="e#5#262#0" />
+            <element signature="e#270#523#0" />
+            <element signature="e#548#614#0" />
+            <element signature="e#622#651#0" />
+            <element signature="e#671#698#0" />
+            <element signature="e#1045#1079#0" />
+            <element signature="e#1209#1320#0" />
+            <element signature="e#1342#1366#0" />
+            <element signature="e#1385#1451#0" />
+            <element signature="e#1473#1540#0" />
+            <element signature="e#1574#1600#0" />
+            <element signature="e#675#702#0" />
+            <element signature="e#725#791#0" />
+            <element signature="e#812#839#0" />
+            <element signature="e#853#1053#0" />
+            <element signature="e#1080#1114#0" />
+            <element signature="e#1136#1223#0" />
+            <element signature="e#1246#1270#0" />
+            <element signature="e#1302#1330#0" />
+            <element signature="e#1349#1415#0" />
+            <element signature="e#1437#1504#0" />
+            <element signature="e#1538#1564#0" />
+            <element signature="e#1586#1613#0" />
+            <element signature="e#1632#1666#0" />
+            <element signature="e#1685#1719#0" />
+            <element signature="e#1732#1932#0" />
+            <element signature="e#1958#1992#0" />
+            <element signature="e#2013#2103#0" />
+            <element signature="e#2125#2236#0" />
+            <element signature="e#2258#2282#0" />
+            <element signature="e#2301#2367#0" />
+            <element signature="e#2388#2455#0" />
+            <element signature="e#2488#2514#0" />
+            <element signature="e#2537#2788#0" />
+            <element signature="e#2817#2978#0" />
+            <element signature="e#2988#3088#0" />
+            <element signature="e#3100#3234#0" />
+            <element signature="e#3246#3288#0" />
+            <element signature="e#3309#3505#0" />
+            <element signature="e#3565#3595#0" />
+            <element signature="e#3615#3780#0" />
+            <element signature="e#3802#3933#0" />
+            <element signature="e#3961#3992#0" />
+            <element signature="e#4000#4023#0" />
+            <element signature="e#4028#4153#0" />
+            <element signature="e#4162#4364#0" />
+            <element signature="e#4377#4431#0" />
+            <element signature="e#4443#4497#0" />
+            <element signature="e#4511#4589#0" />
+            <element signature="e#4598#4825#0" />
+            <element signature="e#4840#4963#0" />
+            <element signature="e#4978#5056#0" />
+            <element signature="e#5071#5222#0" />
+            <element signature="e#5237#5362#0" />
+            <element signature="e#5377#5453#0" />
+            <element signature="e#5466#5572#0" />
+            <element signature="e#5583#5736#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/functions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1386">
-          <caret line="400" lean-forward="true" selection-start-line="400" selection-end-line="400" />
+        <state relative-caret-position="119">
+          <caret line="9" column="11" selection-start-line="9" selection-start-column="11" selection-end-line="9" selection-end-column="11" />
           <folding>
             <element signature="n#getRanks#0;n#!!top" />
             <element signature="n#getStandings#0;n#!!top" />
@@ -515,7 +670,6 @@
             <element signature="n#getGolferScore#0;n#!!top" />
             <element signature="n#isBack#0;n#!!top" />
             <element signature="n#showWeekScores#0;n#!!top" />
-            <element signature="e#6665#9267#0#PHP" />
             <element signature="n#isFront#0;n#!!top" />
             <element signature="n#getHcp#0;n#!!top" />
             <element signature="n#getNet#0;n#!!top" />
@@ -541,16 +695,8 @@
             <element signature="n#getHoleNumber#0;n#!!top" />
             <element signature="n#isFrontString#0;n#!!top" />
             <element signature="n#getDateString#0;n#!!top" />
-            <element signature="n#getCards#0;n#!!top" />
             <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="44" column="23" selection-start-line="44" selection-start-column="23" selection-end-line="44" selection-end-column="23" />
         </state>
       </provider>
     </entry>
