@@ -30,6 +30,9 @@
 <?php include 'conn.php'; ?>
 
 <?php
+
+include 'functions.php';
+
 // define variables and set to empty values
 $golferErr = $weekErr = $score1Err = $score2Err = $score3Err = $score4Err = $score5Err = $score6Err = $score7Err = $score8Err = $score9Err = "";
 $golfer = $week = $score1 = $score2 = $score3 = $score4 = $score5 = $score6 = $score7 = $score8 = $score9 = "";
@@ -143,15 +146,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if($errFree) {
-        $sql = "INSERT INTO scores (golfer, hole, score, tookMax, week) VALUES ('" . $golfer . "','1','" . $score1 . "','" . $tookMax1 . "','" . $week . "'), ";
-        $sql .= "('" . $golfer . "','2','" . $score2 . "','" . $tookMax2 . "','" . $week . "'), ";
-        $sql .= "('" . $golfer . "','3','" . $score3 . "','" . $tookMax3 . "','" . $week . "'), ";
-        $sql .= "('" . $golfer . "','4','" . $score4 . "','" . $tookMax4 . "','" . $week . "'), ";
-        $sql .= "('" . $golfer . "','5','" . $score5 . "','" . $tookMax5 . "','" . $week . "'), ";
-        $sql .= "('" . $golfer . "','6','" . $score6 . "','" . $tookMax6 . "','" . $week . "'), ";
-        $sql .= "('" . $golfer . "','7','" . $score7 . "','" . $tookMax7 . "','" . $week . "'), ";
-        $sql .= "('" . $golfer . "','8','" . $score8 . "','" . $tookMax8 . "','" . $week . "'), ";
-        $sql .= "('" . $golfer . "','9','" . $score9 . "','" . $tookMax9 . "','" . $week . "')";
+		
+		$isBack = !isFront($week, $conn);
+		
+        $sql = "INSERT INTO scores (golfer, hole, score, tookMax, week) VALUES ('" . $golfer . "','" . getHoleNumber(1, $isBack) . "','" . $score1 . "','" . $tookMax1 . "','" . $week . "'), ";
+        $sql .= "('" . $golfer . "','" . getHoleNumber(2, $isBack) . "','" . $score2 . "','" . $tookMax2 . "','" . $week . "'), ";
+        $sql .= "('" . $golfer . "','" . getHoleNumber(3, $isBack) . "','" . $score3 . "','" . $tookMax3 . "','" . $week . "'), ";
+        $sql .= "('" . $golfer . "','" . getHoleNumber(4, $isBack) . "','" . $score4 . "','" . $tookMax4 . "','" . $week . "'), ";
+        $sql .= "('" . $golfer . "','" . getHoleNumber(5, $isBack) . "','" . $score5 . "','" . $tookMax5 . "','" . $week . "'), ";
+        $sql .= "('" . $golfer . "','" . getHoleNumber(6, $isBack) . "','" . $score6 . "','" . $tookMax6 . "','" . $week . "'), ";
+        $sql .= "('" . $golfer . "','" . getHoleNumber(7, $isBack) . "','" . $score7 . "','" . $tookMax7 . "','" . $week . "'), ";
+        $sql .= "('" . $golfer . "','" . getHoleNumber(8, $isBack) . "','" . $score8 . "','" . $tookMax8 . "','" . $week . "'), ";
+        $sql .= "('" . $golfer . "','" . getHoleNumber(9, $isBack) . "','" . $score9 . "','" . $tookMax9 . "','" . $week . "')";
 
         if (mysqli_query($conn, $sql)) {
             echo "New record created successfully";
@@ -172,9 +178,6 @@ function test_input($data)
 
 ?>
 
-
-
-<button onclick='isBack()'>Test</button>
 <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post"
       oninput="gross.value=parseInt(h1.value)+parseInt(h2.value)+parseInt(h3.value)+parseInt(h4.value)+parseInt(h5.value)+parseInt(h6.value)+parseInt(h7.value)+parseInt(h8.value)+parseInt(h9.value)">
     <fieldset>
