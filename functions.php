@@ -1361,15 +1361,15 @@ function getCards($week, $conn)
             echo '<tr class="scores">';
             echo '<td class="tg-fymr">' . getGolferName($golferA, $week, $conn) . '</td>';
             echo '<td class="hcp">' . getHcp($golferA, $week, $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 1, $conn) . getParColorString($golferA, $week, 1, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(1, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 2, $conn) . getParColorString($golferA, $week, 2, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(2, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 3, $conn) . getParColorString($golferA, $week, 3, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(3, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 4, $conn) . getParColorString($golferA, $week, 4, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(4, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 5, $conn) . getParColorString($golferA, $week, 5, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(5, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 6, $conn) . getParColorString($golferA, $week, 6, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(6, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 7, $conn) . getParColorString($golferA, $week, 7, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 8, $conn) . getParColorString($golferA, $week, 8, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 9, $conn) . getParColorString($golferA, $week, 9, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 1, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(1, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 2, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(2, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 3, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(3, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 4, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(4, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 5, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(5, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 6, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(6, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 7, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 8, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 9, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
             echo '<td class="tg-c3ow" style="background-color:#97A2A2">' . getGross($golferA, $week, $conn, true) . '</td>';
             echo '<td class="total" style="background-color:#97A2A2">' . getNet($golferA, $week, $conn) . '</td>';
             echo '</tr>';
@@ -1401,8 +1401,8 @@ function getCards($week, $conn)
             echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 7, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
             echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 8, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
             echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 9, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow">' . getGross($oppA, $week, $conn, true) . '</td>';
-            echo '<td class="total">' . getNet($oppA, $week, $conn) . '</td>';
+            echo '<td class="tg-c3ow" style="background-color:#97A2A2">' . getGross($oppA, $week, $conn, true) . '</td>';
+            echo '<td class="total" style="background-color:#97A2A2">' . getNet($oppA, $week, $conn) . '</td>';
             echo '</tr>';
 
             echo '<tr class="points">';
@@ -1491,8 +1491,8 @@ function getCards($week, $conn)
             echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 7, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
             echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 8, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
             echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 9, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow">' . getGross($golferB, $week, $conn, true) . '</td>';
-            echo '<td class="total">' . getNet($golferB, $week, $conn) . '</td>';
+            echo '<td class="tg-c3ow" style="background-color:#97A2A2">' . getGross($golferB, $week, $conn, true) . '</td>';
+            echo '<td class="total" style="background-color:#97A2A2">' . getNet($golferB, $week, $conn) . '</td>';
             echo '</tr>';
 
             echo '<tr class="points">';
@@ -1522,8 +1522,8 @@ function getCards($week, $conn)
             echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 7, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
             echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 8, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
             echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 9, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow">' . getGross($oppB, $week, $conn, true) . '</td>';
-            echo '<td class="total">' . getNet($oppB, $week, $conn) . '</td>';
+            echo '<td class="tg-c3ow" style="background-color:#97A2A2">' . getGross($oppB, $week, $conn, true) . '</td>';
+            echo '<td class="total" style="background-color:#97A2A2">' . getNet($oppB, $week, $conn) . '</td>';
             echo '</tr>';
 
             echo '<tr class="points">';
