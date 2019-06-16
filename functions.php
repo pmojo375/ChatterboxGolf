@@ -1204,6 +1204,9 @@ function getStrokesGivenString($golfer, $week, $holeIndex, $conn) {
     $isBack = isBack($week, $conn);
     $return = "";
     $opponent = getOpp($golfer, getOppTeam($golfer, $week, $conn), $week, $conn);
+    $holePar = getHolePar(getHoleNumber($holeIndex, $isBack), $conn);
+    $golferScore = getGolferScore($golfer, $week, getHoleNumber($holeIndex, $isBack), $conn);
+    $scoreFromPar = $golferScore - $holePar;
 
     $opponentHcp = getHcp($opponent, $week, $conn);
     $golferHcp = getHcp($golfer, $week, $conn);
@@ -1212,11 +1215,90 @@ function getStrokesGivenString($golfer, $week, $holeIndex, $conn) {
 
     if ($hcpDiff > 0) {
         if($holeHcp[getHoleNumber($holeIndex, $isBack)] <= $hcpDiff) {
-            $return = " style='border: 3px solid yellow;border-collapse: separate;'";
+            switch ($scoreFromPar) {
+                case (-2):
+                    $return = ' id="shadow_inner_border_eagle"';
+                    break;
+                case (-1):
+                    $return = ' id="shadow_inner_border_birdie"';
+                    break;
+                case 0:
+                    $return = ' id="shadow_inner_border_par"';
+                    break;
+                case 1:
+                    $return = ' id="shadow_inner_border_bogey"';
+                    break;
+                default:
+                    $return = ' id="shadow_inner_border_worst"';
+            }
+        } else {
+            switch ($scoreFromPar) {
+                case (-2):
+                    $return = ' id="eagle"';
+                    break;
+                case (-1):
+                    $return = ' id="birdie"';
+                    break;
+                case 0:
+                    $return = ' id="par"';
+                    break;
+                case 1:
+                    $return = ' id="bogey"';
+                    break;
+                default:
+                    $return = ' id="worst"';
+            }
+        }
+    } else {
+        switch ($scoreFromPar) {
+            case (-2):
+                $return = ' id="eagle"';
+                break;
+            case (-1):
+                $return = ' id="birdie"';
+                break;
+            case 0:
+                $return = ' id="par"';
+                break;
+            case 1:
+                $return = ' id="bogey"';
+                break;
+            default:
+                $return = ' id="worst"';
         }
     }
 
     return $return;
+}
+
+function getParColorString($golfer, $week, $holeIndex, $conn) {
+    $isBack = isBack($week, $conn);
+    $return = "";
+    $holePar = getHolePar(getHoleNumber($holeIndex, $isBack), $conn);
+
+    $golferScore = getGolferScore($golfer, $week, $holeIndex, $conn);
+    $scoreFromPar = $golferScore - $holePar;
+
+
+    switch ($scoreFromPar) {
+        case -2:
+            $return = ' style="background-color:lightgreen";';
+            break;
+        case -1:
+            $return = ' style="background-color:red";';
+            break;
+        case 0:
+            $return = ' style="background-color:#97A2A2";';
+            break;
+        case 1:
+            $return = ' style="background-color:blue";';
+            break;
+        default:
+            $return = ' style="background-color:black";';
+            break;
+    }
+
+    return "";
 }
 
 function getCards($week, $conn)
@@ -1226,6 +1308,18 @@ function getCards($week, $conn)
     $index = 0;
     $teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
     $isBack = isBack($week, $conn);
+
+
+    echo '<table id="legend">
+        <tr>
+            <td id="eagle">Eagle</td>
+            <td id="birdie">Birdie</td>
+            <td id="par">Par</td>
+            <td id="bogey">Bogey</td>
+            <td id="worst">Double or Worse</td>
+        </tr>
+    </table>
+    <br>';
 
     foreach ($teams as $team) {
 
@@ -1267,17 +1361,17 @@ function getCards($week, $conn)
             echo '<tr class="scores">';
             echo '<td class="tg-fymr">' . getGolferName($golferA, $week, $conn) . '</td>';
             echo '<td class="hcp">' . getHcp($golferA, $week, $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 1, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(1, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 2, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(2, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 3, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(3, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 4, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(4, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 5, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(5, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 6, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(6, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 7, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 8, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 9, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow">' . getGross($golferA, $week, $conn, true) . '</td>';
-            echo '<td class="total">' . getNet($golferA, $week, $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 1, $conn) . getParColorString($golferA, $week, 1, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(1, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 2, $conn) . getParColorString($golferA, $week, 2, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(2, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 3, $conn) . getParColorString($golferA, $week, 3, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(3, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 4, $conn) . getParColorString($golferA, $week, 4, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(4, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 5, $conn) . getParColorString($golferA, $week, 5, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(5, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 6, $conn) . getParColorString($golferA, $week, 6, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(6, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 7, $conn) . getParColorString($golferA, $week, 7, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 8, $conn) . getParColorString($golferA, $week, 8, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 9, $conn) . getParColorString($golferA, $week, 9, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
+            echo '<td class="tg-c3ow" style="background-color:#97A2A2">' . getGross($golferA, $week, $conn, true) . '</td>';
+            echo '<td class="total" style="background-color:#97A2A2">' . getNet($golferA, $week, $conn) . '</td>';
             echo '</tr>';
 
             echo '<tr class="points">';

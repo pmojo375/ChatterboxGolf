@@ -27,6 +27,13 @@ h6 {
     line-height: 1.3em;
 }
 
+#legend {
+    margin-left: auto;
+    margin-right: auto;
+    alignment:center;
+    text-align: center;
+}
+
 form {
     padding-bottom: 10px;
 }
@@ -291,10 +298,87 @@ form {
     display: block;
 }
 
+#eagle
+{
+    background-color: lightgreen;
+    color: white;
+}
+
+#birdie
+{
+    background-color: red;
+    color: white;
+}
+
+#par
+{
+    background-color: #97A2A2;
+    color: white;
+}
+
+#bogey
+{
+    background-color: darkblue;
+    color: white;
+}
+
+#worst
+{
+    background-color: black;
+    color: white;
+}
+
+#shadow_inner_border_eagle
+{
+    width:100px;
+    margin-bottom:20px;
+    color: white;
+    box-shadow:0px 0px 0px 2px yellow inset;
+    background-color: lightgreen;
+}
+
+#shadow_inner_border_birdie
+{
+    width:100px;
+    margin-bottom:20px;
+    color: white;
+    box-shadow:0px 0px 0px 2px yellow inset;
+    background-color: red;
+}
+
+#shadow_inner_border_par
+{
+    width:100px;
+    margin-bottom:20px;
+    color: white;
+    box-shadow:0px 0px 0px 2px yellow inset;
+    background-color: #97A2A2;
+}
+
+#shadow_inner_border_bogey
+{
+    width:100px;
+    margin-bottom:20px;
+    color: white;
+    box-shadow:0px 0px 0px 2px yellow inset;
+    background-color: darkblue;
+}
+
+#shadow_inner_border_worst
+{
+    width:100px;
+    margin-bottom:20px;
+    color: white;
+    box-shadow:0px 0px 0px 2px yellow inset;
+    background-color: black;
+}
+
+
+
 .tg {
     alignment: center;
-    border-collapse: collapse;
     border-spacing: 0;
+    border-collapse: collapse;
     margin-left: auto;
     margin-right: auto;
 }
@@ -312,7 +396,6 @@ form {
 
 .tg .scores {
     color: #FFFFFF;
-    background-color: #97A2A2;
 }
 
 .tg .data {
