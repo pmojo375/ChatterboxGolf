@@ -8,7 +8,7 @@
     <meta http-equiv="Expires" content="0"/>
     <title>Chatterbox Golf League - Week 2</title>
     <meta name="description" content="Week 2 Stats and Standings">
-    <link rel="stylesheet" href="../main.css">
+    <link rel="stylesheet" href="../main.css?rnd=23">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="../index.js"></script>
 </head>

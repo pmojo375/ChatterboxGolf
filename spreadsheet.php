@@ -9,7 +9,7 @@
     <title>Chatterbox Golf League</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="The Official Chatterbox Golf League Website">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css?rnd=23">
     <script src="index.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>

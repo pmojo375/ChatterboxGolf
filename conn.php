@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "Spartans2";
 $dbname = "chatterboxgolf";
 
 // Create connection
