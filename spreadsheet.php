@@ -29,6 +29,7 @@
             <a href="/weeks/3.php">Week 3</a>
             <a href="/weeks/4.php">Week 4</a>
             <a href="/weeks/5.php">Week 5</a>
+            <a href="/weeks/6.php">Week 6</a>
         </div>
     </div>
     <a href="/spreadsheet.php">Spreadsheet</a>

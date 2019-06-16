@@ -6,8 +6,8 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
     <meta http-equiv="Pragma" content="no-cache"/>
     <meta http-equiv="Expires" content="0"/>
-    <title>Chatterbox Golf League - Week 3</title>
-    <meta name="description" content="Week 3 Stats and Standings">
+    <title>Chatterbox Golf League - Week 6</title>
+    <meta name="description" content="Week 6 Stats and Standings">
     <link rel="stylesheet" href="../main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="../index.js"></script>
@@ -34,20 +34,20 @@
     <a href="/spreadsheet.php">Spreadsheet</a>
 </div>
 
-<h1>Week 3 Stats</h1>
+<h1>Week 6 Stats</h1>
 <p>Click on a header to sort!</p>
 
 <?php
 include '../functions.php';
 
-showWeekScores($conn, 3);
+showWeekScores($conn, 6);
 
 ?>
 
 <br>
 
 <?php
-getCards(3, $conn);
+getCards(6, $conn);
 ?>
 
 </body>
