@@ -392,6 +392,7 @@ form {
 
 .scorecard .points {
     border-color: inherit;
+    background-color: white;
     text-align: center;
     vertical-align: top
 }
