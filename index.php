@@ -42,9 +42,9 @@
 
 <?php
 include 'functions.php';
-getStandings($conn, 6);
+getStandings(6);
 echo '<br>';
-printSchedule(7, $conn);
+printSchedule(7);
 ?>
 
 <script src="index.js"></script>

@@ -16,21 +16,10 @@ body {
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.06);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: #222;
-    font-weight: 600;
-    line-height: 1.3em;
-}
-
 #legend {
     margin-left: auto;
     margin-right: auto;
-    alignment:center;
+    alignment: center;
     text-align: center;
 }
 
@@ -38,18 +27,17 @@ form {
     padding-bottom: 10px;
 }
 
-#schedule td.score {
-    text-align: center;
-}
-
-#schedule .rowOdd {
+#schedule tr:nth-child(4n+3) {
     background-color: #0DB14B;
-    color: #FFFFFF;
+    border-top: 2px solid #545454;
 }
 
-#schedule .rowEven {
-    background-color: #97A2A2;
-    color: #FFFFFF;
+#schedule tr:nth-child(4n+4) {
+    background-color: #0DB14B;
+}
+
+#schedule tr:nth-child(4n+5) {
+    border-top: 2px solid #545454;
 }
 
 #schedule {
@@ -62,16 +50,15 @@ form {
     margin-right: auto;
 }
 
+#schedule tr {
+    color: #FFFFFF;
+}
+
 #schedule td, table th {
     border: 1px solid #AAAAAA;
 }
 
 #schedule td.name {
-    padding-left: 3px;
-    padding-right: 8px;
-}
-
-#schedule td.opp {
     padding-left: 3px;
     padding-right: 8px;
 }
@@ -159,17 +146,20 @@ form {
     border-left: none;
 }
 
-#standings td.score {
-    text-align: center;
+
+#standings tr:nth-child(4n+3) {
+    background-color: #0DB14B;
+    border-top: 2px solid #545454;
 }
 
-#standings .row1 {
+#standings tr:nth-child(4n+4) {
     background-color: #0DB14B;
 }
 
-#standings .row2 {
-    background-color: #97A2A2;
+#standings tr:nth-child(4n+5) {
+    border-top: 2px solid #545454;
 }
+
 
 #standings {
     alignment: center;
@@ -180,6 +170,15 @@ form {
     border-collapse: collapse;
     margin-left: auto;
     margin-right: auto;
+}
+
+#standings td.score {
+    text-align: center;
+}
+
+#standings td.hcp {
+    text-align: center;
+    border-right: 2px solid #545454;
 }
 
 #standings td, table th {
@@ -277,7 +276,7 @@ form {
     position: absolute;
     background-color: #f9f9f9;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -298,84 +297,72 @@ form {
     display: block;
 }
 
-#eagle
-{
+#eagle {
     background-color: lightgreen;
     color: white;
 }
 
-#birdie
-{
+#birdie {
     background-color: red;
     color: white;
 }
 
-#par
-{
+#par {
     background-color: #97A2A2;
     color: white;
 }
 
-#bogey
-{
+#bogey {
     background-color: darkblue;
     color: white;
 }
 
-#worst
-{
+#worst {
     background-color: black;
     color: white;
 }
 
-#shadow_inner_border_eagle
-{
-    width:100px;
-    margin-bottom:20px;
+#getting-stroke_eagle {
+    width: 100px;
+    margin-bottom: 20px;
     color: white;
-    box-shadow:0px 0px 0px 2px yellow inset;
+    box-shadow: 0 0 0 2px yellow inset;
     background-color: lightgreen;
 }
 
-#shadow_inner_border_birdie
-{
-    width:100px;
-    margin-bottom:20px;
+#getting-stroke_birdie {
+    width: 100px;
+    margin-bottom: 20px;
     color: white;
-    box-shadow:0px 0px 0px 2px yellow inset;
+    box-shadow: 0 0 0 2px yellow inset;
     background-color: red;
 }
 
-#shadow_inner_border_par
-{
-    width:100px;
-    margin-bottom:20px;
+#getting-stroke_par {
+    width: 100px;
+    margin-bottom: 20px;
     color: white;
-    box-shadow:0px 0px 0px 2px yellow inset;
+    box-shadow: 0 0 0 2px yellow inset;
     background-color: #97A2A2;
 }
 
-#shadow_inner_border_bogey
-{
-    width:100px;
-    margin-bottom:20px;
+#getting-stroke_bogey {
+    width: 100px;
+    margin-bottom: 20px;
     color: white;
-    box-shadow:0px 0px 0px 2px yellow inset;
+    box-shadow: 0 0 0 2px yellow inset;
     background-color: darkblue;
 }
 
-#shadow_inner_border_worst
-{
-    width:100px;
-    margin-bottom:20px;
+#getting-stroke_worst {
+    width: 100px;
+    margin-bottom: 20px;
     color: white;
-    box-shadow:0px 0px 0px 2px yellow inset;
+    box-shadow: 0 0 0 2px yellow inset;
     background-color: black;
 }
 
-
-
-.tg {
+.scorecard {
     alignment: center;
     border-spacing: 0;
     border-collapse: collapse;
@@ -383,7 +370,7 @@ form {
     margin-right: auto;
 }
 
-.tg td {
+.scorecard td {
     font-family: Arial, sans-serif;
     font-size: 14px;
     padding: 3px 5px;
@@ -394,22 +381,22 @@ form {
     border-color: black;
 }
 
-.tg .scores {
+.scorecard .scores {
     color: #FFFFFF;
 }
 
-.tg .data {
+.scorecard .data {
     color: #FFFFFF;
     background-color: #272727;
 }
 
-.tg .points {
+.scorecard .points {
     border-color: inherit;
     text-align: center;
     vertical-align: top
 }
 
-.tg th {
+.scorecard th {
     font-family: Arial, sans-serif;
     font-size: 14px;
     font-weight: normal;
@@ -421,21 +408,21 @@ form {
     border-color: black;
 }
 
-.tg .tg-4erg {
-    font-weight: bold;
-    font-style: italic;
-    border-color: inherit;
+.left-align {
     text-align: left;
-    vertical-align: top
 }
 
-.tg .tg-c3ow {
+.center-align {
+    text-align: center;
+}
+
+.scorecard .score {
     border-color: inherit;
     text-align: center;
     vertical-align: top
 }
 
-.tg .tg-fymr {
+.scorecard .descriptor {
     font-weight: bold;
     border-color: inherit;
     text-align: left;
@@ -444,28 +431,21 @@ form {
     background-color: #272727;
 }
 
-.tg .tg-rvyq {
+.scorecard .hole-data {
     font-weight: bold;
     font-style: italic;
     border-color: inherit;
-    text-align: center;
     vertical-align: top
 }
 
-.tg .tg-0pky {
-    border-color: inherit;
-    text-align: left;
-    vertical-align: top
-}
-
-.tg .total {
+.scorecard .total {
     border-left: 2px solid;
     border-color: inherit;
     text-align: center;
     vertical-align: top
 }
 
-.tg .hcp {
+.scorecard .hcp {
     text-align: center;
     font-weight: bold;
     border-color: inherit;

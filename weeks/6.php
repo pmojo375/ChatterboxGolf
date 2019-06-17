@@ -41,14 +41,14 @@
 <?php
 include '../functions.php';
 
-showWeekScores($conn, 6);
+showWeekScores(6);
 
 ?>
 
 <br>
 
 <?php
-getCards(6, $conn);
+getCards(6);
 ?>
 
 </body>

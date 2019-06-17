@@ -2,14 +2,17 @@
 
 include 'conn.php';
 
-// prints a table with the imputed weeks schedule
-function printSchedule($week, $conn) {
-	$teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
+// --------------- PRINT FUNCTIONS ---------------
+
+// prints a table with the schedule for a given week
+function printSchedule($week)
+{
+    $teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
     $index = 1;
     $teamsGone = Array();
     $i = 0;
 
-	echo "<table id=\"schedule\">";
+    echo "<table id=\"schedule\">";
     echo "<caption>Week " . $week . " Schedule</caption>";
     echo "<thead>";
     echo "<tr>";
@@ -23,39 +26,26 @@ function printSchedule($week, $conn) {
     foreach ($teams as $team) {
 
         if (!in_array($team, $teamsGone)) {
-            $golferA = getGolfersFromTeam($team, 2, $conn)['A'];
-            $golferB = getGolfersFromTeam($team, 2, $conn)['B'];
-            $oppTeam = getOppTeam($golferA, $week, $conn);
+            $golferA = getGolfersFromTeam($team, 2)['A'];
+            $golferB = getGolfersFromTeam($team, 2)['B'];
+            $oppTeam = getOppTeam($golferA, $week);
 
             $teamsGone[$i] = $team;
             $i = $i + 1;
             $teamsGone[$i] = $oppTeam;
             $i = $i + 1;
 
+            echo "<tr>";
+            echo "<td class=\"team\" rowspan=\"2\">" . $team . "</td>";
+            echo "<td class=\"name\">" . getGolferName($golferA, $week) . "</td>";
+            echo "<td class=\"name\">" . getGolferName(getOpp($golferA, $oppTeam, $week), $week) . "</td>";
+            echo "</tr>";
 
-            if ($index % 2 == 0) {
-                echo "<tr class='rowOdd'>";
-                echo "<td class=\"team\" rowspan=\"2\">" . $team . "</td>";
-                echo "<td class=\"name\">" . getGolferName($golferA, $week, $conn) . "</td>";
-                echo "<td class=\"opp\">" . getGolferName(getOpp($golferA, $oppTeam, $week, $conn), $week, $conn) . "</td>";
-                echo "</tr>";
+            echo "<tr>";
+            echo "<td class=\"name\">" . getGolferName($golferB, $week) . "</td>";
+            echo "<td class=\"name\">" . getGolferName(getOpp($golferB, $oppTeam, $week), $week) . "</td>";
+            echo "</tr>";
 
-                echo "<tr class='rowOdd'>";
-                echo "<td class=\"name\">" . getGolferName($golferB, $week, $conn) . "</td>";
-                echo "<td class=\"opp\">" . getGolferName(getOpp($golferB, $oppTeam, $week, $conn), $week, $conn) . "</td>";
-                echo "</tr>";
-            } else {
-                echo "<tr class='rowEven'>";
-                echo "<td class=\"team\" rowspan=\"2\">" . $team . "</td>";
-                echo "<td class=\"name\">" . getGolferName($golferA, $week, $conn) . "</td>";
-                echo "<td class=\"opp\">" . getGolferName(getOpp($golferA, $oppTeam, $week, $conn), $week, $conn) . "</td>";
-                echo "</tr>";
-
-                echo "<tr class='rowEven'>";
-                echo "<td class=\"name\">" . getGolferName($golferB, $week, $conn) . "</td>";
-                echo "<td class=\"opp\">" . getGolferName(getOpp($golferB, $oppTeam, $week, $conn), $week, $conn) . "</td>";
-                echo "</tr>";
-            }
             $index = $index + 1;
         }
     }
@@ -64,6 +54,64 @@ function printSchedule($week, $conn) {
     echo "</table>";
 }
 
+// prints a table with the standings for a given week
+function getStandings($totalWeeks)
+{
+    $teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
+    $pointTotals = Array();
+
+    foreach ($teams as $team) {
+        $totalPoints = 0;
+
+        for ($i = 1; $i <= $totalWeeks; $i++) {
+            $golferA = getGolfersFromTeam($team, $i)['A'];
+            $golferB = getGolfersFromTeam($team, $i)['B'];
+            $golferAPoints = getWeekPoints($golferA, $i);
+            $golferBPoints = getWeekPoints($golferB, $i);
+
+            $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+        }
+
+        $pointTotals[$team] = $totalPoints;
+    }
+
+    arsort($pointTotals);
+
+    echo "<table id='standings'>";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Place</th>";
+    echo "<th>Team</th>";
+    echo "<th>HCP</th>";
+    echo "<th>Points</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    $index = 1;
+
+    foreach ($pointTotals as $teamName => $score) {
+
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . getRanks($index) . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($teamName, 2)['A'], 2) . "</td>";
+        echo "<td class=\"hcp\">" . computeHcpNoSub(getGolfersFromTeam($teamName, 2)['A'], $totalWeeks) . "</td>";
+        echo "<td class=\"score\" rowspan=\"2\">" . $score . "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($teamName, 2)['B'], 2) . "</td>";
+        echo "<td class=\"hcp\">" . computeHcpNoSub(getGolfersFromTeam($teamName, 2)['B'], $totalWeeks) . "</td>";
+        echo "</tr>";
+
+        $index = $index + 1;
+    }
+
+    echo "</tbody>";
+    echo "</table>";
+}
+
+// returns the correct rank wording (1st, 2nd, 3rd, etc.) as a string
 function getRanks($rank)
 {
     $return = '';
@@ -97,185 +145,27 @@ function getRanks($rank)
     return $return;
 }
 
-function getStandings($conn, $totalWeeks)
+// prints a table with all the scores for a given week
+// THIS FUNCTION IS 'SUB SAFE' MEANING A SUB WILL BE USED IF THE GOLFER DID NOT PLAY THAT WEEK
+function showWeekScores($week)
 {
-    $teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
-    $pointTotals = Array();
-
-    foreach ($teams as $team) {
-        $totalPoints = 0;
-
-        for ($i = 1; $i <= $totalWeeks; $i++) {
-            $golferA = getGolfersFromTeam($team, $i, $conn)['A'];
-            $golferB = getGolfersFromTeam($team, $i, $conn)['B'];
-            $golferAPoints = getWeekPoints($golferA, $i, $conn);
-            $golferBPoints = getWeekPoints($golferB, $i, $conn);
-
-            $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
-        }
-
-        $pointTotals[$team] = $totalPoints;
-    }
-
-    arsort($pointTotals);
-
-    echo "<table id=\"standings\">";
-    echo "<thead>";
-    echo "<tr>";
-    echo "<th>Place</th>";
-    echo "<th>Team</th>";
-    echo "<th>HCP</th>";
-    echo "<th>Points</th>";
-    echo "</tr>";
-    echo "</thead>";
-    echo "<tbody>";
-
-    $index = 1;
-
-    foreach ($pointTotals as $teamName => $score) {
-        if ($index % 2 == 0) {
-            echo "<tr class='row1'>";
-            echo "<td class=\"place\" rowspan=\"2\">" . getRanks($index) . "</td>";
-            echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($teamName, 2, $conn)['A'], 2, $conn) . "</td>";
-            echo "<td class=\"score\">" . computeHcpNoSub(getGolfersFromTeam($teamName, 2, $conn)['A'], $totalWeeks, $conn) . "</td>";
-            echo "<td class=\"score\" rowspan=\"2\">" . $score . "</td>";
-            echo "</tr>";
-
-            echo "<tr class='row1'>";
-            echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($teamName, 2, $conn)['B'], 2, $conn) . "</td>";
-            echo "<td class=\"score\">" . computeHcpNoSub(getGolfersFromTeam($teamName, 2, $conn)['B'], $totalWeeks, $conn) . "</td>";
-            echo "</tr>";
-        } else {
-            echo "<tr class='row2'>";
-            echo "<td class=\"place\" rowspan=\"2\">" . getRanks($index) . "</td>";
-            echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($teamName, 2, $conn)['A'], 2, $conn) . "</td>";
-            echo "<td class=\"score\">" . computeHcpNoSub(getGolfersFromTeam($teamName, 2, $conn)['A'], $totalWeeks, $conn) . "</td>";
-            echo "<td class=\"score\" rowspan=\"2\">" . $score . "</td>";
-            echo "</tr>";
-
-            echo "<tr class='row2'>";
-            echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($teamName, 2, $conn)['B'], 2, $conn) . "</td>";
-            echo "<td class=\"score\">" . computeHcpNoSub(getGolfersFromTeam($teamName, 2, $conn)['B'], $totalWeeks, $conn) . "</td>";
-            echo "</tr>";
-        }
-        $index = $index + 1;
-    }
-
-    echo "</tbody>";
-    echo "</table>";
-}
-
-// returns a list of all the golfer ids
-function getGolfers($conn)
-{
-    $sql = "SELECT * FROM golfers";
-    $result = mysqli_query($conn, $sql);
-    $golfers = array();
-
-    if (mysqli_num_rows($result) > 0) {
-
-        $index = 0;
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            if ($row['team'] != 0) {
-                $golfers[$index] = $row['id'];
-                $index = $index + 1;
-            }
-        }
-
-        return $golfers;
-    }
-}
-
-// returns the golfers name when given the id number
-function getGolferName($id, $week, $conn)
-{
-    $id = checkAbsent($id, $week, $conn);
-
-    $sql = "SELECT name FROM golfers WHERE id='" . $id . "'";
-    $result = mysqli_query($conn, $sql);
-    $return = "Unknown";
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $return = $row['name'];
-        }
-    }
-
-
-    return $return;
-}
-
-// returns the score for a specific hole, week and golfer
-function getGolferScore($id, $week, $hole, $conn)
-{
-
-    $id = checkAbsent($id, $week, $conn);
-
-    $sql = "SELECT * FROM scores WHERE (golfer='" . $id . "' AND week='" . $week . "' AND hole='" . $hole . "')";
-    $result = mysqli_query($conn, $sql);
-    $return = 0;
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $return = $row['score'];
-        }
-    }
-
-    return $return;
-}
-
-function isBack($week, $conn)
-{
-    $sql = "SELECT * FROM scores WHERE week='" . $week . "'";
-    $result = mysqli_query($conn, $sql);
-    $back = false;
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            if ($row['hole'] > 9) {
-                $back = true;
-            }
-        }
-    }
-
-    return $back;
-}
-
-// creates a table with a specific weeks scores and gross totals
-function showWeekScores($conn, $week)
-{
-
-    $golfers = getGolfers($conn);
-
-    $back = isBack($week, $conn);
+    global $conn;
+    $golfers = getGolfers();
+    $isBack = isBack($week);
 
     echo "<table id=\"weekscores\">";
     echo "<thead>";
     echo "<tr>";
     echo "<th class=\"name\">Golfer</th>";
-    if ($back) {
-        echo "<th onclick=\"sortTable(1)\" class=\"verticalTableHeader\">Hole 10</th>";
-        echo "<th onclick=\"sortTable(2)\" class=\"verticalTableHeader\">Hole 11</th>";
-        echo "<th onclick=\"sortTable(3)\" class=\"verticalTableHeader\">Hole 12</th>";
-        echo "<th onclick=\"sortTable(4)\" class=\"verticalTableHeader\">Hole 13</th>";
-        echo "<th onclick=\"sortTable(5)\" class=\"verticalTableHeader\">Hole 14</th>";
-        echo "<th onclick=\"sortTable(6)\" class=\"verticalTableHeader\">Hole 15</th>";
-        echo "<th onclick=\"sortTable(7)\" class=\"verticalTableHeader\">Hole 16</th>";
-        echo "<th onclick=\"sortTable(8)\" class=\"verticalTableHeader\">Hole 17</th>";
-        echo "<th onclick=\"sortTable(9)\" class=\"verticalTableHeader\">Hole 18</th>";
-    } else {
-        echo "<th onclick=\"sortTable(1)\" class=\"verticalTableHeader\">Hole 1</th>";
-        echo "<th onclick=\"sortTable(2)\" class=\"verticalTableHeader\">Hole 2</th>";
-        echo "<th onclick=\"sortTable(3)\" class=\"verticalTableHeader\">Hole 3</th>";
-        echo "<th onclick=\"sortTable(4)\" class=\"verticalTableHeader\">Hole 4</th>";
-        echo "<th onclick=\"sortTable(5)\" class=\"verticalTableHeader\">Hole 5</th>";
-        echo "<th onclick=\"sortTable(6)\" class=\"verticalTableHeader\">Hole 6</th>";
-        echo "<th onclick=\"sortTable(7)\" class=\"verticalTableHeader\">Hole 7</th>";
-        echo "<th onclick=\"sortTable(8)\" class=\"verticalTableHeader\">Hole 8</th>";
-        echo "<th onclick=\"sortTable(9)\" class=\"verticalTableHeader\">Hole 9</th>";
-    }
-
+    echo '<th onclick=\"sortTable(1)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(1, $isBack) . '</th>';
+    echo '<th onclick=\"sortTable(2)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(2, $isBack) . '</th>';
+    echo '<th onclick=\"sortTable(3)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(3, $isBack) . '</th>';
+    echo '<th onclick=\"sortTable(4)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(4, $isBack) . '</th>';
+    echo '<th onclick=\"sortTable(5)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(5, $isBack) . '</th>';
+    echo '<th onclick=\"sortTable(6)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(6, $isBack) . '</th>';
+    echo '<th onclick=\"sortTable(7)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(7, $isBack) . '</th>';
+    echo '<th onclick=\"sortTable(8)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(8, $isBack) . '</th>';
+    echo '<th onclick=\"sortTable(9)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(9, $isBack) . '</th>';
     echo "<th onclick=\"sortTable(10)\" class=\"gross\">Gross</th>";
     echo "<th onclick=\"sortTable(11)\" class=\"net\">Net</th>";
     echo "</tr>";
@@ -284,10 +174,10 @@ function showWeekScores($conn, $week)
 
     foreach ($golfers as $golfer) {
 
-        $golfer = checkAbsent($golfer, $week, $conn);
+        $golfer = checkAbsent($golfer, $week);
         $sql = "SELECT * FROM scores WHERE week='" . $week . "' AND golfer='" . $golfer . "'";
         $result = mysqli_query($conn, $sql);
-        $name = getGolferName($golfer, $week, $conn);
+        $name = getGolferName($golfer, $week);
         $gross = 0;
         $hole1 = $hole2 = $hole3 = $hole4 = $hole5 = $hole6 = $hole7 = $hole8 = $hole9 = 0;
 
@@ -332,7 +222,7 @@ function showWeekScores($conn, $week)
                 }
             }
 
-            $net = getNet($golfer, $week, $conn);
+            $net = getNet($golfer, $week);
 
             echo "<tr>";
             echo "<td class=\"name\">" . $name . "</td>";
@@ -349,21 +239,19 @@ function showWeekScores($conn, $week)
             echo "<td class=\"gross\">" . $net . "</td>";
             echo "</tr>";
         }
-
     }
 
     echo "</tbody>";
     echo "</table>";
-    //echo '<script type="text/javascript">', 'sortTable(10);', '</script>';
 }
 
-// creates a table with a specific weeks scores and gross totals
-function showWeekHandicaps($conn)
+// prints a table with a specific weeks scores and gross totals
+// THIS FUNCTION IS 'SUB SAFE' MEANING A SUB WILL BE USED IF THE GOLFER DID NOT PLAY THAT WEEK
+// STILL WORK IN PROGRESS
+function showWeekHandicaps()
 {
 
-    $golfers = getGolfers($conn);
-
-    $back = isBack($week, $conn);
+    $golfers = getGolfers();
 
     echo "<table id=\"weekHcp\">";
     echo "<thead>";
@@ -396,10 +284,10 @@ function showWeekHandicaps($conn)
 
     foreach ($golfers as $golfer) {
         echo "<tr>";
-        echo "<td class=\"name\">" . getGolferName($golfer, 2, $conn) . "</td>";
+        echo "<td class=\"name\">" . getGolferName($golfer, 2) . "</td>";
         for ($i = 1; $i <= 20; $i++) {
             if ($i <= 5) {
-                $hcp = computeHcpNoSub($golfer, $i, $conn);
+                $hcp = computeHcpNoSub($golfer, $i);
                 echo "<td class=\"score\">" . $hcp . "</td>";
             } else {
                 echo "<td class=\"score\">0</td>";
@@ -412,28 +300,53 @@ function showWeekHandicaps($conn)
     echo "</table>";
 }
 
-// returns true or false for a given week
-function isFront($week, $conn)
+// --------------- SUB SAFE FUNCTIONS ---------------
+// THESE FUNCTIONS ARE 'SUB SAFE' MEANING A SUB WILL BE USED IF THE GOLFER DID NOT PLAY THAT WEEK
+
+// returns a string with the requested golfers name when given an id
+function getGolferName($id, $week)
 {
-    $sql = "SELECT * FROM schedule WHERE week='" . $week . "'";
+    global $conn;
+    $id = checkAbsent($id, $week);
+
+    $sql = "SELECT name FROM golfers WHERE id='" . $id . "'";
     $result = mysqli_query($conn, $sql);
-    $return = false;
+    $return = "Unknown";
 
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
-            if ($row['front'] = 1) {
-                $return = true;
-            }
+            $return = $row['name'];
+        }
+    }
+
+
+    return $return;
+}
+
+// returns the score for a specific hole, week and golfer
+function getGolferScore($id, $week, $hole)
+{
+    $id = checkAbsent($id, $week);
+    global $conn;
+
+    $sql = "SELECT * FROM scores WHERE (golfer='" . $id . "' AND week='" . $week . "' AND hole='" . $hole . "')";
+    $result = mysqli_query($conn, $sql);
+    $return = 0;
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $return = $row['score'];
         }
     }
 
     return $return;
 }
 
-// returns a handicap for golfer and week and returns 0 if there isnt one
-function getHcp($id, $week, $conn)
+// returns a handicap for golfer and week and returns 0 if there isn't one
+function getHcp($id, $week)
 {
-    $id = checkAbsent($id, $week, $conn);
+    global $conn;
+    $id = checkAbsent($id, $week);
     $sql = "SELECT * FROM handicaps WHERE golfer='" . $id . "'";
     $result = mysqli_query($conn, $sql);
     $return = 0;
@@ -447,22 +360,23 @@ function getHcp($id, $week, $conn)
     return $return;
 }
 
-// returns a handicap for golfer and week and returns 0 if there isnt one
-function computeHcpNoSub($id, $week, $conn)
+// returns a handicap for golfer and week and returns 0 if there isn't one
+function computeHcp($id, $week)
 {
     $totalStrokes = 0;
     $daysMissed = 0;
     $bestRound = 99;
-    $finalHcp = 0;
     $worstRound = 0;
 
+    $id = checkAbsent($id, $week);
+
     if ($week < 5) {
-        $finalHcp = getHcp($id, $week, $conn);
+        $finalHcp = getHcp($id, $week);
     } else {
 
         for ($i = 1; $i <= $week; $i++) {
 
-            $gross = getGross($id, $i, $conn, false);
+            $gross = getGross($id, $i, false);
 
             if ($gross == 0) {
                 $daysMissed = $daysMissed + 1;
@@ -498,62 +412,11 @@ function computeHcpNoSub($id, $week, $conn)
     return $finalHcp;
 }
 
-// returns a handicap for golfer and week and returns 0 if there isnt one
-function computeHcp($id, $week, $conn)
+// returns the net score for a golfer and given week
+function getNet($id, $week)
 {
-    $totalStrokes = 0;
-    $daysMissed = 0;
-    $bestRound = 99;
-    $finalHcp = 0;
-    $worstRound = 0;
-
-    $id = checkAbsent($id, $week, $conn);
-
-    if ($week < 5) {
-        $finalHcp = getHcp($id, $week, $conn);
-    } else {
-
-        for ($i = 1; $i <= $week; $i++) {
-
-            $gross = getGross($id, $i, $conn, false);
-
-            if ($gross == 0) {
-                $daysMissed = $daysMissed + 1;
-            } else {
-
-                $totalStrokes = $totalStrokes + $gross;
-
-                if ($bestRound > $gross) {
-                    $bestRound = $gross;
-                }
-
-                if ($worstRound < $gross) {
-                    $worstRound = $gross;
-                }
-            }
-        }
-
-        $totalRounds = $week - $daysMissed;
-
-        if ($totalRounds >= 5) {
-            $totalStrokes = $totalStrokes - $bestRound - $worstRound;
-            $daysMissed = $daysMissed + 2;
-        }
-
-        $average = $totalStrokes / ($week - $daysMissed);
-
-        $trueHcp = $average - 36;
-
-        $finalHcp = round($trueHcp * .8);
-
-    }
-
-    return $finalHcp;
-}
-
-function getNet($id, $week, $conn)
-{
-    $id = checkAbsent($id, $week, $conn);
+    global $conn;
+    $id = checkAbsent($id, $week);
     $sql = "SELECT * FROM scores WHERE (golfer='" . $id . "' AND week='" . $week . "')";
     $result = mysqli_query($conn, $sql);
     $gross = 0;
@@ -564,125 +427,26 @@ function getNet($id, $week, $conn)
         }
     }
 
-    $return = $gross - getHcp($id, $week, $conn);
+    $return = $gross - getHcp($id, $week);
 
     return $return;
 }
 
-function getHoleYards($hole, $conn)
+// returns the points won for the total score
+function getWonNetPoints($golfer, $week)
 {
-    $sql = "SELECT * FROM holes";
-    $result = mysqli_query($conn, $sql);
-    $holeYards = Array();
+    $oppTeam = getOppTeam($golfer, $week);
+    $golferOpp = getOpp($golfer, $oppTeam, $week);
 
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $holeYards[$row['hole']] = $row['yards'];
-        }
-    }
+    $golfer = checkAbsent($golfer, $week);
 
-    return $holeYards[$hole];
-}
+    $golferGross = getGross($golfer, $week, true);
+    $golferNet = $golferGross - getHcp($golfer, $week);
 
-function getHolePar($hole, $conn)
-{
-    $sql = "SELECT * FROM holes";
-    $result = mysqli_query($conn, $sql);
-    $holePar = Array();
+    $golferOpp = checkAbsent($golferOpp, $week);
 
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $holePar[$row['hole']] = $row['par'];
-        }
-    }
-
-    return $holePar[$hole];
-}
-
-// returns an map with the holes handicaps
-function holeHcps($conn)
-{
-    $sql = "SELECT * FROM holes";
-    $result = mysqli_query($conn, $sql);
-    $return = Array();
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $return[$row['hole']] = $row['handicap9'];
-        }
-    }
-
-    return $return;
-}
-
-function getHoleHcp($hole, $conn)
-{
-    $sql = "SELECT * FROM holes";
-    $result = mysqli_query($conn, $sql);
-    $holeHcps = Array();
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $holeHcps[$row['hole']] = $row['handicap'];
-        }
-    }
-
-    return $holeHcps[$hole];
-}
-
-function evenHcpPoints($golfer, $opp)
-{
-    if ($golfer > $opp) {
-        $points = 0;
-    } elseif ($golfer < $opp) {
-        $points = 1;
-    } else {
-        $points = 0.5;
-    }
-
-    return $points;
-}
-
-function givingHcpPoints($golfer, $opp, $holeHcp, $hcpDiff)
-{
-    if ($holeHcp <= $hcpDiff) {
-        $opp = $opp - 1;
-    }
-
-    if ($holeHcp <= ($hcpDiff - 9)) {
-        $opp = $opp - 1;
-    }
-
-    return evenHcpPoints($golfer, $opp);
-}
-
-function gettingHcpPoints($golfer, $opp, $holeHcp, $hcpDiff)
-{
-    if ($holeHcp <= $hcpDiff) {
-        $golfer = $golfer - 1;
-    }
-
-    if ($holeHcp <= ($hcpDiff - 9)) {
-        $golfer = $golfer - 1;
-    }
-
-    return evenHcpPoints($golfer, $opp);
-}
-
-function getWonNetPoints($golfer, $week, $conn)
-{
-    $oppTeam = getOppTeam($golfer, $week, $conn);
-    $golferOpp = getOpp($golfer, $oppTeam, $week, $conn);
-
-    $golfer = checkAbsent($golfer, $week, $conn);
-
-    $golferGross = getGross($golfer, $week, $conn, true);
-    $golferNet = $golferGross - getHcp($golfer, $week, $conn);
-
-    $golferOpp = checkAbsent($golferOpp, $week, $conn);
-
-    $oppGross = getGross($golferOpp, $week, $conn, true);
-    $opponentNet = $oppGross - getHcp($golferOpp, $week, $conn);
+    $oppGross = getGross($golferOpp, $week, true);
+    $opponentNet = $oppGross - getHcp($golferOpp, $week);
 
     if ($golferNet > $opponentNet) {
         $roundPoints = 0;
@@ -695,32 +459,18 @@ function getWonNetPoints($golfer, $week, $conn)
     return $roundPoints;
 }
 
-function getGolferFromSub($sub, $week, $conn)
+// returns the points won on a specific hole for the given week
+function getHolePoints($golfer, $week, $holeIndex)
 {
-    $sql = "SELECT * FROM subrecords WHERE week='" . $week . "' AND sub_id='" . $sub . "'";
-    $result = mysqli_query($conn, $sql);
-    $return = $sub;
+    $holeHcp = holeHcps();
+    $isBack = isBack($week);
+    $opponent = getOpp($golfer, getOppTeam($golfer, $week), $week);
 
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $return = $row['absent_id'];
-        }
-    }
+    $opponentHcp = getHcp($opponent, $week);
+    $golferHcp = getHcp($golfer, $week);
 
-    return $return;
-}
-
-function getHolePoints($golfer, $week, $holeIndex, $conn)
-{
-    $holeHcp = holeHcps($conn);
-    $isBack = isBack($week, $conn);
-    $opponent = getOpp($golfer, getOppTeam($golfer, $week, $conn), $week, $conn);
-
-    $opponentHcp = getHcp($opponent, $week, $conn);
-    $golferHcp = getHcp($golfer, $week, $conn);
-
-    $golferScore = getGolferScore($golfer, $week, getHoleNumber($holeIndex, $isBack), $conn);
-    $oppScore = getGolferScore($opponent, $week, getHoleNumber($holeIndex, $isBack), $conn);
+    $golferScore = getGolferScore($golfer, $week, getHoleNumber($holeIndex, $isBack));
+    $oppScore = getGolferScore($opponent, $week, getHoleNumber($holeIndex, $isBack));
 
     $hcpDiff = $golferHcp - $opponentHcp;
     $giving = false;
@@ -745,17 +495,17 @@ function getHolePoints($golfer, $week, $holeIndex, $conn)
     return $points;
 }
 
-// returns the weekly points for a golfer
-function getWeekPoints($id, $week, $conn)
+// returns the total points won for a golfer and week
+function getWeekPoints($id, $week)
 {
-    $oppTeam = getOppTeam($id, $week, $conn);
-    $isBack = isBack($week, $conn);
-    $holeHcp = holeHcps($conn);
+    $oppTeam = getOppTeam($id, $week);
+    $isBack = isBack($week);
+    $holeHcp = holeHcps();
 
-    $opponent = getOpp($id, $oppTeam, $week, $conn);
+    $opponent = getOpp($id, $oppTeam, $week);
 
-    $opponentHcp = getHcp($opponent, $week, $conn);
-    $golferHcp = getHcp($id, $week, $conn);
+    $opponentHcp = getHcp($opponent, $week);
+    $golferHcp = getHcp($id, $week);
 
     $hcpDiff = $golferHcp - $opponentHcp;
     $giving = false;
@@ -769,25 +519,25 @@ function getWeekPoints($id, $week, $conn)
 
     $hcpDiff = abs($hcpDiff);
 
-    $hole0Score = getGolferScore($id, $week, getHoleNumber(1, $isBack), $conn);
-    $hole1Score = getGolferScore($id, $week, getHoleNumber(2, $isBack), $conn);
-    $hole2Score = getGolferScore($id, $week, getHoleNumber(3, $isBack), $conn);
-    $hole3Score = getGolferScore($id, $week, getHoleNumber(4, $isBack), $conn);
-    $hole4Score = getGolferScore($id, $week, getHoleNumber(5, $isBack), $conn);
-    $hole5Score = getGolferScore($id, $week, getHoleNumber(6, $isBack), $conn);
-    $hole6Score = getGolferScore($id, $week, getHoleNumber(7, $isBack), $conn);
-    $hole7Score = getGolferScore($id, $week, getHoleNumber(8, $isBack), $conn);
-    $hole8Score = getGolferScore($id, $week, getHoleNumber(9, $isBack), $conn);
+    $hole0Score = getGolferScore($id, $week, getHoleNumber(1, $isBack));
+    $hole1Score = getGolferScore($id, $week, getHoleNumber(2, $isBack));
+    $hole2Score = getGolferScore($id, $week, getHoleNumber(3, $isBack));
+    $hole3Score = getGolferScore($id, $week, getHoleNumber(4, $isBack));
+    $hole4Score = getGolferScore($id, $week, getHoleNumber(5, $isBack));
+    $hole5Score = getGolferScore($id, $week, getHoleNumber(6, $isBack));
+    $hole6Score = getGolferScore($id, $week, getHoleNumber(7, $isBack));
+    $hole7Score = getGolferScore($id, $week, getHoleNumber(8, $isBack));
+    $hole8Score = getGolferScore($id, $week, getHoleNumber(9, $isBack));
 
-    $oppHole0Score = getGolferScore($opponent, $week, getHoleNumber(1, $isBack), $conn);
-    $oppHole1Score = getGolferScore($opponent, $week, getHoleNumber(2, $isBack), $conn);
-    $oppHole2Score = getGolferScore($opponent, $week, getHoleNumber(3, $isBack), $conn);
-    $oppHole3Score = getGolferScore($opponent, $week, getHoleNumber(4, $isBack), $conn);
-    $oppHole4Score = getGolferScore($opponent, $week, getHoleNumber(5, $isBack), $conn);
-    $oppHole5Score = getGolferScore($opponent, $week, getHoleNumber(6, $isBack), $conn);
-    $oppHole6Score = getGolferScore($opponent, $week, getHoleNumber(7, $isBack), $conn);
-    $oppHole7Score = getGolferScore($opponent, $week, getHoleNumber(8, $isBack), $conn);
-    $oppHole8Score = getGolferScore($opponent, $week, getHoleNumber(9, $isBack), $conn);
+    $oppHole0Score = getGolferScore($opponent, $week, getHoleNumber(1, $isBack));
+    $oppHole1Score = getGolferScore($opponent, $week, getHoleNumber(2, $isBack));
+    $oppHole2Score = getGolferScore($opponent, $week, getHoleNumber(3, $isBack));
+    $oppHole3Score = getGolferScore($opponent, $week, getHoleNumber(4, $isBack));
+    $oppHole4Score = getGolferScore($opponent, $week, getHoleNumber(5, $isBack));
+    $oppHole5Score = getGolferScore($opponent, $week, getHoleNumber(6, $isBack));
+    $oppHole6Score = getGolferScore($opponent, $week, getHoleNumber(7, $isBack));
+    $oppHole7Score = getGolferScore($opponent, $week, getHoleNumber(8, $isBack));
+    $oppHole8Score = getGolferScore($opponent, $week, getHoleNumber(9, $isBack));
 
     if ($even) {
         $hole0Points = evenHcpPoints($hole0Score, $oppHole0Score);
@@ -838,37 +588,15 @@ function getWeekPoints($id, $week, $conn)
     return ($hole0Points + $hole1Points + $hole2Points + $hole3Points + $hole4Points + $hole5Points + $hole6Points + $hole7Points + $hole8Points + $roundPoints);
 }
 
-function getTotalYards($isBack, $conn)
-{
-    $sql = "SELECT * FROM holes";
-    $result = mysqli_query($conn, $sql);
-    $total = 0;
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            if (!$isBack) {
-                if ($row['hole'] < 10) {
-                    $total = $total + $row['yards'];
-                }
-            } else {
-                if ($row['hole'] > 9) {
-                    $total = $total + $row['yards'];
-                }
-            }
-        }
-    }
-
-    return $total;
-}
-
 // returns the correct opponent based on your handicap
-function getOpp($id, $oppTeam, $week, $conn)
+function getOpp($id, $oppTeam, $week)
 {
+    global $conn;
     $golferId = $id;
     $opponent1Id = 0;
     $opponent2Id = 0;
 
-    $partnerId = getPartner($golferId, $conn);
+    $partnerId = getPartner($golferId);
 
     // get opponent ids
     $sql = "SELECT * FROM golfers WHERE team='" . $oppTeam . "'";
@@ -888,14 +616,14 @@ function getOpp($id, $oppTeam, $week, $conn)
 
 
     // get handicaps
-    $opponent1Hcp = getHcp($opponent1Id, $week, $conn);
-    $opponent2Hcp = getHcp($opponent2Id, $week, $conn);
-    $partnerHcp = getHcp($partnerId, $week, $conn);
-    $golferHcp = getHcp($golferId, $week, $conn);
+    $opponent1Hcp = getHcp($opponent1Id, $week);
+    $opponent2Hcp = getHcp($opponent2Id, $week);
+    $partnerHcp = getHcp($partnerId, $week);
+    $golferHcp = getHcp($golferId, $week);
 
     // check for subs
-    $opponent1IdAbsent = checkAbsent($opponent1Id, $week, $conn);
-    $golferIdAbsent = checkAbsent($golferId, $week, $conn);
+    $opponent1IdAbsent = checkAbsent($opponent1Id, $week);
+    $golferIdAbsent = checkAbsent($golferId, $week);
 
     if ($golferHcp == $partnerHcp) {
         $sql = "SELECT * FROM tiebreaker WHERE golfer='" . $golferIdAbsent . "'";
@@ -950,12 +678,14 @@ function getOpp($id, $oppTeam, $week, $conn)
     return $return;
 }
 
-function isA($golfer, $week, $conn)
+// returns true or false depending on if the golfer is the better ('A' golfer) in his group
+function isA($golfer, $week)
 {
     $partnerId = 0;
+    global $conn;
 
     // get partner id
-    $sql = "SELECT * FROM golfers WHERE team='" . getTeam($golfer, $conn) . "'";
+    $sql = "SELECT * FROM golfers WHERE team='" . getTeam($golfer) . "'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -967,12 +697,12 @@ function isA($golfer, $week, $conn)
     }
 
     // check for subs
-    $partnerId = checkAbsent($partnerId, $week, $conn);
-    $golfer = checkAbsent($golfer, $week, $conn);
+    $partnerId = checkAbsent($partnerId, $week);
+    $golfer = checkAbsent($golfer, $week);
 
     // get handicaps
-    $partnerHcp = getHcp($partnerId, $week, $conn);
-    $golferHcp = getHcp($golfer, $week, $conn);
+    $partnerHcp = getHcp($partnerId, $week);
+    $golferHcp = getHcp($golfer, $week);
 
     if ($golferHcp == $partnerHcp) {
         $sql = "SELECT * FROM tiebreaker WHERE golfer='" . $golfer . "'";
@@ -1001,26 +731,138 @@ function isA($golfer, $week, $conn)
     return $return;
 }
 
-// checks if golfer was absent and returns the sub id if so, otherwise it returns the original id
-function checkAbsent($id, $week, $conn)
+// returns a string for the formatting of a scorecards score cell
+// THIS FUNCTION IS 'SUB SAFE' MEANING A SUB WILL BE USED IF THE GOLFER DID NOT PLAY THAT WEEK
+function getStrokesGivenString($golfer, $week, $holeIndex)
 {
-    $sql = "SELECT * FROM subrecords WHERE week='" . $week . "' AND absent_id='" . $id . "'";
-    $result = mysqli_query($conn, $sql);
-    $return = $id;
+    $holeHcp = holeHcps();
+    $isBack = isBack($week);
+    $opponent = getOpp($golfer, getOppTeam($golfer, $week), $week);
+    $holePar = getHolePar(getHoleNumber($holeIndex, $isBack));
+    $golferScore = getGolferScore($golfer, $week, getHoleNumber($holeIndex, $isBack));
+    $scoreFromPar = $golferScore - $holePar;
 
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $return = $row['sub_id'];
+    $opponentHcp = getHcp($opponent, $week);
+    $golferHcp = getHcp($golfer, $week);
+
+    $hcpDiff = $golferHcp - $opponentHcp;
+
+    if ($hcpDiff > 0) {
+        if ($holeHcp[getHoleNumber($holeIndex, $isBack)] <= $hcpDiff) {
+            switch ($scoreFromPar) {
+                case (-2):
+                    $return = ' id="getting-stroke_eagle"';
+                    break;
+                case (-1):
+                    $return = ' id="getting-stroke_birdie"';
+                    break;
+                case 0:
+                    $return = ' id="getting-stroke_par"';
+                    break;
+                case 1:
+                    $return = ' id="getting-stroke_bogey"';
+                    break;
+                default:
+                    $return = ' id="getting-stroke_worst"';
+            }
+        } else {
+            switch ($scoreFromPar) {
+                case (-2):
+                    $return = ' id="eagle"';
+                    break;
+                case (-1):
+                    $return = ' id="birdie"';
+                    break;
+                case 0:
+                    $return = ' id="par"';
+                    break;
+                case 1:
+                    $return = ' id="bogey"';
+                    break;
+                default:
+                    $return = ' id="worst"';
+            }
+        }
+    } else {
+        switch ($scoreFromPar) {
+            case (-2):
+                $return = ' id="eagle"';
+                break;
+            case (-1):
+                $return = ' id="birdie"';
+                break;
+            case 0:
+                $return = ' id="par"';
+                break;
+            case 1:
+                $return = ' id="bogey"';
+                break;
+            default:
+                $return = ' id="worst"';
         }
     }
 
     return $return;
 }
 
-// returns the opponents team for a specific week
-function getOppTeam($id, $week, $conn)
+// --------------- NOT SUB SAFE FUNCTIONS ---------------
+// THIS FUNCTION IS DOES NOT WORK FOR SUBS
+
+// returns a handicap for golfer and week and returns 0 if there isn't one
+function computeHcpNoSub($id, $week)
 {
-    $team = getTeam($id, $conn);
+    $totalStrokes = 0;
+    $daysMissed = 0;
+    $bestRound = 99;
+    $worstRound = 0;
+
+    if ($week < 5) {
+        $finalHcp = getHcp($id, $week);
+    } else {
+
+        for ($i = 1; $i <= $week; $i++) {
+
+            $gross = getGross($id, $i, false);
+
+            if ($gross == 0) {
+                $daysMissed = $daysMissed + 1;
+            } else {
+
+                $totalStrokes = $totalStrokes + $gross;
+
+                if ($bestRound > $gross) {
+                    $bestRound = $gross;
+                }
+
+                if ($worstRound < $gross) {
+                    $worstRound = $gross;
+                }
+            }
+        }
+
+        $totalRounds = $week - $daysMissed;
+
+        if ($totalRounds >= 5) {
+            $totalStrokes = $totalStrokes - $bestRound - $worstRound;
+            $daysMissed = $daysMissed + 2;
+        }
+
+        $average = $totalStrokes / ($week - $daysMissed);
+
+        $trueHcp = $average - 36;
+
+        $finalHcp = round($trueHcp * .8);
+
+    }
+
+    return $finalHcp;
+}
+
+// returns the opponents team for a specific week
+function getOppTeam($id, $week)
+{
+    global $conn;
+    $team = getTeam($id);
 
     $sql = "SELECT * FROM schedule WHERE week='" . $week . "'";
     $result = mysqli_query($conn, $sql);
@@ -1035,10 +877,12 @@ function getOppTeam($id, $week, $conn)
     return $return;
 }
 
-function getPartner($golfer, $conn)
+// returns the golfers partner
+function getPartner($golfer)
 {
+    global $conn;
     // get partner id
-    $sql = "SELECT * FROM golfers WHERE team='" . getTeam($golfer, $conn) . "'";
+    $sql = "SELECT * FROM golfers WHERE team='" . getTeam($golfer) . "'";
     $result = mysqli_query($conn, $sql);
     $partnerId = 0;
 
@@ -1053,9 +897,31 @@ function getPartner($golfer, $conn)
     return $partnerId;
 }
 
-// returns the team for a specific golfers id
-function getTeam($id, $conn)
+// returns the golfers on a specific team and maps them either ['A'] or ['B']
+function getGolfersFromTeam($team, $week)
 {
+    global $conn;
+    $sql = "SELECT * FROM golfers WHERE team='" . $team . "'";
+    $result = mysqli_query($conn, $sql);
+    $return = Array();
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if (isA($row['id'], $week)) {
+                $return['A'] = $row['id'];
+            } else {
+                $return['B'] = $row['id'];
+            }
+        }
+    }
+
+    return $return;
+}
+
+// returns the team number for a specific golfers id
+function getTeam($id)
+{
+    global $conn;
     $sql = "SELECT team FROM golfers WHERE id='" . $id . "'";
     $result = mysqli_query($conn, $sql);
     $return = 0;
@@ -1069,40 +935,15 @@ function getTeam($id, $conn)
     return $return;
 }
 
-function getGolfersFromTeam($team, $week, $conn)
+// --------------- GENERAL FUNCTIONS ---------------
+
+// returns the gross score for a given week
+// THIS FUNCTION HAS A SELECTOR TO TOGGLE 'SUB SAFE' OR NOT
+function getGross($golfer, $week, $checkSub)
 {
-    $sql = "SELECT * FROM golfers WHERE team='" . $team . "'";
-    $result = mysqli_query($conn, $sql);
-    $return = Array();
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            if (isA($row['id'], $week, $conn)) {
-                $return['A'] = $row['id'];
-            } else {
-                $return['B'] = $row['id'];
-            }
-        }
-    }
-
-    return $return;
-}
-
-function getHoleNumber($index, $isBack)
-{
-    if ($isBack) {
-        $return = 9 + $index;
-    } else {
-        $return = $index;
-    }
-
-    return $return;
-}
-
-function getGross($golfer, $week, $conn, $checkSub)
-{
+    global $conn;
     if ($checkSub) {
-        $golfer = checkAbsent($golfer, $week, $conn);
+        $golfer = checkAbsent($golfer, $week);
     }
 
     $sql = "SELECT * FROM scores WHERE week='" . $week . "' AND golfer='" . $golfer . "'";
@@ -1120,15 +961,257 @@ function getGross($golfer, $week, $conn, $checkSub)
 
 }
 
-function isFrontString($week, $conn)
+// returns an array of all the golfers' ids without including subs
+function getGolfers()
 {
-    if (!isBack($week, $conn)) {
+    global $conn;
+    $sql = "SELECT * FROM golfers";
+    $result = mysqli_query($conn, $sql);
+    $golfers = array();
+
+    $index = 0;
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        if ($row['team'] != 0) {
+            $golfers[$index] = $row['id'];
+            $index = $index + 1;
+        }
+    }
+
+    return $golfers;
+}
+
+// returns true if the given week is played on the front 9
+function isFront($week)
+{
+    global $conn;
+    $sql = "SELECT * FROM schedule WHERE week='" . $week . "'";
+    $result = mysqli_query($conn, $sql);
+    $return = false;
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if ($row['front'] == 1) {
+                $return = true;
+            }
+        }
+    }
+
+    return $return;
+}
+
+// returns true if the given week is played on the back 9
+function isBack($week)
+{
+    global $conn;
+    $sql = "SELECT * FROM schedule WHERE week='" . $week . "'";
+    $result = mysqli_query($conn, $sql);
+    $return = false;
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if ($row['front'] == 0) {
+                $return = true;
+            }
+        }
+    }
+
+    return $return;
+}
+
+// returns an array with the yardage for each hole on the course
+function getHoleYards($hole)
+{
+    global $conn;
+    $sql = "SELECT * FROM holes";
+    $result = mysqli_query($conn, $sql);
+    $holeYards = Array();
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $holeYards[$row['hole']] = $row['yards'];
+        }
+    }
+
+    return $holeYards[$hole];
+}
+
+// returns an array with each holes par on the course
+function getHolePar($hole)
+{
+    global $conn;
+    $sql = "SELECT * FROM holes";
+    $result = mysqli_query($conn, $sql);
+    $holePar = Array();
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $holePar[$row['hole']] = $row['par'];
+        }
+    }
+
+    return $holePar[$hole];
+}
+
+// returns an array with the 9 hole handicaps
+// only use this when dealing with 9 holes at a time
+function holeHcps()
+{
+    global $conn;
+    $sql = "SELECT * FROM holes";
+    $result = mysqli_query($conn, $sql);
+    $return = Array();
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $return[$row['hole']] = $row['handicap9'];
+        }
+    }
+
+    return $return;
+}
+
+// returns the handicap for a specific hole on the course
+function getHoleHcp($hole)
+{
+    global $conn;
+    $sql = "SELECT * FROM holes";
+    $result = mysqli_query($conn, $sql);
+    $holeHcps = Array();
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $holeHcps[$row['hole']] = $row['handicap'];
+        }
+    }
+
+    return $holeHcps[$hole];
+}
+
+// determines the points based on two golfers scores with even handicaps
+function evenHcpPoints($golfer, $opp)
+{
+    if ($golfer > $opp) {
+        $points = 0;
+    } elseif ($golfer < $opp) {
+        $points = 1;
+    } else {
+        $points = 0.5;
+    }
+
+    return $points;
+}
+
+// determines the points when the 'golfer' is giving strokes
+function givingHcpPoints($golfer, $opp, $holeHcp, $hcpDiff)
+{
+    if ($holeHcp <= $hcpDiff) {
+        $opp = $opp - 1;
+    }
+
+    if ($holeHcp <= ($hcpDiff - 9)) {
+        $opp = $opp - 1;
+    }
+
+    return evenHcpPoints($golfer, $opp);
+}
+
+// determines the points when the 'golfer' is getting strokes
+function gettingHcpPoints($golfer, $opp, $holeHcp, $hcpDiff)
+{
+    if ($holeHcp <= $hcpDiff) {
+        $golfer = $golfer - 1;
+    }
+
+    if ($holeHcp <= ($hcpDiff - 9)) {
+        $golfer = $golfer - 1;
+    }
+
+    return evenHcpPoints($golfer, $opp);
+}
+
+// gets the golfer that a sub is subbing for on a given week
+function getGolferFromSub($sub, $week)
+{
+    global $conn;
+    $sql = "SELECT * FROM subrecords WHERE week='" . $week . "' AND sub_id='" . $sub . "'";
+    $result = mysqli_query($conn, $sql);
+    $return = $sub;
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $return = $row['absent_id'];
+        }
+    }
+
+    return $return;
+}
+
+// returns the total yards for the 9 holes specified
+function getTotalYards($isBack)
+{
+    global $conn;
+    $sql = "SELECT * FROM holes";
+    $result = mysqli_query($conn, $sql);
+    $total = 0;
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            if (!$isBack) {
+                if ($row['hole'] < 10) {
+                    $total = $total + $row['yards'];
+                }
+            } else {
+                if ($row['hole'] > 9) {
+                    $total = $total + $row['yards'];
+                }
+            }
+        }
+    }
+
+    return $total;
+}
+
+// checks if golfer was absent and returns the sub id if so, otherwise it returns the original id
+function checkAbsent($id, $week)
+{
+    global $conn;
+    $sql = "SELECT * FROM subrecords WHERE week='" . $week . "' AND absent_id='" . $id . "'";
+    $result = mysqli_query($conn, $sql);
+    $return = $id;
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $return = $row['sub_id'];
+        }
+    }
+
+    return $return;
+}
+
+// returns the hole number when using a 1-9 hole index
+function getHoleNumber($index, $isBack)
+{
+    if ($isBack) {
+        $return = 9 + $index;
+    } else {
+        $return = $index;
+    }
+
+    return $return;
+}
+
+// returns the either "Front 9" or "Back 9" strings
+function isFrontString($week)
+{
+    if (!isBack($week)) {
         return "Front 9";
     } else {
         return "Back 9";
     }
 }
 
+// returns the data string for a given week
 function getDateString($week)
 {
     $return = "";
@@ -1199,115 +1282,14 @@ function getDateString($week)
     return $return;
 }
 
-function getStrokesGivenString($golfer, $week, $holeIndex, $conn) {
-    $holeHcp = holeHcps($conn);
-    $isBack = isBack($week, $conn);
-    $return = "";
-    $opponent = getOpp($golfer, getOppTeam($golfer, $week, $conn), $week, $conn);
-    $holePar = getHolePar(getHoleNumber($holeIndex, $isBack), $conn);
-    $golferScore = getGolferScore($golfer, $week, getHoleNumber($holeIndex, $isBack), $conn);
-    $scoreFromPar = $golferScore - $holePar;
-
-    $opponentHcp = getHcp($opponent, $week, $conn);
-    $golferHcp = getHcp($golfer, $week, $conn);
-
-    $hcpDiff = $golferHcp - $opponentHcp;
-
-    if ($hcpDiff > 0) {
-        if($holeHcp[getHoleNumber($holeIndex, $isBack)] <= $hcpDiff) {
-            switch ($scoreFromPar) {
-                case (-2):
-                    $return = ' id="shadow_inner_border_eagle"';
-                    break;
-                case (-1):
-                    $return = ' id="shadow_inner_border_birdie"';
-                    break;
-                case 0:
-                    $return = ' id="shadow_inner_border_par"';
-                    break;
-                case 1:
-                    $return = ' id="shadow_inner_border_bogey"';
-                    break;
-                default:
-                    $return = ' id="shadow_inner_border_worst"';
-            }
-        } else {
-            switch ($scoreFromPar) {
-                case (-2):
-                    $return = ' id="eagle"';
-                    break;
-                case (-1):
-                    $return = ' id="birdie"';
-                    break;
-                case 0:
-                    $return = ' id="par"';
-                    break;
-                case 1:
-                    $return = ' id="bogey"';
-                    break;
-                default:
-                    $return = ' id="worst"';
-            }
-        }
-    } else {
-        switch ($scoreFromPar) {
-            case (-2):
-                $return = ' id="eagle"';
-                break;
-            case (-1):
-                $return = ' id="birdie"';
-                break;
-            case 0:
-                $return = ' id="par"';
-                break;
-            case 1:
-                $return = ' id="bogey"';
-                break;
-            default:
-                $return = ' id="worst"';
-        }
-    }
-
-    return $return;
-}
-
-function getParColorString($golfer, $week, $holeIndex, $conn) {
-    $isBack = isBack($week, $conn);
-    $return = "";
-    $holePar = getHolePar(getHoleNumber($holeIndex, $isBack), $conn);
-
-    $golferScore = getGolferScore($golfer, $week, $holeIndex, $conn);
-    $scoreFromPar = $golferScore - $holePar;
-
-
-    switch ($scoreFromPar) {
-        case -2:
-            $return = ' style="background-color:lightgreen";';
-            break;
-        case -1:
-            $return = ' style="background-color:red";';
-            break;
-        case 0:
-            $return = ' style="background-color:#97A2A2";';
-            break;
-        case 1:
-            $return = ' style="background-color:blue";';
-            break;
-        default:
-            $return = ' style="background-color:black";';
-            break;
-    }
-
-    return "";
-}
-
-function getCards($week, $conn)
+// prints the scorecards for a given week
+function getCards($week)
 {
 
     $teamsGone = Array();
     $index = 0;
     $teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
-    $isBack = isBack($week, $conn);
+    $isBack = isBack($week);
 
 
     echo '<table id="legend">
@@ -1325,18 +1307,18 @@ function getCards($week, $conn)
 
         if (!in_array($team, $teamsGone)) {
 
-            $golferA = getGolfersFromTeam($team, $week, $conn)['A'];
-            $golferB = getGolfersFromTeam($team, $week, $conn)['B'];
-            $oppTeam = getOppTeam($golferA, $week, $conn);
-            $oppA = getGolfersFromTeam($oppTeam, $week, $conn)['A'];
-            $oppB = getGolfersFromTeam($oppTeam, $week, $conn)['B'];
+            $golferA = getGolfersFromTeam($team, $week)['A'];
+            $golferB = getGolfersFromTeam($team, $week)['B'];
+            $oppTeam = getOppTeam($golferA, $week);
+            $oppA = getGolfersFromTeam($oppTeam, $week)['A'];
+            $oppB = getGolfersFromTeam($oppTeam, $week)['B'];
 
             $teamsGone[$index] = $team;
             $index = $index + 1;
             $teamsGone[$index] = $oppTeam;
             $index = $index + 1;
 
-            echo '<table class="tg" style="undefined;table-layout: fixed; width: 568px">
+            echo '<table class="scorecard" style="undefined;table-layout: fixed; width: 568px">
             <colgroup>
                 <col style="width: 139px">
                 <col style="width: 32px">
@@ -1353,192 +1335,192 @@ function getCards($week, $conn)
                 <col style="width: 41px">
             </colgroup>
             <tr class="data">
-                <th class="tg-fymr" colspan="2">Week ' . $week . '</th>
-                <th class="tg-fymr" colspan="9">' . isFrontString($week, $conn) . '</th>
-                <th class="tg-fymr" colspan="2">' . getDateString($week, $conn) . '</th>
+                <th class="descriptor" colspan="2">Week ' . $week . '</th>
+                <th class="descriptor" colspan="9">' . isFrontString($week) . '</th>
+                <th class="descriptor" colspan="2">' . getDateString($week) . '</th>
             </tr>';
 
             echo '<tr class="scores">';
-            echo '<td class="tg-fymr">' . getGolferName($golferA, $week, $conn) . '</td>';
-            echo '<td class="hcp">' . getHcp($golferA, $week, $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 1, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(1, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 2, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(2, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 3, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(3, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 4, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(4, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 5, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(5, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 6, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(6, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 7, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 8, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferA, $week, 9, $conn) . '>' . getGolferScore($golferA, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow" style="background-color:#97A2A2">' . getGross($golferA, $week, $conn, true) . '</td>';
-            echo '<td class="total" style="background-color:#97A2A2">' . getNet($golferA, $week, $conn) . '</td>';
+            echo '<td class="descriptor">' . getGolferName($golferA, $week) . '</td>';
+            echo '<td class="hcp">' . getHcp($golferA, $week) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferA, $week, 1) . '>' . getGolferScore($golferA, $week, getHoleNumber(1, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferA, $week, 2) . '>' . getGolferScore($golferA, $week, getHoleNumber(2, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferA, $week, 3) . '>' . getGolferScore($golferA, $week, getHoleNumber(3, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferA, $week, 4) . '>' . getGolferScore($golferA, $week, getHoleNumber(4, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferA, $week, 5) . '>' . getGolferScore($golferA, $week, getHoleNumber(5, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferA, $week, 6) . '>' . getGolferScore($golferA, $week, getHoleNumber(6, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferA, $week, 7) . '>' . getGolferScore($golferA, $week, getHoleNumber(7, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferA, $week, 8) . '>' . getGolferScore($golferA, $week, getHoleNumber(8, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferA, $week, 9) . '>' . getGolferScore($golferA, $week, getHoleNumber(9, $isBack)) . '</td>';
+            echo '<td class="score" style="background-color:#97A2A2">' . getGross($golferA, $week, true) . '</td>';
+            echo '<td class="total" style="background-color:#97A2A2">' . getNet($golferA, $week) . '</td>';
             echo '</tr>';
 
             echo '<tr class="points">';
-            echo '<td class="tg-fymr" colspan="2">POINTS:</td>';
-            echo '<td class="points">' . getHolePoints($golferA, $week, 1, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferA, $week, 2, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferA, $week, 3, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferA, $week, 4, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferA, $week, 5, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferA, $week, 6, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferA, $week, 7, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferA, $week, 8, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferA, $week, 9, $conn) . '</td>';
-            echo '<td class="points">' . getWonNetPoints($golferA, $week, $conn) . '</td>';
-            echo '<td class="total">' . getWeekPoints($golferA, $week, $conn) . '</td>';
+            echo '<td class="descriptor" colspan="2">POINTS:</td>';
+            echo '<td class="points">' . getHolePoints($golferA, $week, 1) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferA, $week, 2) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferA, $week, 3) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferA, $week, 4) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferA, $week, 5) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferA, $week, 6) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferA, $week, 7) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferA, $week, 8) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferA, $week, 9) . '</td>';
+            echo '<td class="points">' . getWonNetPoints($golferA, $week) . '</td>';
+            echo '<td class="total">' . getWeekPoints($golferA, $week) . '</td>';
             echo '</tr>';
 
             echo '<tr class="scores">';
-            echo '<td class="tg-fymr">' . getGolferName($oppA, $week, $conn) . '</td>';
-            echo '<td class="hcp">' . getHcp($oppA, $week, $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 1, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(1, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 2, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(2, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 3, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(3, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 4, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(4, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 5, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(5, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 6, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(6, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 7, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 8, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppA, $week, 9, $conn) . '>' . getGolferScore($oppA, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow" style="background-color:#97A2A2">' . getGross($oppA, $week, $conn, true) . '</td>';
-            echo '<td class="total" style="background-color:#97A2A2">' . getNet($oppA, $week, $conn) . '</td>';
+            echo '<td class="descriptor">' . getGolferName($oppA, $week) . '</td>';
+            echo '<td class="hcp">' . getHcp($oppA, $week) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppA, $week, 1) . '>' . getGolferScore($oppA, $week, getHoleNumber(1, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppA, $week, 2) . '>' . getGolferScore($oppA, $week, getHoleNumber(2, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppA, $week, 3) . '>' . getGolferScore($oppA, $week, getHoleNumber(3, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppA, $week, 4) . '>' . getGolferScore($oppA, $week, getHoleNumber(4, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppA, $week, 5) . '>' . getGolferScore($oppA, $week, getHoleNumber(5, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppA, $week, 6) . '>' . getGolferScore($oppA, $week, getHoleNumber(6, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppA, $week, 7) . '>' . getGolferScore($oppA, $week, getHoleNumber(7, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppA, $week, 8) . '>' . getGolferScore($oppA, $week, getHoleNumber(8, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppA, $week, 9) . '>' . getGolferScore($oppA, $week, getHoleNumber(9, $isBack)) . '</td>';
+            echo '<td class="score" style="background-color:#97A2A2">' . getGross($oppA, $week, true) . '</td>';
+            echo '<td class="total" style="background-color:#97A2A2">' . getNet($oppA, $week) . '</td>';
             echo '</tr>';
 
             echo '<tr class="points">';
-            echo '<td class="tg-fymr" colspan="2">POINTS:</td>';
-            echo '<td class="points">' . getHolePoints($oppA, $week, 1, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppA, $week, 2, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppA, $week, 3, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppA, $week, 4, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppA, $week, 5, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppA, $week, 6, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppA, $week, 7, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppA, $week, 8, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppA, $week, 9, $conn) . '</td>';
-            echo '<td class="points">' . getWonNetPoints($oppA, $week, $conn) . '</td>';
-            echo '<td class="total">' . getWeekPoints($oppA, $week, $conn) . '</td>';
+            echo '<td class="descriptor" colspan="2">POINTS:</td>';
+            echo '<td class="points">' . getHolePoints($oppA, $week, 1) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppA, $week, 2) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppA, $week, 3) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppA, $week, 4) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppA, $week, 5) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppA, $week, 6) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppA, $week, 7) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppA, $week, 8) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppA, $week, 9) . '</td>';
+            echo '<td class="points">' . getWonNetPoints($oppA, $week) . '</td>';
+            echo '<td class="total">' . getWeekPoints($oppA, $week) . '</td>';
             echo '</tr>';
 
             echo '<tr class="data">';
-            echo '<td class="tg-4erg" colspan="2">HOLE</td>';
-            echo '<td class="tg-rvyq">' . getHoleNumber(1, $isBack) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleNumber(2, $isBack) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleNumber(3, $isBack) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleNumber(4, $isBack) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleNumber(5, $isBack) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleNumber(6, $isBack) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleNumber(7, $isBack) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleNumber(8, $isBack) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleNumber(9, $isBack) . '</td>';
-            echo '<td class="tg-rvyq" rowspan="2">IN</td>';
-            echo '<td class="tg-c3ow"></td>';
+            echo '<td class="hole-data left-align" colspan="2">HOLE</td>';
+            echo '<td class="hole-data center-align">' . getHoleNumber(1, $isBack) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleNumber(2, $isBack) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleNumber(3, $isBack) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleNumber(4, $isBack) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleNumber(5, $isBack) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleNumber(6, $isBack) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleNumber(7, $isBack) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleNumber(8, $isBack) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleNumber(9, $isBack) . '</td>';
+            echo '<td class="hole-data center-align" rowspan="2">IN</td>';
+            echo '<td class="score"></td>';
             echo '</tr>';
 
             echo '<tr class="data">';
-            echo '<td class="tg-4erg" colspan="2">HANDICAP</td>';
-            echo '<td class="tg-rvyq">' . getHoleHcp(getHoleNumber(1, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleHcp(getHoleNumber(2, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleHcp(getHoleNumber(3, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleHcp(getHoleNumber(4, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleHcp(getHoleNumber(5, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleHcp(getHoleNumber(6, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleHcp(getHoleNumber(7, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleHcp(getHoleNumber(8, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleHcp(getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"></td>';
+            echo '<td class="hole-data left-align" colspan="2">HANDICAP</td>';
+            echo '<td class="hole-data center-align">' . getHoleHcp(getHoleNumber(1, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleHcp(getHoleNumber(2, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleHcp(getHoleNumber(3, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleHcp(getHoleNumber(4, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleHcp(getHoleNumber(5, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleHcp(getHoleNumber(6, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleHcp(getHoleNumber(7, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleHcp(getHoleNumber(8, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleHcp(getHoleNumber(9, $isBack)) . '</td>';
+            echo '<td class="score"></td>';
             echo '</tr>';
 
             echo '<tr class="data">';
-            echo '<td class="tg-4erg" colspan="2">YARDS</td>';
-            echo '<td class="tg-rvyq">' . getHoleYards(getHoleNumber(1, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleYards(getHoleNumber(2, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleYards(getHoleNumber(3, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleYards(getHoleNumber(4, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleYards(getHoleNumber(5, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleYards(getHoleNumber(6, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleYards(getHoleNumber(7, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleYards(getHoleNumber(8, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHoleYards(getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getTotalYards($isBack, $conn) . '</td>';
-            echo '<td class="tg-c3ow"></td>';
+            echo '<td class="hole-data left-align" colspan="2">YARDS</td>';
+            echo '<td class="hole-data center-align">' . getHoleYards(getHoleNumber(1, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleYards(getHoleNumber(2, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleYards(getHoleNumber(3, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleYards(getHoleNumber(4, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleYards(getHoleNumber(5, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleYards(getHoleNumber(6, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleYards(getHoleNumber(7, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleYards(getHoleNumber(8, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHoleYards(getHoleNumber(9, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getTotalYards($isBack) . '</td>';
+            echo '<td class="score"></td>';
             echo '</tr>';
 
             echo '<tr class="data">';
-            echo '<td class="tg-4erg" colspan="2">PAR</td>';
-            echo '<td class="tg-rvyq">' . getHolePar(getHoleNumber(1, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHolePar(getHoleNumber(2, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHolePar(getHoleNumber(3, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHolePar(getHoleNumber(4, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHolePar(getHoleNumber(5, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHolePar(getHoleNumber(6, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHolePar(getHoleNumber(7, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHolePar(getHoleNumber(8, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">' . getHolePar(getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-rvyq">36</td>';
-            echo '<td class="tg-c3ow"></td>';
+            echo '<td class="hole-data left-align" colspan="2">PAR</td>';
+            echo '<td class="hole-data center-align">' . getHolePar(getHoleNumber(1, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHolePar(getHoleNumber(2, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHolePar(getHoleNumber(3, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHolePar(getHoleNumber(4, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHolePar(getHoleNumber(5, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHolePar(getHoleNumber(6, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHolePar(getHoleNumber(7, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHolePar(getHoleNumber(8, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">' . getHolePar(getHoleNumber(9, $isBack)) . '</td>';
+            echo '<td class="hole-data center-align">36</td>';
+            echo '<td class="score"></td>';
             echo '</tr>';
 
             echo '<tr class="scores">';
-            echo '<td class="tg-fymr">' . getGolferName($golferB, $week, $conn) . '</td>';
-            echo '<td class="hcp">' . getHcp($golferB, $week, $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 1, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(1, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 2, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(2, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 3, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(3, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 4, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(4, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 5, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(5, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 6, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(6, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 7, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 8, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($golferB, $week, 9, $conn) . '>' . getGolferScore($golferB, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow" style="background-color:#97A2A2">' . getGross($golferB, $week, $conn, true) . '</td>';
-            echo '<td class="total" style="background-color:#97A2A2">' . getNet($golferB, $week, $conn) . '</td>';
+            echo '<td class="descriptor">' . getGolferName($golferB, $week) . '</td>';
+            echo '<td class="hcp">' . getHcp($golferB, $week) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferB, $week, 1) . '>' . getGolferScore($golferB, $week, getHoleNumber(1, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferB, $week, 2) . '>' . getGolferScore($golferB, $week, getHoleNumber(2, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferB, $week, 3) . '>' . getGolferScore($golferB, $week, getHoleNumber(3, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferB, $week, 4) . '>' . getGolferScore($golferB, $week, getHoleNumber(4, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferB, $week, 5) . '>' . getGolferScore($golferB, $week, getHoleNumber(5, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferB, $week, 6) . '>' . getGolferScore($golferB, $week, getHoleNumber(6, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferB, $week, 7) . '>' . getGolferScore($golferB, $week, getHoleNumber(7, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferB, $week, 8) . '>' . getGolferScore($golferB, $week, getHoleNumber(8, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($golferB, $week, 9) . '>' . getGolferScore($golferB, $week, getHoleNumber(9, $isBack)) . '</td>';
+            echo '<td class="score" style="background-color:#97A2A2">' . getGross($golferB, $week, true) . '</td>';
+            echo '<td class="total" style="background-color:#97A2A2">' . getNet($golferB, $week) . '</td>';
             echo '</tr>';
 
             echo '<tr class="points">';
-            echo '<td class="tg-fymr" colspan="2">POINTS:</td>';
-            echo '<td class="points"">' . getHolePoints($golferB, $week, 1, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferB, $week, 2, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferB, $week, 3, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferB, $week, 4, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferB, $week, 5, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferB, $week, 6, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferB, $week, 7, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferB, $week, 8, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($golferB, $week, 9, $conn) . '</td>';
-            echo '<td class="points">' . getWonNetPoints($golferB, $week, $conn) . '</td>';
-            echo '<td class="total">' . getWeekPoints($golferB, $week, $conn) . '</td>';
+            echo '<td class="descriptor" colspan="2">POINTS:</td>';
+            echo '<td class="points"">' . getHolePoints($golferB, $week, 1) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferB, $week, 2) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferB, $week, 3) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferB, $week, 4) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferB, $week, 5) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferB, $week, 6) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferB, $week, 7) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferB, $week, 8) . '</td>';
+            echo '<td class="points">' . getHolePoints($golferB, $week, 9) . '</td>';
+            echo '<td class="points">' . getWonNetPoints($golferB, $week) . '</td>';
+            echo '<td class="total">' . getWeekPoints($golferB, $week) . '</td>';
             echo '</tr>';
 
             echo '<tr class="scores">';
-            echo '<td class="tg-fymr">' . getGolferName($oppB, $week, $conn) . '</td>';
-            echo '<td class="hcp">' . getHcp($oppB, $week, $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 1, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(1, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 2, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(2, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 3, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(3, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 4, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(4, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 5, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(5, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 6, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(6, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 7, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(7, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 8, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(8, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow"' . getStrokesGivenString($oppB, $week, 9, $conn) . '>' . getGolferScore($oppB, $week, getHoleNumber(9, $isBack), $conn) . '</td>';
-            echo '<td class="tg-c3ow" style="background-color:#97A2A2">' . getGross($oppB, $week, $conn, true) . '</td>';
-            echo '<td class="total" style="background-color:#97A2A2">' . getNet($oppB, $week, $conn) . '</td>';
+            echo '<td class="descriptor">' . getGolferName($oppB, $week) . '</td>';
+            echo '<td class="hcp">' . getHcp($oppB, $week) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppB, $week, 1) . '>' . getGolferScore($oppB, $week, getHoleNumber(1, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppB, $week, 2) . '>' . getGolferScore($oppB, $week, getHoleNumber(2, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppB, $week, 3) . '>' . getGolferScore($oppB, $week, getHoleNumber(3, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppB, $week, 4) . '>' . getGolferScore($oppB, $week, getHoleNumber(4, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppB, $week, 5) . '>' . getGolferScore($oppB, $week, getHoleNumber(5, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppB, $week, 6) . '>' . getGolferScore($oppB, $week, getHoleNumber(6, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppB, $week, 7) . '>' . getGolferScore($oppB, $week, getHoleNumber(7, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppB, $week, 8) . '>' . getGolferScore($oppB, $week, getHoleNumber(8, $isBack)) . '</td>';
+            echo '<td class="score"' . getStrokesGivenString($oppB, $week, 9) . '>' . getGolferScore($oppB, $week, getHoleNumber(9, $isBack)) . '</td>';
+            echo '<td class="score" style="background-color:#97A2A2">' . getGross($oppB, $week, true) . '</td>';
+            echo '<td class="total" style="background-color:#97A2A2">' . getNet($oppB, $week) . '</td>';
             echo '</tr>';
 
             echo '<tr class="points">';
-            echo '<td class="tg-fymr" colspan="2">POINTS:</td>';
-            echo '<td class="points">' . getHolePoints($oppB, $week, 1, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppB, $week, 2, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppB, $week, 3, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppB, $week, 4, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppB, $week, 5, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppB, $week, 6, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppB, $week, 7, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppB, $week, 8, $conn) . '</td>';
-            echo '<td class="points">' . getHolePoints($oppB, $week, 9, $conn) . '</td>';
-            echo '<td class="points">' . getWonNetPoints($oppB, $week, $conn) . '</td>';
-            echo '<td class="total">' . getWeekPoints($oppB, $week, $conn) . '</td>';
+            echo '<td class="descriptor" colspan="2">POINTS:</td>';
+            echo '<td class="points">' . getHolePoints($oppB, $week, 1) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppB, $week, 2) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppB, $week, 3) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppB, $week, 4) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppB, $week, 5) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppB, $week, 6) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppB, $week, 7) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppB, $week, 8) . '</td>';
+            echo '<td class="points">' . getHolePoints($oppB, $week, 9) . '</td>';
+            echo '<td class="points">' . getWonNetPoints($oppB, $week) . '</td>';
+            echo '<td class="total">' . getWeekPoints($oppB, $week) . '</td>';
             echo '</tr>';
 
             echo '</table>';
