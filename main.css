@@ -7,8 +7,8 @@ html {
 
 body {
     margin: 0 auto;
-    padding: 2em 2em 4em;
-    max-width: 800px;
+    padding: 1em 2em 4em;
+    max-width: 900px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 16px;
     color: #545454;
@@ -77,6 +77,7 @@ form {
 #schedule thead {
     background: #18453B;
     border-bottom: 2px solid #444444;
+    text-align: center;
 }
 
 #schedule thead th {
@@ -134,6 +135,7 @@ form {
 #weekscores thead {
     background: #18453B;
     border-bottom: 2px solid #444444;
+    text-align: center;
 }
 
 #weekscores thead th {
@@ -205,6 +207,7 @@ form {
 #standings thead {
     background: #18453B;
     border-bottom: 2px solid #444444;
+    text-align: center;
 }
 
 #standings thead th {
@@ -215,86 +218,6 @@ form {
 
 #standings thead th:first-child {
     border-left: none;
-}
-
-.verticalTableHeader {
-    text-align: center;
-    white-space: nowrap;
-    transform-origin: 50% 50%;
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    transform: rotate(90deg);
-}
-
-.verticalTableHeader:before {
-    content: '';
-    padding-top: 120%; /* takes width as reference, + 10% for faking some extra padding */
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.navbar {
-    overflow: hidden;
-    background-color: #333;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.navbar a {
-    float: left;
-    font-size: 16px;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-.dropdown {
-    float: left;
-    overflow: hidden;
-}
-
-.dropdown .dropbtn {
-    cursor: pointer;
-    font-size: 16px;
-    border: none;
-    outline: none;
-    color: white;
-    padding: 14px 16px;
-    background-color: inherit;
-    font-family: inherit;
-    margin: 0;
-}
-
-.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
-    background-color: red;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    float: none;
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
-
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-.show {
-    display: block;
 }
 
 #eagle {

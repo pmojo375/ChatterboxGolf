@@ -152,22 +152,22 @@ function showWeekScores($week)
     global $conn;
     $golfers = getGolfers();
     $isBack = isBack($week);
-
+    echo '<div class="table-responsive">';
     echo "<table id=\"weekscores\">";
     echo "<thead>";
     echo "<tr>";
-    echo "<th class=\"name\">Golfer</th>";
-    echo '<th onclick=\"sortTable(1)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(1, $isBack) . '</th>';
-    echo '<th onclick=\"sortTable(2)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(2, $isBack) . '</th>';
-    echo '<th onclick=\"sortTable(3)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(3, $isBack) . '</th>';
-    echo '<th onclick=\"sortTable(4)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(4, $isBack) . '</th>';
-    echo '<th onclick=\"sortTable(5)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(5, $isBack) . '</th>';
-    echo '<th onclick=\"sortTable(6)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(6, $isBack) . '</th>';
-    echo '<th onclick=\"sortTable(7)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(7, $isBack) . '</th>';
-    echo '<th onclick=\"sortTable(8)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(8, $isBack) . '</th>';
-    echo '<th onclick=\"sortTable(9)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(9, $isBack) . '</th>';
-    echo "<th onclick=\"sortTable(10)\" class=\"gross\">Gross</th>";
-    echo "<th onclick=\"sortTable(11)\" class=\"net\">Net</th>";
+    echo "<th nowrap class=\"name\">Golfer</th>";
+    echo '<th nowrap onclick=\"sortTable(1)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(1, $isBack) . '</th>';
+    echo '<th nowrap onclick=\"sortTable(2)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(2, $isBack) . '</th>';
+    echo '<th nowrap onclick=\"sortTable(3)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(3, $isBack) . '</th>';
+    echo '<th nowrap onclick=\"sortTable(4)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(4, $isBack) . '</th>';
+    echo '<th nowrap onclick=\"sortTable(5)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(5, $isBack) . '</th>';
+    echo '<th nowrap onclick=\"sortTable(6)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(6, $isBack) . '</th>';
+    echo '<th nowrap onclick=\"sortTable(7)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(7, $isBack) . '</th>';
+    echo '<th nowrap onclick=\"sortTable(8)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(8, $isBack) . '</th>';
+    echo '<th nowrap onclick=\"sortTable(9)\" class=\"verticalTableHeader\">Hole ' . getHoleNumber(9, $isBack) . '</th>';
+    echo "<th nowrap onclick=\"sortTable(10)\" class=\"gross\">Gross</th>";
+    echo "<th nowrap onclick=\"sortTable(11)\" class=\"net\">Net</th>";
     echo "</tr>";
     echo "</thead>";
     echo "<tbody>";
@@ -243,6 +243,7 @@ function showWeekScores($week)
 
     echo "</tbody>";
     echo "</table>";
+    echo '</div>';
 }
 
 // prints a table with a specific weeks scores and gross totals
@@ -1317,7 +1318,7 @@ function getCards($week)
             $index = $index + 1;
             $teamsGone[$index] = $oppTeam;
             $index = $index + 1;
-
+            echo '<div class="table-responsive">';
             echo '<table class="scorecard" style="undefined;table-layout: fixed; width: 568px">
             <colgroup>
                 <col style="width: 139px">
@@ -1524,6 +1525,7 @@ function getCards($week)
             echo '</tr>';
 
             echo '</table>';
+            echo '</div>';
             echo '<br>';
         }
     }
