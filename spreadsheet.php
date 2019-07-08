@@ -56,6 +56,7 @@
                     <a class="dropdown-item" href="/weeks/6.php">Week 6</a>
                     <a class="dropdown-item" href="/weeks/7.php">Week 7</a>
                     <a class="dropdown-item" href="/weeks/8.php">Week 8</a>
+                    <a class="dropdown-item" href="/weeks/9.php">Week 9</a>
                 </div>
             </div>
         </div>

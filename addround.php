@@ -62,14 +62,11 @@
 <?php include 'conn.php'; ?>
 
 <?php
-
 include 'functions.php';
-
 // define variables and set to empty values
 $golferErr = $weekErr = $score1Err = $score2Err = $score3Err = $score4Err = $score5Err = $score6Err = $score7Err = $score8Err = $score9Err = "";
 $golfer = $week = $score1 = $score2 = $score3 = $score4 = $score5 = $score6 = $score7 = $score8 = $score9 = "";
 $tookMax1 = $tookMax2 = $tookMax3 = $tookMax4 = $tookMax5 = $tookMax6 = $tookMax7 = $tookMax8 = $tookMax9 = 0;
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errFree = true;
     if (empty($_POST["golfer"])) {
@@ -78,77 +75,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $golfer = test_input($_POST["golfer"]);
     }
-
     if (empty($_POST["week"])) {
         $weekErr = "Week is required";
         $errFree = false;
     } else {
         $week = test_input($_POST["week"]);
     }
-
     if (empty($_POST["h1"])) {
         $score1Err = "Please enter a score";
         $errFree = false;
     } else {
         $score1 = test_input($_POST["h1"]);
     }
-
     if (empty($_POST["h2"])) {
         $score2Err = "Please enter a score";
         $errFree = false;
     } else {
         $score2 = test_input($_POST["h2"]);
     }
-
     if (empty($_POST["h3"])) {
         $score3Err = "Please enter a score";
         $errFree = false;
     } else {
         $score3 = test_input($_POST["h3"]);
     }
-
     if (empty($_POST["h4"])) {
         $score4Err = "Please enter a score";
         $errFree = false;
     } else {
         $score4 = test_input($_POST["h4"]);
     }
-
     if (empty($_POST["h5"])) {
         $score5Err = "Please enter a score";
         $errFree = false;
     } else {
         $score5 = test_input($_POST["h5"]);
     }
-
     if (empty($_POST["h6"])) {
         $score6Err = "Please enter a score";
         $errFree = false;
     } else {
         $score6 = test_input($_POST["h6"]);
     }
-
     if (empty($_POST["h7"])) {
         $score7Err = "Please enter a score";
         $errFree = false;
     } else {
         $score7 = test_input($_POST["h7"]);
     }
-
     if (empty($_POST["h8"])) {
         $score8Err = "Please enter a score";
         $errFree = false;
     } else {
         $score8 = test_input($_POST["h8"]);
     }
-
     if (empty($_POST["h9"])) {
         $score9Err = "Please enter a score";
         $errFree = false;
     } else {
         $score9 = test_input($_POST["h9"]);
     }
-
     if (isset($_POST["tookMax1"])) {
         $tookMax1 = 1;
     }
@@ -176,7 +162,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["tookMax9"])) {
         $tookMax9 = 1;
     }
-
     if($errFree) {
 		
 		$isBack = !isFront($week, $conn);
@@ -190,16 +175,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql .= "('" . $golfer . "','" . getHoleNumber(7, $isBack) . "','" . $score7 . "','" . $tookMax7 . "','" . $week . "'), ";
         $sql .= "('" . $golfer . "','" . getHoleNumber(8, $isBack) . "','" . $score8 . "','" . $tookMax8 . "','" . $week . "'), ";
         $sql .= "('" . $golfer . "','" . getHoleNumber(9, $isBack) . "','" . $score9 . "','" . $tookMax9 . "','" . $week . "')";
-
         if (mysqli_query($conn, $sql)) {
             echo "New record created successfully";
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
     }
-
 }
-
 function test_input($data)
 {
     $data = trim($data);
@@ -207,7 +189,6 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-
 ?>
 
 <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post"
@@ -221,9 +202,7 @@ function test_input($data)
             $sql = "SELECT * FROM golfers";
             $result = mysqli_query($conn, $sql);
             $subs = Array();
-
             if (mysqli_num_rows($result) > 0) {
-
                 while ($row = mysqli_fetch_assoc($result)) {
                     if ($row['team'] != 0) {
                         echo "<option value=\"" . $row['id'] . "\">" . $row['name'] . "</option>";
@@ -231,18 +210,14 @@ function test_input($data)
                         $subs[$row['id']] = $row['name'];
                     }
                 }
-
                 echo "</optgroup>";
                 echo "<optgroup label=\"Subs\">";
-
                 foreach ($subs as $id => $name) {
                     echo "<option value=\"" . $id . "\">" . $name . "</option>";
                 }
-
             } else {
                 echo "0 results";
             }
-
             ?>
             </optgroup>
         </select><span class="error"> <?php echo $golferErr; ?></span>

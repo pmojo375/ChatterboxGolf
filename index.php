@@ -53,8 +53,10 @@
                     <a class="dropdown-item" href="/weeks/6.php">Week 6</a>
                     <a class="dropdown-item" href="/weeks/7.php">Week 7</a>
                     <a class="dropdown-item" href="/weeks/8.php">Week 8</a>
+                    <a class="dropdown-item" href="/weeks/9.php">Week 9</a>
                 </div>
             </div>
+            <a class="nav-item nav-link" href="/addround_full.php">Add Full Card</a>
         </div>
     </div>
 </nav>
@@ -67,9 +69,9 @@
 
 <?php
 include 'functions.php';
-getStandings(8);
+getStandings(9);
 echo '<br>';
-printSchedule(9);
+printSchedule(10);
 ?>
 
 <script src="index.js"></script>
