@@ -4,6 +4,41 @@ include 'conn.php';
 
 // --------------- PRINT FUNCTIONS ---------------
 
+// prints the html for the navbar
+function printNav(){
+	
+	echo "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">";
+    echo "<a class=\"navbar-brand\" href=\"/index.php\">ChatterboxGolf</a>";
+    echo "<button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarNavAltMarkup\"";
+    echo "aria-controls=\"navbarNavAltMarkup\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">";
+    echo "<span class=\"navbar-toggler-icon\"></span>";
+    echo "</button>";
+    echo "<div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">";
+    echo "<div class=\"navbar-nav\">";
+    echo "<a class=\"nav-item nav-link\" href=\"/addround.php\">Add Scores</a>";
+    echo "<a class=\"nav-item nav-link\" href=\"/spreadsheet.php\">Spreadsheet</a>";
+    echo "<div class=\"nav-item dropdown\">";
+    echo "<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownMenuLink\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
+    echo "Weeks";
+    echo "</a>";
+    echo "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">";
+    echo "<a class=\"dropdown-item\" href=\"/weeks/1.php\">Week 1</a>";
+    echo "<a class=\"dropdown-item\" href=\"/weeks/2.php\">Week 2</a>";
+    echo "<a class=\"dropdown-item\" href=\"/weeks/3.php\">Week 3</a>";
+    echo "<a class=\"dropdown-item\" href=\"/weeks/4.php\">Week 4</a>";
+    echo "<a class=\"dropdown-item\" href=\"/weeks/5.php\">Week 5</a>";
+    echo "<a class=\"dropdown-item\" href=\"/weeks/6.php\">Week 6</a>";
+    echo "<a class=\"dropdown-item\" href=\"/weeks/7.php\">Week 7</a>";
+    echo "<a class=\"dropdown-item\" href=\"/weeks/8.php\">Week 8</a>";
+    echo "<a class=\"dropdown-item\" href=\"/weeks/9.php\">Week 9</a>";
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+	echo "</nav>";
+	
+}
+
 // prints a table with the schedule for a given week
 function printSchedule($week)
 {
