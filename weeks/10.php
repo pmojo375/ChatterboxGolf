@@ -2,17 +2,17 @@
 <html>
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta name="description" content="The Official Chatterbox Golf League Website">
-    <link rel="stylesheet" href="main.css?rnd=23">
-    <script src="index.js"></script>
+    <title>Chatterbox Golf League - Week 10</title>
+    <meta name="description" content="Week 10 Stats and Standings">
+    <link rel="stylesheet" href="../main.css?rnd=23">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../index.js"></script>
 </head>
 
 <body>
@@ -57,37 +57,27 @@
                     <a class="dropdown-item" href="/weeks/10.php">Week 10</a>
                 </div>
             </div>
-            <a class="nav-item nav-link" href="/addround_full.php">Add Full Card</a>
         </div>
     </div>
 </nav>
 
-
-
-<h1>Chatterbox Golf League 2019</h1>
-
-<br>
-
-<p>First half standings are below with the team of Ben Hass and Sean Muller taking first and getting the first slot in the playoffs. The second half winner will also get a slot and then the next highest two scores (not including the half winners) will take the remaining two places!</p>
+<h1>Week 10 Stats</h1>
+<p>Click on a header to sort!</p>
 
 <?php
-include 'functions.php';
-getStandings(9);
+include '../functions.php';
+
+showWeekScores(10);
+
 ?>
-
-<br>
-
-<p>Second half standings are below:</p>
-
+</div>
 <br>
 
 <?php
-getStandings(10);
-echo '<br>';
-printSchedule(11);
+getCards(10);
 ?>
+</div>
 
-<script src="index.js"></script>
 </body>
 
 </html>

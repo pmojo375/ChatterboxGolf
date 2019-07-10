@@ -6,7 +6,6 @@ include 'conn.php';
 
 // prints the html for the navbar
 function printNav(){
-	
 	echo "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">";
     echo "<a class=\"navbar-brand\" href=\"/index.php\">ChatterboxGolf</a>";
     echo "<button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarNavAltMarkup\"";
@@ -36,7 +35,6 @@ function printNav(){
     echo "</div>";
     echo "</div>";
 	echo "</nav>";
-	
 }
 
 // prints a table with the schedule for a given week
@@ -97,14 +95,27 @@ function getStandings($totalWeeks)
 
     foreach ($teams as $team) {
         $totalPoints = 0;
+		$firstHalfPoints = 0;
 
         for ($i = 1; $i <= $totalWeeks; $i++) {
             $golferA = getGolfersFromTeam($team, $i)['A'];
             $golferB = getGolfersFromTeam($team, $i)['B'];
             $golferAPoints = getWeekPoints($golferA, $i);
             $golferBPoints = getWeekPoints($golferB, $i);
-
-            $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+			
+			if($i == 9) {
+				$firstHalfPoints = $totalPoints + $golferAPoints + $golferBPoints;
+			}
+			
+			if($i == $totalWeeks) {
+				if($i > 9) {
+					$totalPoints = $totalPoints + $golferAPoints + $golferBPoints - $firstHalfPoints;
+				} else {
+					$totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+				}
+			} else {
+				$totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+			}
         }
 
         $pointTotals[$team] = $totalPoints;
