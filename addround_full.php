@@ -28,43 +28,15 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+<?php
+include 'functions.php';
+printNav();
+?>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/index.php">ChatterboxGolf</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-item nav-link" href="/addround.php">Add Scores</a>
-            <a class="nav-item nav-link" href="/spreadsheet.php">Spreadsheet</a>
-            <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Weeks
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="/weeks/1.php">Week 1</a>
-                    <a class="dropdown-item" href="/weeks/2.php">Week 2</a>
-                    <a class="dropdown-item" href="/weeks/3.php">Week 3</a>
-                    <a class="dropdown-item" href="/weeks/4.php">Week 4</a>
-                    <a class="dropdown-item" href="/weeks/5.php">Week 5</a>
-                    <a class="dropdown-item" href="/weeks/6.php">Week 6</a>
-                    <a class="dropdown-item" href="/weeks/7.php">Week 7</a>
-                    <a class="dropdown-item" href="/weeks/8.php">Week 8</a>
-                    <a class="dropdown-item" href="/weeks/9.php">Week 9</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
 
 <?php include 'conn.php'; ?>
 
 <?php
-
-include 'functions.php';
 
 // define variables and set to empty values
 $golfer1Err = $weekErr = $g1_score1Err = $g1_score2Err = $g1_score3Err = $g1_score4Err = $g1_score5Err = $g1_score6Err = $g1_score7Err = $g1_score8Err = $g1_score9Err = "";

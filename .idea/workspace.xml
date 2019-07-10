@@ -5,20 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a72cbed-764e-4580-a67b-29d612f914ba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/weeks/7.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webServers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webServers.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/addround.php" beforeDir="false" afterPath="$PROJECT_DIR$/addround.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addround_full.php" beforeDir="false" afterPath="$PROJECT_DIR$/addround_full.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/functions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/printing.css" beforeDir="false" afterPath="$PROJECT_DIR$/printing.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spreadsheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/spreadsheet.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/weeks/1.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/1.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weeks/10.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/10.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/weeks/2.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/2.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/weeks/3.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/3.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/weeks/4.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/4.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/weeks/5.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/5.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/weeks/6.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/6.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weeks/7.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/7.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weeks/8.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/8.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/weeks/9.php" beforeDir="false" afterPath="$PROJECT_DIR$/weeks/9.php" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -73,47 +77,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            <state relative-caret-position="495">
+              <caret line="33" column="11" lean-forward="true" selection-start-line="33" selection-start-column="11" selection-end-line="33" selection-end-column="11" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/weeks/1.php">
+        <entry file="file://$PROJECT_DIR$/spreadsheet.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="52" column="75" lean-forward="true" selection-start-line="52" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
+            <state relative-caret-position="439">
+              <caret line="37" selection-start-line="37" selection-end-line="37" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/weeks/2.php">
+        <entry file="file://$PROJECT_DIR$/addround_full.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
+            <state relative-caret-position="297">
+              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/weeks/3.php">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/addround.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/weeks/4.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
-              <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
+            <state relative-caret-position="15">
+              <caret line="39" selection-start-line="39" selection-end-line="39" />
             </state>
           </provider>
         </entry>
@@ -121,29 +116,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/weeks/7.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="45" lean-forward="true" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/weeks/5.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="195" column="21" lean-forward="true" selection-start-line="195" selection-start-column="21" selection-end-line="195" selection-end-column="21" />
-              <folding>
-                <element signature="e#5#262#0" />
-              </folding>
+            <state relative-caret-position="372">
+              <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -151,17 +125,80 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/weeks/6.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
-              <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
+            <state relative-caret-position="372">
+              <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/printing.css">
+        <entry file="file://$PROJECT_DIR$/weeks/8.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="925">
-              <caret line="64" column="1" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="1" />
+            <state relative-caret-position="387">
+              <caret line="41" column="18" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/weeks/10.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="372">
+              <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/functions.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="27" column="71" lean-forward="true" selection-start-line="27" selection-start-column="71" selection-end-line="27" selection-end-column="71" />
+              <folding>
+                <element signature="n#printSchedule#0;n#!!top" />
+                <element signature="n#getStandings#0;n#!!top" />
+                <element signature="n#getRanks#0;n#!!top" />
+                <element signature="n#getGolferName#0;n#!!top" />
+                <element signature="n#getGolferScore#0;n#!!top" />
+                <element signature="n#getHcp#0;n#!!top" />
+                <element signature="n#computeHcp#0;n#!!top" />
+                <element signature="n#getNet#0;n#!!top" />
+                <element signature="n#getWonNetPoints#0;n#!!top" />
+                <element signature="n#getHolePoints#0;n#!!top" />
+                <element signature="n#getWeekPoints#0;n#!!top" />
+                <element signature="n#getOpp#0;n#!!top" />
+                <element signature="n#getStrokesGivenString#0;n#!!top" />
+                <element signature="n#computeHcpNoSub#0;n#!!top" />
+                <element signature="n#getOppTeam#0;n#!!top" />
+                <element signature="n#getPartner#0;n#!!top" />
+                <element signature="n#getTeam#0;n#!!top" />
+                <element signature="n#getGross#0;n#!!top" />
+                <element signature="n#getGolfers#0;n#!!top" />
+                <element signature="n#isFront#0;n#!!top" />
+                <element signature="n#isBack#0;n#!!top" />
+                <element signature="n#getHoleYards#0;n#!!top" />
+                <element signature="n#getHolePar#0;n#!!top" />
+                <element signature="n#holeHcps#0;n#!!top" />
+                <element signature="n#getHoleHcp#0;n#!!top" />
+                <element signature="n#evenHcpPoints#0;n#!!top" />
+                <element signature="n#givingHcpPoints#0;n#!!top" />
+                <element signature="n#gettingHcpPoints#0;n#!!top" />
+                <element signature="n#getGolferFromSub#0;n#!!top" />
+                <element signature="n#getTotalYards#0;n#!!top" />
+                <element signature="n#checkAbsent#0;n#!!top" />
+                <element signature="n#getHoleNumber#0;n#!!top" />
+                <element signature="n#isFrontString#0;n#!!top" />
+                <element signature="n#getDateString#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/weeks/9.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="372">
+              <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -242,18 +279,22 @@
         <option value="$PROJECT_DIR$/temp.html" />
         <option value="$PROJECT_DIR$/conn.php" />
         <option value="$PROJECT_DIR$/printing.css" />
+        <option value="$PROJECT_DIR$/main.css" />
+        <option value="$PROJECT_DIR$/functions.php" />
+        <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/weeks/1.php" />
-        <option value="$PROJECT_DIR$/weeks/2.php" />
+        <option value="$PROJECT_DIR$/addround_full.php" />
+        <option value="$PROJECT_DIR$/spreadsheet.php" />
         <option value="$PROJECT_DIR$/weeks/3.php" />
+        <option value="$PROJECT_DIR$/weeks/2.php" />
         <option value="$PROJECT_DIR$/weeks/4.php" />
         <option value="$PROJECT_DIR$/weeks/5.php" />
-        <option value="$PROJECT_DIR$/weeks/6.php" />
-        <option value="$PROJECT_DIR$/addround.php" />
         <option value="$PROJECT_DIR$/weeks/7.php" />
-        <option value="$PROJECT_DIR$/spreadsheet.php" />
-        <option value="$PROJECT_DIR$/functions.php" />
-        <option value="$PROJECT_DIR$/main.css" />
-        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/weeks/6.php" />
+        <option value="$PROJECT_DIR$/weeks/8.php" />
+        <option value="$PROJECT_DIR$/weeks/10.php" />
+        <option value="$PROJECT_DIR$/weeks/9.php" />
+        <option value="$PROJECT_DIR$/addround.php" />
       </list>
     </option>
   </component>
@@ -267,11 +308,12 @@
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="XAMPP" />
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1909" />
-    <option name="width" value="1943" />
-    <option name="height" value="1056" />
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.3.7" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="180" />
+    <option name="y" value="122" />
+    <option name="width" value="1080" />
+    <option name="height" value="598" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -279,27 +321,23 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="golf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="golf" type="462c0819:PsiDirectoryNode" />
+              <item name="ChatterboxGolf" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ChatterboxGolf" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="golf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="golf" type="462c0819:PsiDirectoryNode" />
+              <item name="ChatterboxGolf" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ChatterboxGolf" type="462c0819:PsiDirectoryNode" />
               <item name="weeks" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="golf" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -308,7 +346,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/weeks" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -393,6 +431,7 @@
       <workItem from="1560716717667" duration="15918000" />
       <workItem from="1560803173625" duration="4415000" />
       <workItem from="1561428898875" duration="1834000" />
+      <workItem from="1562793133157" duration="2063000" />
     </task>
     <servers />
   </component>
@@ -402,13 +441,13 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126879000" />
+    <option name="totallyTimeSpent" value="128942000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1091" y="0" width="1110" height="603" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="796" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19771864" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14735337" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -425,38 +464,39 @@
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.33187774" />
       <window_info anchor="bottom" id="Database Changes" order="11" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Console" order="12" weight="0.32719395" />
-      <window_info anchor="bottom" id="File Transfer" order="13" sideWeight="0.49904943" visible="true" weight="0.14830509" />
+      <window_info anchor="bottom" id="File Transfer" order="13" sideWeight="0.49904943" weight="0.14772727" />
       <window_info anchor="bottom" id="PHP-CGI Server" order="14" weight="0.32969433" />
       <window_info anchor="bottom" id="Inspection Results" order="15" weight="0.32897195" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.19201522" />
+      <window_info anchor="right" id="Database" order="3" weight="0.15808298" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20810515" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11158799" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32988507" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49904943" weight="0.3292797" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.38646287" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32990655" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5009506" side_tool="true" weight="0.3292797" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.33187774" />
       <window_info anchor="bottom" id="Database Changes" order="11" weight="0.32936078" />
       <window_info anchor="bottom" id="Database Console" order="12" weight="0.32719395" />
-      <window_info anchor="bottom" id="File Transfer" order="13" visible="true" weight="0.06550218" />
+      <window_info anchor="bottom" id="File Transfer" order="13" sideWeight="0.49904943" visible="true" weight="0.14772727" />
       <window_info anchor="bottom" id="PHP-CGI Server" order="14" weight="0.32969433" />
+      <window_info anchor="bottom" id="Inspection Results" order="15" weight="0.32897195" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" weight="0.19277108" />
+      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.15808298" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,21 +520,13 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/2e372591-6a78-4de6-a562-d235a1eb3a88/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/2e372591-6a78-4de6-a562-d235a1eb3a88/console.sql" />
     <entry file="file://$PROJECT_DIR$/node_modules/addround.html" />
     <entry file="file://$PROJECT_DIR$/form.php" />
     <entry file="file://$PROJECT_DIR$/addround.html" />
     <entry file="das://2e372591-6a78-4de6-a562-d235a1eb3a88/schema/chatterboxgolf/table/golfers" />
     <entry file="file://$PROJECT_DIR$/index.html" />
-    <entry file="file://C:/xampp/php/php.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="1993" column="26" lean-forward="true" selection-start-line="1993" selection-start-column="26" selection-end-line="1993" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://C:/xampp/php/php.ini" />
     <entry file="file://$PROJECT_DIR$/scorecard.php" />
     <entry file="file://$PROJECT_DIR$/temp.php" />
     <entry file="file://$PROJECT_DIR$/weeklyscores.php" />
@@ -507,9 +539,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e5a15d37-fc0e-4379-97dd-7d9c707045c9/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/e5a15d37-fc0e-4379-97dd-7d9c707045c9/console.sql" />
     <entry file="file://$PROJECT_DIR$/temp.html" />
     <entry file="file://$PROJECT_DIR$/addround.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -527,7 +557,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
+        <state relative-caret-position="30">
           <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
@@ -535,41 +565,104 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="195" column="21" selection-start-line="195" selection-start-column="21" selection-end-line="195" selection-end-column="21" />
+          <folding>
+            <element signature="e#5#262#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/printing.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="64" column="1" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/conn.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="180">
           <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/addround.php">
+    <entry file="file://$PROJECT_DIR$/weeks/1.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" selection-start-line="3" selection-end-line="9" selection-end-column="118" />
-          <folding>
-            <element signature="n#script#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#script#1;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#script#2;n#body#0;n#html#0;n#!!top" />
-          </folding>
+        <state relative-caret-position="274">
+          <caret line="31" selection-start-line="31" selection-end-line="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spreadsheet.php">
+    <entry file="file://$PROJECT_DIR$/weeks/2.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
-          <folding>
-            <element signature="n#script#0;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#script#1;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#script#2;n#body#0;n#html#0;n#!!top" />
-          </folding>
+        <state relative-caret-position="372">
+          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weeks/3.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="41" column="18" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weeks/4.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weeks/5.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weeks/7.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weeks/6.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weeks/9.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weeks/8.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="41" column="18" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/weeks/10.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="372">
+          <caret line="40" column="5" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/functions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="155" column="30" lean-forward="true" selection-start-line="155" selection-start-column="30" selection-end-line="155" selection-end-column="30" />
+        <state relative-caret-position="405">
+          <caret line="27" column="71" lean-forward="true" selection-start-line="27" selection-start-column="71" selection-end-line="27" selection-end-column="71" />
           <folding>
             <element signature="n#printSchedule#0;n#!!top" />
             <element signature="n#getStandings#0;n#!!top" />
@@ -583,12 +676,10 @@
             <element signature="n#getHolePoints#0;n#!!top" />
             <element signature="n#getWeekPoints#0;n#!!top" />
             <element signature="n#getOpp#0;n#!!top" />
-            <element signature="n#isA#0;n#!!top" />
             <element signature="n#getStrokesGivenString#0;n#!!top" />
             <element signature="n#computeHcpNoSub#0;n#!!top" />
             <element signature="n#getOppTeam#0;n#!!top" />
             <element signature="n#getPartner#0;n#!!top" />
-            <element signature="n#getGolfersFromTeam#0;n#!!top" />
             <element signature="n#getTeam#0;n#!!top" />
             <element signature="n#getGross#0;n#!!top" />
             <element signature="n#getGolfers#0;n#!!top" />
@@ -607,89 +698,35 @@
             <element signature="n#getHoleNumber#0;n#!!top" />
             <element signature="n#isFrontString#0;n#!!top" />
             <element signature="n#getDateString#0;n#!!top" />
-            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/printing.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="925">
-          <caret line="64" column="1" selection-start-line="64" selection-start-column="1" selection-end-line="64" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="195" column="21" lean-forward="true" selection-start-line="195" selection-start-column="21" selection-end-line="195" selection-end-column="21" />
-          <folding>
-            <element signature="e#5#262#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/weeks/5.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/weeks/4.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/weeks/1.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="52" column="75" lean-forward="true" selection-start-line="52" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/weeks/2.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/weeks/3.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/weeks/7.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="45" lean-forward="true" selection-start-line="12" selection-start-column="45" selection-end-line="12" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/weeks/6.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="901">
-          <caret line="53" column="75" selection-start-line="53" selection-start-column="75" selection-end-line="53" selection-end-column="75" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        <state relative-caret-position="495">
+          <caret line="33" column="11" lean-forward="true" selection-start-line="33" selection-start-column="11" selection-end-line="33" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spreadsheet.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addround_full.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/addround.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
         </state>
       </provider>
     </entry>
