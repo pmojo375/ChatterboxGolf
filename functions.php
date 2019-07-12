@@ -32,6 +32,7 @@ function printNav(){
     echo "<a class=\"dropdown-item\" href=\"/weeks/9.php\">Week 9</a>";
     echo "<a class=\"dropdown-item\" href=\"/weeks/10.php\">Week 10</a>";
     echo "</div>";
+    echo "<a class=\"nav-item nav-link\" href=\"/addround_full.php\">Add Card</a>";
     echo "</div>";
     echo "</div>";
     echo "</div>";
