@@ -4,6 +4,57 @@ include 'conn.php';
 
 // --------------- PRINT FUNCTIONS ---------------
 
+// prints a table with the stats for a selected golfer
+function printStats($week)
+{
+    $index = 1;
+    $golfers = getGolfers();
+    $i = 0;
+
+    echo "<table id=\"stats\">";
+    echo "<caption>Season Stats for " . $golfer . "</caption>";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Week</th>";
+    echo "<th>Hcp</th>";
+    echo "<th>Gross</th>";
+    echo "<th>Net</th>";
+    echo "<th>Points</th>";
+    echo "<th>Opp.</th>";
+    echo "<th>Opp. Score</th>";
+    echo "<th>Opp. Net</th>";
+    echo "<th>Birdies</th>";
+    echo "<th>Pars</th>";
+    echo "<th>Bogeys</th>";
+    echo "<th>Doubles</th>";
+    echo "<th>Triples</th>";
+    echo "<th>Worse</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    for ($i = 1; $i <= 20; $i++) {
+        echo "<tr>";
+        echo "<td>" . getGolferName($golfer, $i) . "</td>";
+        echo "<td>" . getHcp($golfer, $i) . "</td>";
+        echo "<td>" . getGross($golfer, $i) . "</td>";
+        echo "<td>" . getNet($golfer, $i) . "</td>";
+        echo "<td>" . getWeekPoints($golfer, $i) . "</td>";
+        echo "<td>" . getOpp($golfer, getOppTeam($golfer, $i), $i) . "</td>";
+        echo "<td>" . getGross(getOpp($golfer, getOppTeam($golfer, $i), $i), $i) . "</td>";
+        echo "<td>" . getNet(getOpp($golfer, getOppTeam($golfer, $i), $i), $i) . "</td>";
+        echo "<td>" . getBirds($golfer, $i) . "</td>";
+        echo "<td>" . getPars($golfer, $i) . "</td>";
+        echo "<td>" . getBogeys($golfer, $i) . "</td>";
+        echo "<td>" . getDoubles($golfer, $i) . "</td>";
+        echo "<td>" . getWorse($golfer, $i) . "</td>";
+        echo "</tr>";
+    }
+
+    echo "</tbody>";
+    echo "</table>";
+}
+
 function updateHCP()
 {
     global $conn;
