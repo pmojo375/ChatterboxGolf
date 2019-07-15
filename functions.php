@@ -5,55 +5,122 @@ include 'conn.php';
 // --------------- PRINT FUNCTIONS ---------------
 
 // prints a table with the stats for a selected golfer
-function printStats($week)
+function printStats($id)
 {
-    $index = 1;
-    $golfers = getGolfers();
-    $i = 0;
-    $holes = getHolePar();
+    $holes = getAllHolePars();
+    $golfer = $id;
 
-    echo "<table id=\"stats\">";
-    echo "<caption>Season Stats for " . $golfer . "</caption>";
-    echo "<thead>";
-    echo "<tr>";
-    echo "<th>Week</th>";
-    echo "<th>Hcp</th>";
-    echo "<th>Gross</th>";
-    echo "<th>Net</th>";
-    echo "<th>Points</th>";
-    echo "<th>Opp.</th>";
-    echo "<th>Opp. Score</th>";
-    echo "<th>Opp. Net</th>";
-    echo "<th>Birdies</th>";
-    echo "<th>Pars</th>";
-    echo "<th>Bogeys</th>";
-    echo "<th>Doubles</th>";
-    echo "<th>Triples</th>";
-    echo "<th>Worse</th>";
-    echo "</tr>";
-    echo "</thead>";
-    echo "<tbody>";
+    $tableString = "<div class=\"table-responsive\">
+    <table class=\"table table-striped table-dark\">
+    <caption>Season Stats for " . getGolferName($golfer, 2) . "</caption>
+    <thead><tr><th scope=\"col\">Week</th><th scope=\"col\">Hcp</th>
+<th scope=\"col\">Gross</th>
+<th scope=\"col\">Net</th>
+<th scope=\"col\">Points</thv>
+<th scope=\"col\">Opp.</th>
+<th scope=\"col\">Opp. Score</th>
+<th scope=\"col\">Opp. Net</th>
+<th scope=\"col\">Birdies</th>
+<th scope=\"col\">Pars</th>
+<th scope=\"col\">Bogeys</th>
+<th scope=\"col\">Doubles</th>
+<th scope=\"col\">Triples</th>
+<th scope=\"col\">Worse</th>
+</tr>
+</thead>
+<tbody>";
 
+    // increment by week to create table
     for ($i = 1; $i <= 20; $i++) {
-        echo "<tr>";
-        echo "<td>" . getGolferName($golfer, $i) . "</td>";
-        echo "<td>" . getHcp($golfer, $i) . "</td>";
-        echo "<td>" . getGross($golfer, $i) . "</td>";
-        echo "<td>" . getNet($golfer, $i) . "</td>";
-        echo "<td>" . getWeekPoints($golfer, $i) . "</td>";
-        echo "<td>" . getOpp($golfer, getOppTeam($golfer, $i), $i) . "</td>";
-        echo "<td>" . getGross(getOpp($golfer, getOppTeam($golfer, $i), $i), $i) . "</td>";
-        echo "<td>" . getNet(getOpp($golfer, getOppTeam($golfer, $i), $i), $i) . "</td>";
-        echo "<td>" . getBirds($golfer, $i) . "</td>";
-        echo "<td>" . getPars($golfer, $i) . "</td>";
-        echo "<td>" . getBogeys($golfer, $i) . "</td>";
-        echo "<td>" . getDoubles($golfer, $i) . "</td>";
-        echo "<td>" . getWorse($golfer, $i) . "</td>";
-        echo "</tr>";
+
+        // initialize counts
+        $birdies = 0;
+        $pars = 0;
+        $bogeys = 0;
+        $doubles = 0;
+        $triples = 0;
+        $worse = 0;
+
+        // check if golfer was absent by looking up if there is a sub for that id and week and comparing
+        $absent = $golfer;
+        $absent = checkAbsent($golfer, $i);
+
+        // skip lookups when golfer is absent
+        if (($golfer == $absent) && strtotime(date("m/d/Y")) > strtotime(getDateString($i))) {
+
+            // determine if week was front or back
+            $isFront = isFront($i);
+
+            // increment through holes to get counts
+            if ($isFront) {
+                for ($j = 1; $j <= 9; $j++) {
+                    $score = getGolferScore($golfer, $i, $j);
+                    $par = $holes[$j];
+
+                    $diff = $score - $par;
+
+                    if ($diff < 0) {
+                        ++$birdies;
+                    } elseif ($diff == 0) {
+                        ++$pars;
+                    } elseif ($diff == 1) {
+                        ++$bogeys;
+                    } elseif ($diff == 2) {
+                        ++$doubles;
+                    } elseif ($diff == 3) {
+                        ++$triples;
+                    } elseif ($diff > 3) {
+                        ++$worse;
+                    }
+                }
+            } else {
+                for ($j = 10; $j <= 18; $j++) {
+                    $score = getGolferScore($golfer, $i, $j);
+                    $par = $holes[$j];
+
+                    $diff = $score - $par;
+
+                    if ($diff < 0) {
+                        ++$birdies;
+                    } elseif ($diff == 0) {
+                        ++$pars;
+                    } elseif ($diff == 1) {
+                        ++$bogeys;
+                    } elseif ($diff == 2) {
+                        ++$doubles;
+                    } elseif ($diff == 3) {
+                        ++$triples;
+                    } elseif ($diff > 3) {
+                        ++$worse;
+                    }
+                }
+            }
+
+            // create the table data
+            $tableString = $tableString . "<tr><td scope=\"row\">" . $i . "</td>
+<td>" . getHcp($golfer, $i) . "</td>
+<td>" . getGross($golfer, $i, false) . "</td>
+<td>" . getNet($golfer, $i) . "</td>
+<td>" . getWeekPoints($golfer, $i) . "</td>
+<td>" . getGolferName(getOpp($golfer, getOppTeam($golfer, $i), $i), $i) . "</td>
+<td>" . getGross(getOpp($golfer, getOppTeam($golfer, $i), $i), $i, true) . "</td>
+<td>" . getNet(getOpp($golfer, getOppTeam($golfer, $i), $i), $i) . "</td>
+<td>" . $birdies . "</td>
+<td>" . $pars . "</td>
+<td>" . $bogeys . "</td>
+<td>" . $doubles . "</td> 
+<td>" . $triples . "</td>
+<td>" . $worse . "</td>
+</tr>";
+
+        } else {
+            $tableString = $tableString . "<tr><td scope=\"row\">" . $i . "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+        }
     }
 
-    echo "</tbody>";
-    echo "</table>";
+    $tableString = $tableString . "</tbody></table></div>";
+
+    return $tableString;
 }
 
 function updateHCP()
@@ -114,6 +181,7 @@ function printNav()
     echo "</div>";
     echo "</div>";
     echo "<a class=\"nav-item nav-link\" href=\"/addround_full.php\">Add Card</a>";
+    echo "<a class=\"nav-item nav-link\" href=\"/golfer_stats.php\">Golfer Stats</a>";
     echo "</div>";
     echo "</div>";
     echo "</nav>";
@@ -502,21 +570,21 @@ function computeHcp($id, $week)
 
     $id = checkAbsent($id, $week);
 
-    if($week > 1) {
+    if ($week > 1) {
         $week = $week - 1;
     }
 
-    if($buffer !== $id) {
+    if ($buffer !== $id) {
         $isSub = true;
     }
 
-    if($isSub) {
+    if ($isSub) {
         $finalHcp = getHcp($id, $week);
     } else {
         for ($i = 1; $i <= $week; $i++) {
 
             // get the score
-            $gross = getGross($id, $i,false);
+            $gross = getGross($id, $i, false);
 
             // add to the total round count if there is a score
             if ($gross !== 0) {
@@ -960,14 +1028,14 @@ function computeHcpNoSub($id, $week)
     $worstRound = 0;
     $roundCount = 0;
 
-    if($week > 1) {
+    if ($week > 1) {
         $week = $week - 1;
     }
 
     for ($i = 1; $i <= $week; $i++) {
 
         // get the score
-        $gross = getGross($id, $i,false);
+        $gross = getGross($id, $i, false);
 
         // add to the total round count if there is a score
         if ($gross !== 0) {
