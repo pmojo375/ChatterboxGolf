@@ -4,54 +4,30 @@ include 'conn.php';
 
 // --------------- PRINT FUNCTIONS ---------------
 
-function printHCP()
+function updateHCP()
 {
-    echo "<table class='table'>";
-    echo "<thead>";
-    echo "<tr>";
-    echo "<th>Name</th>";
-    echo "<th>Week 1</th>";
-    echo "<th>Week 2</th>";
-    echo "<th>Week 3</th>";
-    echo "<th>Week 4</th>";
-    echo "<th>Week 5</th>";
-    echo "<th>Week 6</th>";
-    echo "<th>Week 7</th>";
-    echo "<th>Week 8</th>";
-    echo "<th>Week 9</th>";
-    echo "<th>Week 10</th>";
-    echo "<th>Week 11</th>";
-    echo "<th>Week 12</th>";
-    echo "<th>Week 13</th>";
-    echo "<th>Week 14</th>";
-    echo "<th>Week 15</th>";
-    echo "<th>Week 16</th>";
-    echo "<th>Week 17</th>";
-    echo "<th>Week 18</th>";
-    echo "<th>Week 19</th>";
-    echo "<th>Week 20</th>";
-    echo "</tr>";
-    echo "</thead>";
-    echo "<tbody>";
-
+    global $conn;
     $golfers = getGolfers();
 
     foreach ($golfers as $golfer) {
-        echo "<tr>";
-        echo "<td class=\"name\">" . getGolferName($golfer, 2) . "</td>";
         for ($i = 1; $i <= 20; $i++) {
             if ($i <= 11) {
                 $hcp = computeHcpNoSub($golfer, $i);
-                echo "<td>" . $hcp . "</td>";
             } else {
-                echo "<td>0</td>";
+                $hcp = 0;
             }
-        }
-        echo "</tr>";
-    }
 
-    echo "</tbody>";
-    echo "</table>";
+            $sql = "UPDATE handicaps SET `" . $i . "`=" . $hcp . " WHERE `golfer`='" . $golfer . "'";
+
+            if (mysqli_query($conn, $sql)) {
+                echo "Updated";
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
+
+
+        }
+    }
 }
 
 
