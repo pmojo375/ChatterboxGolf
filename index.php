@@ -38,9 +38,10 @@ printNav();
 
 <br>
 
-<p>First half standings are below with the team of Ben Hass and Sean Muller taking first and getting the first slot in the playoffs. The second half winner will also get a slot and then the next highest two scores (not including the half winners) will take the remaining two places!</p>
+<p>First half standings are below with the team of Ben Hass and Sean Mueller taking first and getting the first slot in the playoffs. The second half winner will also get a slot and then the next highest two scores (not including the half winners) will take the remaining two places!</p>
 
 <?php
+echo
 getStandings(9);
 ?>
 

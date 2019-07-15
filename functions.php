@@ -4,9 +4,61 @@ include 'conn.php';
 
 // --------------- PRINT FUNCTIONS ---------------
 
+function printHCP()
+{
+    echo "<table class='table'>";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Name</th>";
+    echo "<th>Week 1</th>";
+    echo "<th>Week 2</th>";
+    echo "<th>Week 3</th>";
+    echo "<th>Week 4</th>";
+    echo "<th>Week 5</th>";
+    echo "<th>Week 6</th>";
+    echo "<th>Week 7</th>";
+    echo "<th>Week 8</th>";
+    echo "<th>Week 9</th>";
+    echo "<th>Week 10</th>";
+    echo "<th>Week 11</th>";
+    echo "<th>Week 12</th>";
+    echo "<th>Week 13</th>";
+    echo "<th>Week 14</th>";
+    echo "<th>Week 15</th>";
+    echo "<th>Week 16</th>";
+    echo "<th>Week 17</th>";
+    echo "<th>Week 18</th>";
+    echo "<th>Week 19</th>";
+    echo "<th>Week 20</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    $golfers = getGolfers();
+
+    foreach ($golfers as $golfer) {
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName($golfer, 2) . "</td>";
+        for ($i = 1; $i <= 20; $i++) {
+            if ($i <= 11) {
+                $hcp = computeHcpNoSub($golfer, $i);
+                echo "<td>" . $hcp . "</td>";
+            } else {
+                echo "<td>0</td>";
+            }
+        }
+        echo "</tr>";
+    }
+
+    echo "</tbody>";
+    echo "</table>";
+}
+
+
 // prints the html for the navbar
-function printNav(){
-	echo "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">";
+function printNav()
+{
+    echo "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">";
     echo "<a class=\"navbar-brand\" href=\"/index.php\">ChatterboxGolf</a>";
     echo "<button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarNavAltMarkup\"";
     echo "aria-controls=\"navbarNavAltMarkup\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">";
@@ -36,7 +88,7 @@ function printNav(){
     echo "</div>";
     echo "</div>";
     echo "</div>";
-	echo "</nav>";
+    echo "</nav>";
 }
 
 // prints a table with the schedule for a given week
@@ -97,27 +149,27 @@ function getStandings($totalWeeks)
 
     foreach ($teams as $team) {
         $totalPoints = 0;
-		$firstHalfPoints = 0;
+        $firstHalfPoints = 0;
 
         for ($i = 1; $i <= $totalWeeks; $i++) {
             $golferA = getGolfersFromTeam($team, $i)['A'];
             $golferB = getGolfersFromTeam($team, $i)['B'];
             $golferAPoints = getWeekPoints($golferA, $i);
             $golferBPoints = getWeekPoints($golferB, $i);
-			
-			if($i == 9) {
-				$firstHalfPoints = $totalPoints + $golferAPoints + $golferBPoints;
-			}
-			
-			if($i == $totalWeeks) {
-				if($i > 9) {
-					$totalPoints = $totalPoints + $golferAPoints + $golferBPoints - $firstHalfPoints;
-				} else {
-					$totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
-				}
-			} else {
-				$totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
-			}
+
+            if ($i == 9) {
+                $firstHalfPoints = $totalPoints + $golferAPoints + $golferBPoints;
+            }
+
+            if ($i == $totalWeeks) {
+                if ($i > 9) {
+                    $totalPoints = $totalPoints + $golferAPoints + $golferBPoints - $firstHalfPoints;
+                } else {
+                    $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+                }
+            } else {
+                $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+            }
         }
 
         $pointTotals[$team] = $totalPoints;
@@ -413,49 +465,64 @@ function getHcp($id, $week)
 function computeHcp($id, $week)
 {
     $totalStrokes = 0;
-    $daysMissed = 0;
     $bestRound = 99;
     $worstRound = 0;
+    $roundCount = 0;
+    $isSub = false;
+
+    if($week > 1) {
+        $week = $week - 1;
+    }
+
+    $buffer = $id;
 
     $id = checkAbsent($id, $week);
 
-    if ($week < 5) {
+    if($buffer !== $id) {
+        $isSub = true;
+    }
+
+    if($isSub) {
         $finalHcp = getHcp($id, $week);
     } else {
-
         for ($i = 1; $i <= $week; $i++) {
 
-            $gross = getGross($id, $i, false);
+            // get the score
+            $gross = getGross($id, $i,false);
 
-            if ($gross == 0) {
-                $daysMissed = $daysMissed + 1;
-            } else {
+            // add to the total round count if there is a score
+            if ($gross !== 0) {
+                $roundCount = $roundCount + 1;
 
                 $totalStrokes = $totalStrokes + $gross;
 
-                if ($bestRound > $gross) {
+                // store best round
+                if ($gross < $bestRound) {
                     $bestRound = $gross;
                 }
 
-                if ($worstRound < $gross) {
+                // store worst round
+                if ($gross > $worstRound) {
                     $worstRound = $gross;
                 }
             }
+
+            // if there aren't enough rounds to compute, go to the next week and try again
+            if ($roundCount < 3 && $i == $week) {
+                $week = $week + 1;
+            }
         }
 
-        $totalRounds = $week - $daysMissed;
-
-        if ($totalRounds >= 5) {
+        if ($roundCount >= 5) {
             $totalStrokes = $totalStrokes - $bestRound - $worstRound;
-            $daysMissed = $daysMissed + 2;
+            $roundCount = $roundCount - 2;
         }
 
-        $average = $totalStrokes / ($week - $daysMissed);
+        $average = $totalStrokes / $roundCount;
 
         $trueHcp = $average - 36;
 
         $finalHcp = round($trueHcp * .8);
-
     }
 
     return $finalHcp;
@@ -476,7 +543,7 @@ function getNet($id, $week)
         }
     }
 
-    $return = $gross - getHcp($id, $week);
+    $return = $gross - computeHCP($id, $week);
 
     return $return;
 }
@@ -490,12 +557,12 @@ function getWonNetPoints($golfer, $week)
     $golfer = checkAbsent($golfer, $week);
 
     $golferGross = getGross($golfer, $week, true);
-    $golferNet = $golferGross - getHcp($golfer, $week);
+    $golferNet = $golferGross - computeHcp($golfer, $week);
 
     $golferOpp = checkAbsent($golferOpp, $week);
 
     $oppGross = getGross($golferOpp, $week, true);
-    $opponentNet = $oppGross - getHcp($golferOpp, $week);
+    $opponentNet = $oppGross - computeHcp($golferOpp, $week);
 
     if ($golferNet > $opponentNet) {
         $roundPoints = 0;
@@ -515,8 +582,8 @@ function getHolePoints($golfer, $week, $holeIndex)
     $isBack = isBack($week);
     $opponent = getOpp($golfer, getOppTeam($golfer, $week), $week);
 
-    $opponentHcp = getHcp($opponent, $week);
-    $golferHcp = getHcp($golfer, $week);
+    $opponentHcp = computeHcp($opponent, $week);
+    $golferHcp = computeHcp($golfer, $week);
 
     $golferScore = getGolferScore($golfer, $week, getHoleNumber($holeIndex, $isBack));
     $oppScore = getGolferScore($opponent, $week, getHoleNumber($holeIndex, $isBack));
@@ -553,8 +620,8 @@ function getWeekPoints($id, $week)
 
     $opponent = getOpp($id, $oppTeam, $week);
 
-    $opponentHcp = getHcp($opponent, $week);
-    $golferHcp = getHcp($id, $week);
+    $opponentHcp = computeHcp($opponent, $week);
+    $golferHcp = computeHcp($id, $week);
 
     $hcpDiff = $golferHcp - $opponentHcp;
     $giving = false;
@@ -665,10 +732,10 @@ function getOpp($id, $oppTeam, $week)
 
 
     // get handicaps
-    $opponent1Hcp = getHcp($opponent1Id, $week);
-    $opponent2Hcp = getHcp($opponent2Id, $week);
-    $partnerHcp = getHcp($partnerId, $week);
-    $golferHcp = getHcp($golferId, $week);
+    $opponent1Hcp = computeHcp($opponent1Id, $week);
+    $opponent2Hcp = computeHcp($opponent2Id, $week);
+    $partnerHcp = computeHcp($partnerId, $week);
+    $golferHcp = computeHcp($golferId, $week);
 
     // check for subs
     $opponent1IdAbsent = checkAbsent($opponent1Id, $week);
@@ -750,8 +817,8 @@ function isA($golfer, $week)
     $golfer = checkAbsent($golfer, $week);
 
     // get handicaps
-    $partnerHcp = getHcp($partnerId, $week);
-    $golferHcp = getHcp($golfer, $week);
+    $partnerHcp = computeHcp($partnerId, $week);
+    $golferHcp = computeHcp($golfer, $week);
 
     if ($golferHcp == $partnerHcp) {
         $sql = "SELECT * FROM tiebreaker WHERE golfer='" . $golfer . "'";
@@ -791,8 +858,8 @@ function getStrokesGivenString($golfer, $week, $holeIndex)
     $golferScore = getGolferScore($golfer, $week, getHoleNumber($holeIndex, $isBack));
     $scoreFromPar = $golferScore - $holePar;
 
-    $opponentHcp = getHcp($opponent, $week);
-    $golferHcp = getHcp($golfer, $week);
+    $opponentHcp = computeHcp($opponent, $week);
+    $golferHcp = computeHcp($golfer, $week);
 
     $hcpDiff = $golferHcp - $opponentHcp;
 
@@ -861,48 +928,52 @@ function getStrokesGivenString($golfer, $week, $holeIndex)
 function computeHcpNoSub($id, $week)
 {
     $totalStrokes = 0;
-    $daysMissed = 0;
     $bestRound = 99;
     $worstRound = 0;
+    $roundCount = 0;
 
-    if ($week < 5) {
-        $finalHcp = getHcp($id, $week);
-    } else {
+    if($week > 1) {
+        $week = $week - 1;
+    }
 
-        for ($i = 1; $i <= $week; $i++) {
+    for ($i = 1; $i <= $week; $i++) {
 
-            $gross = getGross($id, $i, false);
+        // get the score
+        $gross = getGross($id, $i,false);
 
-            if ($gross == 0) {
-                $daysMissed = $daysMissed + 1;
-            } else {
+        // add to the total round count if there is a score
+        if ($gross !== 0) {
+            $roundCount = $roundCount + 1;
 
-                $totalStrokes = $totalStrokes + $gross;
+            $totalStrokes = $totalStrokes + $gross;
 
-                if ($bestRound > $gross) {
-                    $bestRound = $gross;
-                }
+            // store best round
+            if ($gross < $bestRound) {
+                $bestRound = $gross;
+            }
 
-                if ($worstRound < $gross) {
-                    $worstRound = $gross;
-                }
+            // store worst round
+            if ($gross > $worstRound) {
+                $worstRound = $gross;
             }
         }
 
-        $totalRounds = $week - $daysMissed;
-
-        if ($totalRounds >= 5) {
-            $totalStrokes = $totalStrokes - $bestRound - $worstRound;
-            $daysMissed = $daysMissed + 2;
+        // if there aren't enough rounds to compute, go to the next week and try again
+        if ($roundCount < 3 && $i == $week) {
+            $week = $week + 1;
         }
-
-        $average = $totalStrokes / ($week - $daysMissed);
-
-        $trueHcp = $average - 36;
-
-        $finalHcp = round($trueHcp * .8);
-
     }
+
+    if ($roundCount >= 5) {
+        $totalStrokes = $totalStrokes - $bestRound - $worstRound;
+        $roundCount = $roundCount - 2;
+    }
+
+    $average = $totalStrokes / $roundCount;
+
+    $trueHcp = $average - 36;
+
+    $finalHcp = round($trueHcp * .8);
 
     return $finalHcp;
 }
@@ -1391,7 +1462,7 @@ function getCards($week)
 
             echo '<tr class="scores">';
             echo '<td class="descriptor">' . getGolferName($golferA, $week) . '</td>';
-            echo '<td class="hcp">' . getHcp($golferA, $week) . '</td>';
+            echo '<td class="hcp">' . computeHcp($golferA, $week) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($golferA, $week, 1) . '>' . getGolferScore($golferA, $week, getHoleNumber(1, $isBack)) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($golferA, $week, 2) . '>' . getGolferScore($golferA, $week, getHoleNumber(2, $isBack)) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($golferA, $week, 3) . '>' . getGolferScore($golferA, $week, getHoleNumber(3, $isBack)) . '</td>';
@@ -1422,7 +1493,7 @@ function getCards($week)
 
             echo '<tr class="scores">';
             echo '<td class="descriptor">' . getGolferName($oppA, $week) . '</td>';
-            echo '<td class="hcp">' . getHcp($oppA, $week) . '</td>';
+            echo '<td class="hcp">' . computeHcp($oppA, $week) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($oppA, $week, 1) . '>' . getGolferScore($oppA, $week, getHoleNumber(1, $isBack)) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($oppA, $week, 2) . '>' . getGolferScore($oppA, $week, getHoleNumber(2, $isBack)) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($oppA, $week, 3) . '>' . getGolferScore($oppA, $week, getHoleNumber(3, $isBack)) . '</td>';
@@ -1512,7 +1583,7 @@ function getCards($week)
 
             echo '<tr class="scores">';
             echo '<td class="descriptor">' . getGolferName($golferB, $week) . '</td>';
-            echo '<td class="hcp">' . getHcp($golferB, $week) . '</td>';
+            echo '<td class="hcp">' . computeHcp($golferB, $week) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($golferB, $week, 1) . '>' . getGolferScore($golferB, $week, getHoleNumber(1, $isBack)) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($golferB, $week, 2) . '>' . getGolferScore($golferB, $week, getHoleNumber(2, $isBack)) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($golferB, $week, 3) . '>' . getGolferScore($golferB, $week, getHoleNumber(3, $isBack)) . '</td>';
@@ -1543,7 +1614,7 @@ function getCards($week)
 
             echo '<tr class="scores">';
             echo '<td class="descriptor">' . getGolferName($oppB, $week) . '</td>';
-            echo '<td class="hcp">' . getHcp($oppB, $week) . '</td>';
+            echo '<td class="hcp">' . computeHcp($oppB, $week) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($oppB, $week, 1) . '>' . getGolferScore($oppB, $week, getHoleNumber(1, $isBack)) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($oppB, $week, 2) . '>' . getGolferScore($oppB, $week, getHoleNumber(2, $isBack)) . '</td>';
             echo '<td class="score"' . getStrokesGivenString($oppB, $week, 3) . '>' . getGolferScore($oppB, $week, getHoleNumber(3, $isBack)) . '</td>';
