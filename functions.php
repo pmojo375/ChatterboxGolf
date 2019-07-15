@@ -10,6 +10,7 @@ function printStats($week)
     $index = 1;
     $golfers = getGolfers();
     $i = 0;
+    $holes = getHolePar();
 
     echo "<table id=\"stats\">";
     echo "<caption>Season Stats for " . $golfer . "</caption>";
@@ -1198,6 +1199,23 @@ function getHolePar($hole)
     }
 
     return $holePar[$hole];
+}
+
+// returns an array with each holes par on the course
+function getAllHolePars()
+{
+    global $conn;
+    $sql = "SELECT * FROM holes";
+    $result = mysqli_query($conn, $sql);
+    $holePar = Array();
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $holePar[$row['hole']] = $row['par'];
+        }
+    }
+
+    return $holePar;
 }
 
 // returns an array with the 9 hole handicaps
