@@ -238,7 +238,7 @@ function test_input($data)
     <?php
         updateHCP();
     ?>
-    
+
 </form>
 </body>
 </html>

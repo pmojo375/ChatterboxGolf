@@ -130,7 +130,7 @@ function updateHCP()
 
     foreach ($golfers as $golfer) {
         for ($i = 1; $i <= 20; $i++) {
-            if ($i <= 11) {
+            if ($i <= 12) {
                 $hcp = computeHcpNoSub($golfer, $i);
             } else {
                 $hcp = 0;
