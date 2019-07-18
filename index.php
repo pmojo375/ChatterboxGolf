@@ -51,9 +51,9 @@ getStandings(9);
 <br>
 
 <?php
-getStandings(10);
+getStandings(11);
 echo '<br>';
-printSchedule(11);
+printSchedule(12);
 ?>
 
 <script src="index.js"></script>
