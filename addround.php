@@ -234,6 +234,11 @@ function test_input($data)
         <br>
         <input type="submit" value="Submit">
     </fieldset>
+
+    <?php
+        updateHCP();
+    ?>
+    
 </form>
 </body>
 </html>
