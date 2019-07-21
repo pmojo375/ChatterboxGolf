@@ -137,10 +137,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["tookMax9"])) {
         $tookMax9 = 1;
     }
-    if($errFree) {
-		
-		$isBack = !isFront($week, $conn);
-		
+    if ($errFree) {
+
+        $isBack = !isFront($week, $conn);
+
         $sql = "INSERT INTO scores (golfer, hole, score, tookMax, week) VALUES ('" . $golfer . "','" . getHoleNumber(1, $isBack) . "','" . $score1 . "','" . $tookMax1 . "','" . $week . "'), ";
         $sql .= "('" . $golfer . "','" . getHoleNumber(2, $isBack) . "','" . $score2 . "','" . $tookMax2 . "','" . $week . "'), ";
         $sql .= "('" . $golfer . "','" . getHoleNumber(3, $isBack) . "','" . $score3 . "','" . $tookMax3 . "','" . $week . "'), ";
@@ -164,81 +164,176 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
+
 ?>
 
-<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post"
-      oninput="gross.value=parseInt(h1.value)+parseInt(h2.value)+parseInt(h3.value)+parseInt(h4.value)+parseInt(h5.value)+parseInt(h6.value)+parseInt(h7.value)+parseInt(h8.value)+parseInt(h9.value)">
-    <fieldset>
+
+<div class="container">
+    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post"
+          oninput="gross.value=parseInt(h1.value)+parseInt(h2.value)+parseInt(h3.value)+parseInt(h4.value)+parseInt(h5.value)+parseInt(h6.value)+parseInt(h7.value)+parseInt(h8.value)+parseInt(h9.value)">
         <legend>Add Round:</legend>
-        <select name="golfer">
-            <option value="">Select Golfer</option>
-            <optgroup label="Members">
-            <?php
-            $sql = "SELECT * FROM golfers";
-            $result = mysqli_query($conn, $sql);
-            $subs = Array();
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    if ($row['team'] != 0) {
-                        echo "<option value=\"" . $row['id'] . "\">" . $row['name'] . "</option>";
-                    } else {
-                        $subs[$row['id']] = $row['name'];
-                    }
-                }
-                echo "</optgroup>";
-                echo "<optgroup label=\"Subs\">";
-                foreach ($subs as $id => $name) {
-                    echo "<option value=\"" . $id . "\">" . $name . "</option>";
-                }
-            } else {
-                echo "0 results";
-            }
-            ?>
-            </optgroup>
-        </select><span class="error"> <?php echo $golferErr; ?></span>
-        <select name= "week" id="week" onchange="checkBack(this.value)">
-            <option value="">Select Week</option>
-            <option value="1">Week 1</option>
-            <option value="2">Week 2</option>
-            <option value="3">Week 3</option>
-            <option value="4">Week 4</option>
-            <option value="5">Week 5</option>
-            <option value="6">Week 6</option>
-            <option value="7">Week 7</option>
-            <option value="8">Week 8</option>
-            <option value="9">Week 9</option>
-            <option value="10">Week 10</option>
-            <option value="11">Week 11</option>
-            <option value="12">Week 12</option>
-            <option value="13">Week 13</option>
-            <option value="14">Week 14</option>
-            <option value="15">Week 15</option>
-            <option value="16">Week 16</option>
-            <option value="17">Week 17</option>
-            <option value="18">Week 18</option>
-            <option value="19">Week 19</option>
-            <option value="20">Week 20</option>
-        </select><span class="error"> <?php echo $weekErr; ?></span><br>
-        <p>After selecting a golfer and week, enter the scores below. Check the box on the right of the score entry to indicate that the golfer shot max and picked up.</p>
-        <span id='hole1'>Hole 1:</span> <input class="in" type="number" name="h1"><input type="checkbox" name="tookMax1" value="true"><span class="error"> <?php echo $score1Err; ?></span><br>
-        <span id='hole2'>Hole 2:</span> <input class="in" type="number" name="h2"><input type="checkbox" name="tookMax2" value="true"><span class="error"> <?php echo $score2Err; ?></span><br>
-        <span id='hole3'>Hole 3:</span> <input class="in" type="number" name="h3"><input type="checkbox" name="tookMax3" value="true"><span class="error"> <?php echo $score3Err; ?></span><br>
-        <span id='hole4'>Hole 4:</span> <input class="in" type="number" name="h4"><input type="checkbox" name="tookMax4" value="true"><span class="error"> <?php echo $score4Err; ?></span><br>
-        <span id='hole5'>Hole 5:</span> <input class="in" type="number" name="h5"><input type="checkbox" name="tookMax5" value="true"><span class="error"> <?php echo $score5Err; ?></span><br>
-        <span id='hole6'>Hole 6:</span> <input class="in" type="number" name="h6"><input type="checkbox" name="tookMax6" value="true"><span class="error"> <?php echo $score6Err; ?></span><br>
-        <span id='hole7'>Hole 7:</span> <input class="in" type="number" name="h7"><input type="checkbox" name="tookMax7" value="true"><span class="error"> <?php echo $score7Err; ?></span><br>
-        <span id='hole8'>Hole 8:</span> <input class="in" type="number" name="h8"><input type="checkbox" name="tookMax8" value="true"><span class="error"> <?php echo $score8Err; ?></span><br>
-        <span id='hole9'>Hole 9:</span> <input class="in" type="number" name="h9"><input type="checkbox" name="tookMax9" value="true"><span class="error"> <?php echo $score9Err; ?></span><br>
-        Gross:
-        <output name="gross" for="h1 h2 h3 h4 h5 h6 h7 h8 h9"></output>
-        <br>
-        <input type="submit" value="Submit">
-    </fieldset>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <p>After selecting a golfer and week, enter the scores below. Check the box on the right of the
+                        score entry to indicate that the golfer shot max and picked up.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <select name="week" id="week" class="form-control" onchange="checkBack(this.value)">
+                        <option value="">Select Week</option>
+                        <option value="1">Week 1</option>
+                        <option value="2">Week 2</option>
+                        <option value="3">Week 3</option>
+                        <option value="4">Week 4</option>
+                        <option value="5">Week 5</option>
+                        <option value="6">Week 6</option>
+                        <option value="7">Week 7</option>
+                        <option value="8">Week 8</option>
+                        <option value="9">Week 9</option>
+                        <option value="10">Week 10</option>
+                        <option value="11">Week 11</option>
+                        <option value="12">Week 12</option>
+                        <option value="13">Week 13</option>
+                        <option value="14">Week 14</option>
+                        <option value="15">Week 15</option>
+                        <option value="16">Week 16</option>
+                        <option value="17">Week 17</option>
+                        <option value="18">Week 18</option>
+                        <option value="19">Week 19</option>
+                        <option value="20">Week 20</option>
+                    </select><span class="error"> <?php echo $weekErr; ?></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <select name="golfer" class="form-control">
+                        <option value="">Select Golfer</option>
+                        <optgroup label="Members">
+                            <?php
+                            $sql = "SELECT * FROM golfers";
+                            $result = mysqli_query($conn, $sql);
+                            $subs = Array();
 
-    <?php
-        updateHCP();
-    ?>
+                            if (mysqli_num_rows($result) > 0) {
 
-</form>
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    if ($row['team'] != 0) {
+                                        echo "<option value=\"" . $row['id'] . "\">" . $row['name'] . "</option>";
+                                    } else {
+                                        $subs[$row['id']] = $row['name'];
+                                    }
+                                }
+
+                                echo "</optgroup>";
+                                echo "<optgroup label=\"Subs\">";
+
+                                foreach ($subs as $id => $name) {
+                                    echo "<option value=\"" . $id . "\">" . $name . "</option>";
+                                }
+
+                            } else {
+                                echo "0 results";
+                            }
+
+                            ?>
+                        </optgroup>
+                    </select><span class="error"> <?php echo $golferErr; ?></span>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2">
+                        <input class="form-control" type="number" name="h1">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="tookMax1" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <input class="form-control" type="number" name="h2">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="tookMax2" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <input class="form-control" type="number" name="h3">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="tookMax3" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <input class="form-control" type="number" name="h4">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="tookMax4" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <input class="form-control" type="number" name="h5">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="tookMax5" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <input class="form-control" type="number" name="h6">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="tookMax6" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <input class="form-control" type="number" name="h7">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="tookMax7" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <input class="form-control" type="number" name="h8">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="tookMax8" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <input class="form-control" type="number" name="h9">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="checkbox" name="tookMax9" value="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        Gross:
+                        <output name="gross"
+                                for="h1 h2 h3 h4 h5 h6 h7 h8 h9"></output>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

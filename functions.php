@@ -10,7 +10,7 @@ function printStats($id)
     $holes = getAllHolePars();
     $golfer = $id;
 
-    $tableString = "<div class=\"table-responsive\">
+    $tableString = "<div class=\"table-responsive text-nowrap\">
     <table class=\"table table-striped table-dark\">
     <caption>Season Stats for " . getGolferName($golfer, 2) . "</caption>
     <thead><tr><th scope=\"col\">Week</th><th scope=\"col\">Hcp</th>
@@ -30,8 +30,23 @@ function printStats($id)
 </thead>
 <tbody>";
 
+    $sub = false;
+
+    if($golfer > 16) {
+        $sub = true;
+    }
+
     // increment by week to create table
     for ($i = 1; $i <= 20; $i++) {
+
+        // determine if week was front or back
+        $isFront = isFront($i);
+
+        if($isFront) {
+            $played = getGolferScore($id, $i, 1);
+        } else {
+            $played = getGolferScore($id, $i, 10);
+        }
 
         // initialize counts
         $birdies = 0;
@@ -42,14 +57,10 @@ function printStats($id)
         $worse = 0;
 
         // check if golfer was absent by looking up if there is a sub for that id and week and comparing
-        $absent = $golfer;
         $absent = checkAbsent($golfer, $i);
 
         // skip lookups when golfer is absent
-        if (($golfer == $absent) && strtotime(date("m/d/Y")) > strtotime(getDateString($i))) {
-
-            // determine if week was front or back
-            $isFront = isFront($i);
+        if (($golfer == $absent) && isWeekDone($i) && $played != 0) {
 
             // increment through holes to get counts
             if ($isFront) {
@@ -96,8 +107,9 @@ function printStats($id)
                 }
             }
 
-            // create the table data
-            $tableString = $tableString . "<tr><td scope=\"row\">" . $i . "</td>
+            if(!$sub) {
+                // create the table data
+                $tableString = $tableString . "<tr><td scope=\"row\">" . $i . "</td>
 <td>" . getHcp($golfer, $i) . "</td>
 <td>" . getGross($golfer, $i, false) . "</td>
 <td>" . getNet($golfer, $i) . "</td>
@@ -112,6 +124,26 @@ function printStats($id)
 <td>" . $triples . "</td>
 <td>" . $worse . "</td>
 </tr>";
+            } else {
+                // create the table data
+                $tableString = $tableString . "<tr><td scope=\"row\">" . $i . "</td>
+<td>" . getHcp($golfer, $i) . "</td>
+<td>" . getGross($golfer, $i, false) . "</td>
+<td>" . getNet($golfer, $i) . "</td>
+<td>" . getWeekPoints(getGolferFromSub($golfer, $i), $i) . "</td>
+<td>" . getGolferName(getOpp(getGolferFromSub($golfer, $i), getOppTeam(getGolferFromSub($golfer, $i), $i), $i), $i) . "</td>
+<td>" . getGross(getOpp(getGolferFromSub($golfer, $i), getOppTeam(getGolferFromSub($golfer, $i), $i), $i), $i, true) . "</td>
+<td>" . getNet(getOpp(getGolferFromSub($golfer, $i), getOppTeam(getGolferFromSub($golfer, $i), $i), $i), $i) . "</td>
+<td>" . $birdies . "</td>
+<td>" . $pars . "</td>
+<td>" . $bogeys . "</td>
+<td>" . $doubles . "</td> 
+<td>" . $triples . "</td>
+<td>" . $worse . "</td>
+</tr>";
+            }
+
+
 
         } else {
             $tableString = $tableString . "<tr><td scope=\"row\">" . $i . "</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
@@ -148,7 +180,6 @@ function updateHCP()
         }
     }
 }
-
 
 // prints the html for the navbar
 function printNav()
@@ -197,7 +228,6 @@ function printSchedule($week)
     $i = 0;
 
     echo "<table id=\"schedule\">";
-    echo "<caption>Week " . $week . " Schedule</caption>";
     echo "<thead>";
     echo "<tr>";
     echo "<th>Team #</th>";
@@ -213,7 +243,6 @@ function printSchedule($week)
             $golferA = getGolfersFromTeam($team, 2)['A'];
             $golferB = getGolfersFromTeam($team, 2)['B'];
             $oppTeam = getOppTeam($golferA, $week);
-
             $teamsGone[$i] = $team;
             $i = $i + 1;
             $teamsGone[$i] = $oppTeam;
@@ -232,6 +261,237 @@ function printSchedule($week)
 
             $index = $index + 1;
         }
+    }
+
+    echo "</tbody>";
+    echo "</table>";
+}
+
+function getPlayoff($totalWeeks)
+{
+    $teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
+    $pointTotals = Array();
+    $firstHalf = Array();
+    $secondHalf = Array();
+    $total = Array();
+
+    foreach ($teams as $team) {
+        $totalPoints = 0;
+        $firstHalfPoints = 0;
+        $secondHalfPoints = 0;
+
+        for ($i = 1; $i <= $totalWeeks; $i++) {
+            $golferA = getGolfersFromTeam($team, $i)['A'];
+            $golferB = getGolfersFromTeam($team, $i)['B'];
+            $golferAPoints = getWeekPoints($golferA, $i);
+            $golferBPoints = getWeekPoints($golferB, $i);
+
+            if ($i == 9) {
+                $firstHalfPoints = $totalPoints + $golferAPoints + $golferBPoints;
+            }
+
+            if ($i == $totalWeeks) {
+                if ($i > 9) {
+                    $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+                    $secondHalfPoints = $totalPoints - $firstHalfPoints;
+                } else {
+                    $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+                }
+            } else {
+                $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+            }
+        }
+
+        $pointTotals[$team] = $secondHalfPoints;
+
+        $total[$team] = $totalPoints;
+        $firstHalf[$team] = $firstHalfPoints;
+        $secondHalf[$team] = $secondHalfPoints;
+
+    }
+
+    arsort($pointTotals);
+    arsort($total);
+    arsort($firstHalf);
+    arsort($secondHalf);
+
+    $firstHalfWinner = array_search(max($firstHalf), $firstHalf);
+    $secondHalfWinner = array_search(max($secondHalf), $secondHalf);
+    $firstWildcard = 0;
+    $secondWildcard = 0;
+    $firstWildcardFound = false;
+    $secondWildcardFound = false;
+
+    foreach ($total as $teamName => $score) {
+        if (!($teamName == $firstHalfWinner || $teamName == $secondHalfWinner)) {
+            if (!$firstWildcardFound) {
+                $firstWildcardFound = true;
+                $firstWildcard = $teamName;
+            } elseif (!$secondWildcardFound) {
+                $secondWildcardFound = true;
+                $secondWildcard = $teamName;
+            }
+        }
+    }
+
+    echo "<table id='standings'>";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Seed</th>";
+    echo "<th>Team</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    if ($firstHalf[$firstHalfWinner] > $secondHalf[$secondHalfWinner]) {
+
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . 1 . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($firstHalfWinner, 2)['A'], 2) . "</td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($firstHalfWinner, 2)['B'], 2) . "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . 2 . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($secondHalfWinner, 2)['A'], 2) . "</td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($secondHalfWinner, 2)['B'], 2) . "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . 3 . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($firstWildcard, 2)['A'], 2) . "</td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($firstWildcard, 2)['B'], 2) . "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . 4 . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($secondWildcard, 2)['A'], 2) . "</td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($secondWildcard, 2)['B'], 2) . "</td>";
+        echo "</tr>";
+    } else {
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . 1 . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($secondHalfWinner, 2)['A'], 2) . "</td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($secondHalfWinner, 2)['B'], 2) . "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . 2 . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($firstHalfWinner, 2)['A'], 2) . "</td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($firstHalfWinner, 2)['B'], 2) . "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . 3 . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($firstWildcard, 2)['A'], 2) . "</td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($firstWildcard, 2)['B'], 2) . "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . 4 . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($secondWildcard, 2)['A'], 2) . "</td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($secondWildcard, 2)['B'], 2) . "</td>";
+        echo "</tr>";
+    }
+
+    echo "</tbody>";
+    echo "</table>";
+}
+
+// gets standings for the first half and the second. Also shows mock playoffs.
+function getStandingsFull($totalWeeks)
+{
+    $teams = Array(1, 2, 3, 4, 5, 6, 7, 8);
+    $pointTotals = Array();
+    $firstHalf = Array();
+    $secondHalf = Array();
+    $total = Array();
+
+    foreach ($teams as $team) {
+        $totalPoints = 0;
+        $firstHalfPoints = 0;
+        $secondHalfPoints = 0;
+
+        for ($i = 1; $i <= $totalWeeks; $i++) {
+            $golferA = getGolfersFromTeam($team, $i)['A'];
+            $golferB = getGolfersFromTeam($team, $i)['B'];
+            $golferAPoints = getWeekPoints($golferA, $i);
+            $golferBPoints = getWeekPoints($golferB, $i);
+
+            if ($i == 9) {
+                $firstHalfPoints = $totalPoints + $golferAPoints + $golferBPoints;
+            }
+
+            if ($i == $totalWeeks) {
+                if ($i > 9) {
+                    $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+                    $secondHalfPoints = $totalPoints - $firstHalfPoints;
+                } else {
+                    $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+                }
+            } else {
+                $totalPoints = $totalPoints + $golferAPoints + $golferBPoints;
+            }
+        }
+
+        $pointTotals[$team] = $secondHalfPoints;
+
+        $total[$team] = $totalPoints;
+        $firstHalf[$team] = $firstHalfPoints;
+        $secondHalf[$team] = $secondHalfPoints;
+
+    }
+
+    arsort($pointTotals);
+
+    echo "<table class=\"text-nowrap\" id='standings'>";
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Place</th>";
+    echo "<th>Team</th>";
+    echo "<th>HCP</th>";
+    echo "<th>1st Half</th>";
+    echo "<th>2nd Half</th>";
+    echo "<th>Total</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo "<tbody>";
+
+    $index = 1;
+
+    foreach ($pointTotals as $teamName => $score) {
+
+        echo "<tr>";
+        echo "<td class=\"place\" rowspan=\"2\">" . getRanks($index) . "</td>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($teamName, 2)['A'], 2) . "</td>";
+        echo "<td class=\"hcp\">" . computeHcpNoSub(getGolfersFromTeam($teamName, 2)['A'], $totalWeeks) . "</td>";
+        echo "<td class=\"score\" rowspan=\"2\">" . $firstHalf[$teamName] . "</td>";
+        echo "<td class=\"score\" rowspan=\"2\">" . $secondHalf[$teamName] . "</td>";
+        echo "<td class=\"score\" rowspan=\"2\">" . $total[$teamName] . "</td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td class=\"name\">" . getGolferName(getGolfersFromTeam($teamName, 2)['B'], 2) . "</td>";
+        echo "<td class=\"hcp\">" . computeHcpNoSub(getGolfersFromTeam($teamName, 2)['B'], $totalWeeks) . "</td>";
+        echo "</tr>";
+
+        $index = $index + 1;
     }
 
     echo "</tbody>";
@@ -1196,6 +1456,20 @@ function getGolfers()
     }
 
     return $golfers;
+}
+
+// returns true if the week has happened already
+function isWeekDone($week)
+{
+
+    $return = false;
+
+    if (strtotime(date("m/d/Y")) > strtotime(getDateString($week))) {
+        $return = true;
+    }
+
+    return $return;
+
 }
 
 // returns true if the given week is played on the front 9

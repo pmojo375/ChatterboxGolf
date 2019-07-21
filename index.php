@@ -38,23 +38,35 @@ printNav();
 
 <br>
 
-<p>First half standings are below with the team of Ben Hass and Sean Mueller taking first and getting the first slot in the playoffs. The second half winner will also get a slot and then the next highest two scores (not including the half winners) will take the remaining two places!</p>
+<div class="container">
+    <h6 style="text-align: center">Playoff seeds if the season ended today</h6>
 
-<?php
-getStandings(9);
-?>
-
-<br>
-
-<p>Second half standings are below:</p>
+    <?php
+    getPlayoff(11);
+    ?>
+</div>
 
 <br>
 
-<?php
-getStandings(11);
-echo '<br>';
-printSchedule(12);
-?>
+<div class="container">
+    <h6 style="text-align: center">Current standings, scores and handicaps</h6>
+
+    <?php
+    getStandingsFull(11);
+    ?>
+</div>
+
+<br>
+
+<div class="container">
+    <h6 style="text-align: center">Schedule</h6>
+
+    <?php
+    printSchedule(12);
+    ?>
+</div>
+
+<br>
 
 <script src="index.js"></script>
 </body>
