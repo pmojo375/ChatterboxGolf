@@ -17,15 +17,15 @@ function printStats($id)
 <th scope=\"col\">Gross</th>
 <th scope=\"col\">Net</th>
 <th scope=\"col\">Points</thv>
-<th scope=\"col\">Opp.</th>
+<th scope=\"col\">Opponent</th>
 <th scope=\"col\">Opp. Score</th>
 <th scope=\"col\">Opp. Net</th>
-<th scope=\"col\">Birdies</th>
+<th scope=\"col\">-1</th>
 <th scope=\"col\">Pars</th>
-<th scope=\"col\">Bogeys</th>
-<th scope=\"col\">Doubles</th>
-<th scope=\"col\">Triples</th>
-<th scope=\"col\">Worse</th>
+<th scope=\"col\">+1</th>
+<th scope=\"col\">+2</th>
+<th scope=\"col\">+3</th>
+<th scope=\"col\">&#62; +3</th>
 </tr>
 </thead>
 <tbody>";
@@ -199,17 +199,68 @@ function printNav()
     echo "Weeks";
     echo "</a>";
     echo "<div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/1.php\">Week 1</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/2.php\">Week 2</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/3.php\">Week 3</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/4.php\">Week 4</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/5.php\">Week 5</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/6.php\">Week 6</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/7.php\">Week 7</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/8.php\">Week 8</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/9.php\">Week 9</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/10.php\">Week 10</a>";
-    echo "<a class=\"dropdown-item\" href=\"/weeks/11.php\">Week 11</a>";
+
+    if(isWeekDone(1)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/1.php\">Week 1</a>";
+    }
+    if(isWeekDone(2)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/2.php\">Week 2</a>";
+    }
+    if(isWeekDone(3)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/3.php\">Week 3</a>";
+    }
+    if(isWeekDone(4)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/4.php\">Week 4</a>";
+    }
+    if(isWeekDone(5)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/5.php\">Week 5</a>";
+    }
+    if(isWeekDone(6)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/6.php\">Week 6</a>";
+    }
+    if(isWeekDone(7)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/7.php\">Week 7</a>";
+    }
+    if(isWeekDone(8)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/8.php\">Week 8</a>";
+    }
+    if(isWeekDone(9)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/9.php\">Week 9</a>";
+    }
+    if(isWeekDone(10)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/10.php\">Week 10</a>";
+    }
+    if(isWeekDone(11)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/11.php\">Week 11</a>";
+    }
+    if(isWeekDone(12)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/12.php\">Week 12</a>";
+    }
+    if(isWeekDone(13)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/13.php\">Week 13</a>";
+    }
+    if(isWeekDone(14)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/14.php\">Week 14</a>";
+    }
+    if(isWeekDone(15)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/15.php\">Week 15</a>";
+    }
+    if(isWeekDone(16)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/16.php\">Week 16</a>";
+    }
+    if(isWeekDone(17)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/17.php\">Week 17</a>";
+    }
+    if(isWeekDone(18)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/18.php\">Week 18</a>";
+    }
+    if(isWeekDone(19)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/19.php\">Week 19</a>";
+    }
+    if(isWeekDone(20)) {
+        echo "<a class=\"dropdown-item\" href=\"/weeks/20.php\">Week 20</a>";
+    }
+
     echo "</div>";
     echo "</div>";
     echo "<a class=\"nav-item nav-link\" href=\"/addround_full.php\">Add Card</a>";
@@ -460,7 +511,8 @@ function getStandingsFull($totalWeeks)
 
     arsort($pointTotals);
 
-    echo "<table class=\"text-nowrap\" id='standings'>";
+    echo "<div class=\"table-responsive text-nowrap\">";
+    echo "<table id='standings'>";
     echo "<thead>";
     echo "<tr>";
     echo "<th>Place</th>";
@@ -496,6 +548,7 @@ function getStandingsFull($totalWeeks)
 
     echo "</tbody>";
     echo "</table>";
+    echo "</div>";
 }
 
 // prints a table with the standings for a given week
@@ -609,7 +662,7 @@ function showWeekScores($week)
     global $conn;
     $golfers = getGolfers();
     $isBack = isBack($week);
-    echo '<div class="table-responsive">';
+    echo "<div class=\"table-responsive text-nowrap\">";
     echo "<table id=\"weekscores\">";
     echo "<thead>";
     echo "<tr>";
@@ -700,7 +753,7 @@ function showWeekScores($week)
 
     echo "</tbody>";
     echo "</table>";
-    echo '</div>';
+    echo "</div>";
 }
 
 // prints a table with a specific weeks scores and gross totals
@@ -1469,6 +1522,93 @@ function isWeekDone($week)
     }
 
     return $return;
+
+}
+
+function getCurrentWeek() {
+    $week = 0;
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(1))) {
+        $week = 1;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(2))) {
+        $week = 2;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(3))) {
+        $week = 3;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(4))) {
+        $week = 4;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(5))) {
+        $week = 5;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(6))) {
+        $week = 6;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(7))) {
+        $week = 7;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(8))) {
+        $week = 8;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(9))) {
+        $week = 9;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(10))) {
+        $week = 10;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(11))) {
+        $week = 11;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(12))) {
+        $week = 12;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(13))) {
+        $week = 13;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(14))) {
+        $week = 14;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(15))) {
+        $week = 15;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(16))) {
+        $week = 16;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(17))) {
+        $week = 17;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(18))) {
+        $week = 18;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(19))) {
+        $week = 19;
+    }
+
+    if(strtotime(date("m/d/Y")) > strtotime(getDateString(20))) {
+        $week = 20;
+    }
+
+    return $week;
 
 }
 

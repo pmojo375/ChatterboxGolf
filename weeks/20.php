@@ -8,8 +8,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Chatterbox Golf League - Week 10</title>
-    <meta name="description" content="Week 10 Stats and Standings">
+    <title>Chatterbox Golf League - Week 20</title>
+    <meta name="description" content="Week 20 Stats and Standings">
     <link rel="stylesheet" href="../main.css?rnd=23">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="../index.js"></script>
@@ -38,17 +38,17 @@ printNav();
 
 <div class="container">
 
-<h1>Week 10 Stats</h1>
+    <h1>Week 20 Stats</h1>
 <p>Click on a header to sort!</p>
 
 <?php
-showWeekScores(10);
+showWeekScores(20);
 ?>
 
 <br>
 
 <?php
-getCards(10);
+getCards(20);
 ?>
 </div>
 

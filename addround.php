@@ -33,6 +33,7 @@ include 'functions.php';
 printNav();
 ?>
 
+<br>
 
 <?php include 'conn.php'; ?>
 

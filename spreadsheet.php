@@ -36,9 +36,6 @@ include 'functions.php';
 printNav();
 ?>
 
-<br>
-
-<nl></nl>
 <iframe src="https://docs.google.com/spreadsheets/d/1FZD-brUSXKWzFFTkYXXU_ni5RckCQRdiS0_AOgHFuFE/pubhtml?widget=true&amp;headers=false"
         width="100%" height="1000" style="embed"></iframe>
 <script src="index.js"></script>

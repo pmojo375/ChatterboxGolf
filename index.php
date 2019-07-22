@@ -34,39 +34,39 @@ include 'functions.php';
 printNav();
 ?>
 
-<h1>Chatterbox Golf League 2019</h1>
-
 <br>
 
 <div class="container">
+
+    <h1>Chatterbox Golf League 2019</h1>
+
+    <br>
+
     <h6 style="text-align: center">Playoff seeds if the season ended today</h6>
 
     <?php
-    getPlayoff(11);
+    getPlayoff(getCurrentWeek() - 1);
     ?>
-</div>
 
-<br>
+    <br>
 
-<div class="container">
     <h6 style="text-align: center">Current standings, scores and handicaps</h6>
 
     <?php
-    getStandingsFull(11);
+    getStandingsFull(getCurrentWeek() - 1);
     ?>
-</div>
 
-<br>
+    <br>
 
-<div class="container">
     <h6 style="text-align: center">Schedule</h6>
 
     <?php
-    printSchedule(12);
+    printSchedule(getCurrentWeek());
     ?>
-</div>
 
-<br>
+    <br>
+
+</div>
 
 <script src="index.js"></script>
 </body>

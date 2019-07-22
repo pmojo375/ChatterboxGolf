@@ -34,13 +34,17 @@ include '../functions.php';
 printNav();
 ?>
 
+<br>
+
+<div class="container">
+
 <h1>Week 1 Stats</h1>
 <p>Click on a header to sort!</p>
 
 <?php
 showWeekScores(1);
 ?>
-</div>
+
 <br>
 
 <?php

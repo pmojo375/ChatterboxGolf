@@ -34,6 +34,9 @@ include '../functions.php';
 printNav();
 ?>
 
+<br>
+
+<div class="container">
 
 <h1>Week 4 Stats</h1>
 <p>Click on a header to sort!</p>
@@ -41,7 +44,7 @@ printNav();
 <?php
 showWeekScores(4);
 ?>
-</div>
+
 <br>
 
 <?php
